@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+park_server/node_modules/
 
 # testing
 /coverage
