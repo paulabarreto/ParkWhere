@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import {InfoWindow} from 'react-google-maps'
-// function InfoWindow(props) {
-//   return (
-//     <div>
-//     </div>
-//   );
-// }
-
+import InfoWindow from './InfoWindow.jsx'
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +8,8 @@ class Map extends Component {
       mapElementId: 'map',
       mapOption:{
         center:{lat:43.6529, lng: -79.3849},
-        zoom: 8
+        zoom: 8,
+        mapTypeControl: false
       }
     }
   }
@@ -35,16 +29,15 @@ class Map extends Component {
 
   createInfoWindow = (e, map) => {
     const infoWindow = new window.google.maps.InfoWindow({
-        content: '<div id="infoWindow" />My First Parking </div>',
+        content: '<div id="infoWindow" />',
         position: {lat: e.latLng.lat(), lng: e.latLng.lng()}
     })
 
     infoWindow.addListener('domready', e => {
-      render(<InfoWindow position ={{lat:43.6529, lng: -79.3849}}><div></div></InfoWindow>, document.getElementById('infoWindow'))
+      render(<InfoWindow />, document.getElementById('infoWindow'))
     })
     infoWindow.open(map)
   }
-
   onScriptLoad = () => {
     const map = new window.google.maps.Map(
       document.getElementById(this.state.mapElementId),
@@ -59,8 +52,6 @@ class Map extends Component {
       s.src = 'https://maps.google.com/maps/api/js?key=AIzaSyBy4S2fVXGUqZOTXl_QIFicfPb56BWbVGo';
       var x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
-      // Below is important. 
-      //We cannot access google.maps until it's finished loading
       s.addEventListener('load', () => {
         this.onScriptLoad()
       })
