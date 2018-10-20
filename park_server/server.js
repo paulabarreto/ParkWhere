@@ -10,10 +10,15 @@ const cors = require('cors');
 
 app.use(cors());
 
-
 app.get("/", (req, res) => {
   knex("street_parking").then((data) => {
       res.json(data)
+  //Fetching data from database
+  knex("street_parking")
+    .where({
+      id: 1
+    }).then(function (rows){
+      // console.log(rows);
     })
 
   //Testing sending data to db
@@ -34,11 +39,8 @@ app.get("/", (req, res) => {
   //   .catch(function(error) {
   //     console.error(error);
   //   });
-})
-
-app.get("/login", (req, res) => {
-  res.render("login");
-})
+  })
+});
 
 
 
