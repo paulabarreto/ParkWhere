@@ -4,7 +4,20 @@ import React, { Component } from 'react';
 class Login extends Component {
   render() {
     return (
-      <div>Login</div>
+      <form>
+        <FieldGroup
+          id="formControlsText"
+          type="text"
+          label="Text"
+          placeholder="Enter text"
+        />
+        <FieldGroup
+          id="formControlsEmail"
+          type="email"
+          label="Email address"
+          placeholder="Enter email"
+        />
+      </form>
     );
   }
 }
