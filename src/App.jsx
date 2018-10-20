@@ -5,9 +5,13 @@ import axios from 'axios';
 class App extends Component {
 
   componentDidMount() {
-    axios.get("https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&generator=search&gsrnamespace=0&gsrlimit=5&gsrsearch='New_England_Patriots'")
+    console.log('HI')
+    axios.get("http://0.0.0.0:8080/",{
+      params: {
+        ID: 12345
+      }
+    })
       .then(res => {
-        console.log(res)
       })
   }
 

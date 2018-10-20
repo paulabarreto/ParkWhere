@@ -6,7 +6,16 @@ const express = require("express");
 const app = express();
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
-// const morgan = require('morgan');
-// const knexLogger = require('knex-logger');
 
-app.use(express.static("public"));
+
+
+
+app.get("/", (req, res) => {
+  console.log(req)
+});
+
+
+
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}!`);
+});
