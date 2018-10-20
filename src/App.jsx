@@ -3,23 +3,28 @@ import NavBar from './components/Nav.jsx'
 import Map from './components/Map.jsx'
 import axios from 'axios';
 class App extends Component {
-
+  state = {
+    coords: []
+  }
   componentDidMount() {
-    console.log('HI')
-    axios.get("http://0.0.0.0:8080/",{
+    
+    axios.get("http://localhost:8080/",{
       params: {
         ID: 12345
       }
     })
       .then(res => {
-      })
+        this.setState({coords:res.data})
+        //console.log(this.state)
+      }) 
   }
-
+  
   render() {
+    console.log(this.state)
     return (
       <div>
         <NavBar />
-        <Map />
+        <Map coords={this.state.coords} />
       </div>
 
     );

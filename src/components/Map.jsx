@@ -5,7 +5,6 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapElementId: 'map',
       mapOption:{
         center:{lat:43.6529, lng: -79.3849},
         zoom: 8,
@@ -13,36 +12,40 @@ class Map extends Component {
       }
     }
   }
+  
+  //create google map on the window
+  createMap = () => {
+    const map = new window.google.maps.Map(
+      document.getElementById('map'),
+      this.state.mapOption);
+    this.createMarker(map);
 
-  onMapLoad = (map) => {
-    let marker = new window.google.maps.Marker({
-      position: {lat: 43.6529, lng: -79.3849},
-      map: map,
-      title: 'Hello Toronto!',
-      icon:'https://cdn.iconscout.com/icon/premium/png-32-thumb/parking-place-2-897308.png'
-    });
-
-    marker.addListener('click', e => {
-      this.createInfoWindow(e, map)
+  }
+  
+  //create marker based on coordinates from database
+  createMarker = (map) => {
+    this.props.coords.forEach((coord) => { 
+      let marker = new window.google.maps.Marker({
+        position: {lat: coord.latitude, lng: coord.longitude},
+        map: map,
+        icon:'https://cdn.iconscout.com/icon/premium/png-32-thumb/parking-place-2-897308.png'
+      });
+      marker.addListener('click', e => {
+        this.createInfoWindow(e, map)
+      })
     })
   }
 
+  // info window for corresponding marker
   createInfoWindow = (e, map) => {
     const infoWindow = new window.google.maps.InfoWindow({
         content: '<div id="infoWindow" />',
         position: {lat: e.latLng.lat(), lng: e.latLng.lng()}
     })
-
     infoWindow.addListener('domready', e => {
       render(<InfoWindow />, document.getElementById('infoWindow'))
     })
     infoWindow.open(map)
-  }
-  onScriptLoad = () => {
-    const map = new window.google.maps.Map(
-      document.getElementById(this.state.mapElementId),
-      this.state.mapOption);
-    this.onMapLoad(map)
   }
 
   componentDidMount() {
@@ -53,16 +56,16 @@ class Map extends Component {
       var x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
       s.addEventListener('load', () => {
-        this.onScriptLoad()
+        this.createMap();
       })
     } else {
-      this.onScriptLoad()
+      this.createMap()
     }
   }
 
   render() {
     return (
-      <div style={{ width: '50%', height: '50vh' }} id={this.state.mapElementId} />
+      <div style={{ width: '100%', height: '100vh' }} id={'map'} />
     );
   }
 }
