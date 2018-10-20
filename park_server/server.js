@@ -12,17 +12,8 @@ app.use(cors());
 
 
 app.get("/", (req, res) => {
-<<<<<<< HEAD
   knex("street_parking").then((data) => {
       res.json(data)
-=======
-  //Fetching data from database
-  knex("street_parking")
-    .where({
-      id: 1
-    }).then(function (rows){
-      // console.log(rows);
->>>>>>> feature/login
     })
 
   //Testing sending data to db
