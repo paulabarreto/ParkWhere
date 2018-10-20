@@ -7,8 +7,13 @@ class Map extends Component {
     this.state = {
       mapOption:{
         center:{lat:43.6529, lng: -79.3849},
-        zoom: 8,
-        mapTypeControl: false
+        zoom: 14,
+        mapTypeControl: false,
+        styles: [{
+            featureType: "poi",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        }]
       }
     }
   }
@@ -65,7 +70,7 @@ class Map extends Component {
 
   render() {
     return (
-      <div style={{ width: '100%', height: '100vh' }} id={'map'} />
+      <div style={{ width: '100%', height: '80vh' }} id={'map'} />
     );
   }
 }
