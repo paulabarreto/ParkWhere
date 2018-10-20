@@ -5,6 +5,9 @@ import axios from 'axios';
 import NavBar from './components/Nav.jsx'
 import Map from './components/Map.jsx'
 import Login from './components/Login.jsx'
+import Home from './components/Home.jsx'
+
+
 
 class App extends Component {
 
@@ -22,14 +25,10 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
-          <NavBar />
-          <Map />
-
-          <Switch>
-            <Route path='/login' component={Login} />
-          </Switch>
-      </div>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route path='/login' component={Login} />
+        </Switch>
      </Router>
 
 
