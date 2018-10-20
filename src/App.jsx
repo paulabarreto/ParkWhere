@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import axios from 'axios';
+
 import NavBar from './components/Nav.jsx'
 import Map from './components/Map.jsx'
-import axios from 'axios';
+import Login from './components/Login.jsx'
+
 class App extends Component {
 
   componentDidMount() {
@@ -17,10 +21,17 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <NavBar />
-        <Map />
+      <Router>
+        <div>
+          <NavBar />
+          <Map />
+
+          <Switch>
+            <Route path='/login' component={Login} />
+          </Switch>
       </div>
+     </Router>
+
 
     );
   }
