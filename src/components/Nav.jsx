@@ -11,8 +11,8 @@ class NavBar extends Component {
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-          <NavItem eventKey={1} href="#">
-            Link
+          <NavItem eventKey={1} href="/login">
+            Login
           </NavItem>
           <NavItem eventKey={2} href="#">
             Link
