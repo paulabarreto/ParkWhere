@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import InfoWindow from './InfoWindow.jsx'
+import './Map.css'
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -19,25 +20,42 @@ class Map extends Component {
   }
   
   //create google map on the window
-  createMap = () => {
+
+  loadMap = () => {
     const map = new window.google.maps.Map(
       document.getElementById('map'),
       this.state.mapOption);
-    this.createMarker(map);
 
-  }
-  
-  //create marker based on coordinates from database
-  createMarker = (map) => {
-    this.props.coords.forEach((coord) => { 
+    this.props.coords.forEach(coord =>{
+      this.placeMarker(map,coord);
+    })  
+    
+    map.addListener('click', (e) => {
       let marker = new window.google.maps.Marker({
-        position: {lat: coord.latitude, lng: coord.longitude},
-        map: map,
-        icon:'https://cdn.iconscout.com/icon/premium/png-32-thumb/parking-place-2-897308.png'
+        position: e.latLng,
+        map: map
       });
       marker.addListener('click', e => {
         this.createInfoWindow(e, map)
       })
+      //this.placeMarker = (map, e.latLng)
+      map.panTo(e.latLng);
+
+      // window.setTimeout(() => {
+      //   this.createInfoWindow(e, map) 
+      // }, 1000);
+    });
+  }
+  
+  //place markers on the map
+
+  placeMarker = (map,coord) => {
+    let marker = new window.google.maps.Marker({
+      position: coord,
+      map: map
+    });
+    marker.addListener('click', e => {
+      this.createInfoWindow(e, map)
     })
   }
 
@@ -45,7 +63,7 @@ class Map extends Component {
   createInfoWindow = (e, map) => {
     const infoWindow = new window.google.maps.InfoWindow({
         content: '<div id="infoWindow" />',
-        position: {lat: e.latLng.lat(), lng: e.latLng.lng()}
+        position: e.latLng
     })
     infoWindow.addListener('domready', e => {
       render(<InfoWindow />, document.getElementById('infoWindow'))
@@ -61,10 +79,10 @@ class Map extends Component {
       var x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
       s.addEventListener('load', () => {
-        this.createMap();
+        this.loadMap();
       })
     } else {
-      this.createMap()
+      this.loadMap()
     }
   }
 

@@ -12,7 +12,12 @@ app.use(cors());
 
 app.get("/", (req, res) => {
   knex("street_parking").then((data) => {
-      res.json(data)
+    let sendData = data.map(coord => ({
+      lat: coord.latitude,
+      lng: coord.longitude
+    }))
+      res.json(sendData)
+
   //Fetching data from database
   knex("street_parking")
     .where({
