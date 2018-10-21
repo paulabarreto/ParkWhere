@@ -11,7 +11,8 @@ class Map extends Component {
         center:{lat:43.6529, lng: -79.3849},
         zoom: 14,
         mapTypeControl: false,
-        styles: mapstyle 
+        draggableCursor: 'default',
+        styles: mapstyle
       }
     }
   }
@@ -23,15 +24,8 @@ class Map extends Component {
       document.getElementById('map'),
       this.state.mapOption);
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        let pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        map.setCenter(pos);
-      })
-    }
+    this.currentLocation(map);
+
     this.props.coords.forEach(coord =>{
       this.placeMarker(map,coord);
     })  
@@ -39,13 +33,13 @@ class Map extends Component {
     map.addListener('click', (e) => {
       let marker = new window.google.maps.Marker({
         position: e.latLng,
-        map: map
+        map: map,
+        animation: window.google.maps.Animation.DROP
       });
       marker.addListener('click', e => {
         this.createInfoWindow(e, map)
       })
       //this.placeMarker = (map, e.latLng)
-      map.panTo(e.latLng);
 
       // window.setTimeout(() => {
       //   this.createInfoWindow(e, map) 
@@ -54,11 +48,11 @@ class Map extends Component {
   }
   
   //place markers on the map
-
   placeMarker = (map,coord) => {
     let marker = new window.google.maps.Marker({
       position: coord,
-      map: map
+      map: map,
+      animation: window.google.maps.Animation.DROP,
     });
     marker.addListener('click', e => {
       this.createInfoWindow(e, map)
@@ -77,6 +71,28 @@ class Map extends Component {
     infoWindow.open(map)
   }
 
+  currentLocation = (map) => {
+    const curloc = new window.google.maps.Marker({
+      clickable: false,
+      icon: {url:'https://static.thenounproject.com/png/902833-200.png',
+      scaledSize: new window.google.maps.Size(50, 50),
+      origin: new window.google.maps.Point(0,0), // origin
+      anchor: new window.google.maps.Point(0, 0)},
+      shadow: null,
+      zIndex: 999,
+      map: map
+    });
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      let pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      curloc.setPosition(pos)
+    })
+  }
+  }
   
   componentDidMount() {
     if (!window.google) {
