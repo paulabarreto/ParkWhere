@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import InfoWindow from './InfoWindow.jsx'
-import mapstyle from './mapstyle'
-import './Map.css'
-import CurrentLocationControl from './CurrentLocationControl.js'
-import DrawPolyControl from './DrawPolyControl.js'
+import InfoWindow from './InfoWindow.jsx';
+import mapstyle from './mapcontrols/mapstyle';
+import './Map.css';
+import CurrentLocationControl from './mapcontrols/CurrentLocationControl';
+import DrawPolyControl from './mapcontrols/DrawPolyControl';
+import NotificationControl from  './mapcontrols/NotificationControl';
+import CheckedControl from './mapcontrols/CheckedControl';
+import UncheckedControl from  './mapcontrols/UncheckedControl';
+
 class Map extends Component {
   
   //create google map on the window
-
   loadMap = () => {
     let mapOption = {
       center:{lat:43.6529, lng: -79.3849},
@@ -24,42 +27,60 @@ class Map extends Component {
     //put all markers from database to the map
     this.props.coords.forEach(coord =>{
       this.placeMarker(map,coord);
-    })  
-    let clickCount = 1;
-    let startCoord,endCoord;
-    map.addListener('click', (e) => {
-      //add new marker on click
-      let newMarker = this.placeMarker(map,e.latLng)
-      newMarker.setMap(map)
-
-      //draw a polyline on map between 2 markers
-      if (clickCount === 1){
-        startCoord = e.latLng;
-        clickCount++;
-      }else if (clickCount === 2){
-        endCoord = e.latLng;
-        let poly = this.placePoly(startCoord,endCoord);
-        poly.setMap(map);
-        clickCount--;
-      }
-    });
+    }) 
 
     //add a map control button at the right-bottom
-    let curLocDiv = document.createElement('div');
-    CurrentLocationControl(curLocDiv);
-    curLocDiv.index = 1;
-    map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(curLocDiv);
+    let currentLocationDiv = this.newControl(CurrentLocationControl);
+    map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(currentLocationDiv);
+
     //click and centre to the current location
-    curLocDiv.addEventListener('click', () => {
+    currentLocationDiv.addEventListener('click', () => {
       this.currentLocation(map);
     });
     
-    let drawPolyDiv = document.createElement('div');
-    DrawPolyControl(drawPolyDiv);
-    drawPolyDiv.index = 1;
+    //add button for new parking info
+    let drawPolyDiv = this.newControl(DrawPolyControl)
     map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(drawPolyDiv);
+
+    drawPolyDiv.addEventListener('click',() =>{
+      let NotificationControlDiv = this.newControl(NotificationControl)
+      map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(NotificationControlDiv);
+
+      let CheckedControlDiv = this.newControl(CheckedControl)
+      map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(CheckedControlDiv);
+
+      let UncheckedControlDiv = this.newControl(UncheckedControl)
+      map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(UncheckedControlDiv);
+
+      let clickCount = 1;
+      let startCoord,endCoord;
+      map.addListener('click', (e) => {
+
+        //draw a polyline on map between 2 markers
+        if (clickCount === 1){
+          //add new marker on click
+          let newMarker = this.placeMarker(map,e.latLng);
+          startCoord = e.latLng;
+          clickCount++;
+        }else if (clickCount === 2){
+          //add new marker on click
+          let newMarker = this.placeMarker(map,e.latLng);
+          endCoord = e.latLng;
+          let poly = this.placePoly(startCoord,endCoord);
+          poly.setMap(map);
+          clickCount++;
+        }
+      })
+    })
   }
-  
+
+  newControl = (Control) =>{
+    let ControlDiv = document.createElement('div');
+    Control(ControlDiv);
+    ControlDiv.index = 1;
+    return ControlDiv
+  }
+
   //place markers on the map
   placeMarker = (map,coord) => {
     let marker = new window.google.maps.Marker({
@@ -120,6 +141,7 @@ class Map extends Component {
     }
   }
   
+
   componentDidMount() {
     if (!window.google) {
       var s = document.createElement('script');
