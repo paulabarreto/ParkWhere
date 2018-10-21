@@ -3,28 +3,22 @@ import { render } from 'react-dom';
 import InfoWindow from './InfoWindow.jsx'
 import mapstyle from './mapstyle'
 import './Map.css'
+import NewControl from './NewMapControl.js'
 class Map extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mapOption:{
-        center:{lat:43.6529, lng: -79.3849},
-        zoom: 14,
-        mapTypeControl: false,
-        draggableCursor: 'default',
-        styles: mapstyle
-      }
-    }
-  }
   
   //create google map on the window
 
   loadMap = () => {
-    const map = new window.google.maps.Map(
-      document.getElementById('map'),
-      this.state.mapOption);
-
-    this.currentLocation(map);
+    let mapOption = {
+      center:{lat:43.6529, lng: -79.3849},
+      zoom: 14,
+      mapTypeControl: false,
+      draggableCursor: 'default',
+      zoomControl: false,
+      fullscreenControl: false,
+      styles: mapstyle
+    }
+    const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
 
     this.props.coords.forEach(coord =>{
       this.placeMarker(map,coord);
@@ -40,11 +34,18 @@ class Map extends Component {
         this.createInfoWindow(e, map)
       })
       //this.placeMarker = (map, e.latLng)
-
-      // window.setTimeout(() => {
-      //   this.createInfoWindow(e, map) 
-      // }, 1000);
     });
+
+
+    let controlDiv = document.createElement('div');
+    NewControl(controlDiv);
+    controlDiv.index = 1;
+    map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+
+    controlDiv.addEventListener('click', () => {
+      this.currentLocation(map);
+    });
+  
   }
   
   //place markers on the map
@@ -75,8 +76,8 @@ class Map extends Component {
     const curloc = new window.google.maps.Marker({
       clickable: false,
       icon: {url:'https://static.thenounproject.com/png/902833-200.png',
-      scaledSize: new window.google.maps.Size(50, 50),
-      origin: new window.google.maps.Point(0,0), // origin
+      scaledSize: new window.google.maps.Size(30, 30),
+      origin: new window.google.maps.Point(0, 0), // origin
       anchor: new window.google.maps.Point(0, 0)},
       shadow: null,
       zIndex: 999,
@@ -88,10 +89,11 @@ class Map extends Component {
       let pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
-      };
-      curloc.setPosition(pos)
-    })
-  }
+        };
+        curloc.setPosition(pos);
+        map.setCenter(pos);
+      })
+    }
   }
   
   componentDidMount() {
