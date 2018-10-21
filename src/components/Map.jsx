@@ -3,7 +3,8 @@ import { render } from 'react-dom';
 import InfoWindow from './InfoWindow.jsx'
 import mapstyle from './mapstyle'
 import './Map.css'
-import NewControl from './NewMapControl.js'
+import CurrentLocationControl from './CurrentLocationControl.js'
+import DrawPolyControl from './DrawPolyControl.js'
 class Map extends Component {
   
   //create google map on the window
@@ -27,9 +28,11 @@ class Map extends Component {
     let clickCount = 1;
     let startCoord,endCoord;
     map.addListener('click', (e) => {
+      //add new marker on click
       let newMarker = this.placeMarker(map,e.latLng)
       newMarker.setMap(map)
-      //this.placeMarker = (map, e.latLng)
+
+      //draw a polyline on map between 2 markers
       if (clickCount === 1){
         startCoord = e.latLng;
         clickCount++;
@@ -42,15 +45,19 @@ class Map extends Component {
     });
 
     //add a map control button at the right-bottom
-    let controlDiv = document.createElement('div');
-    NewControl(controlDiv);
-    controlDiv.index = 1;
-    map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+    let curLocDiv = document.createElement('div');
+    CurrentLocationControl(curLocDiv);
+    curLocDiv.index = 1;
+    map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(curLocDiv);
     //click and centre to the current location
-    controlDiv.addEventListener('click', () => {
+    curLocDiv.addEventListener('click', () => {
       this.currentLocation(map);
     });
-  
+    
+    let drawPolyDiv = document.createElement('div');
+    DrawPolyControl(drawPolyDiv);
+    drawPolyDiv.index = 1;
+    map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(drawPolyDiv);
   }
   
   //place markers on the map

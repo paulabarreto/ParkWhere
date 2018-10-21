@@ -1,10 +1,10 @@
-const NewControl = (controlDiv) => {
+const CurrentLocationControl = (controlDiv) => {
 
   // controlDiv.style.backgroundColor = '#fff';
   // controlDiv.style.border = '2px solid #fff';
   controlDiv.style.borderRadius = '3px';
   controlDiv.style.cursor = 'pointer';
-  controlDiv.style.backgroundImage = "url('gps-fixed-indicator.png')";
+  controlDiv.style.backgroundImage = "url('centre-location.png')";
   controlDiv.style.backgroundSize = 'cover';
   controlDiv.style.backgroundRepeat = 'no-repeat';
   controlDiv.style.marginRight = '10px';
@@ -14,4 +14,4 @@ const NewControl = (controlDiv) => {
   
 }
 
-export default NewControl;
+export default CurrentLocationControl;
