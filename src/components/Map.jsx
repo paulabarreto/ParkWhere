@@ -11,7 +11,7 @@ class Map extends Component {
   loadMap = () => {
     let mapOption = {
       center:{lat:43.6529, lng: -79.3849},
-      zoom: 14,
+      zoom: 15,
       mapTypeControl: false,
       draggableCursor: 'default',
       zoomControl: false,
@@ -20,28 +20,33 @@ class Map extends Component {
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
 
+    //put all markers from database to the map
     this.props.coords.forEach(coord =>{
       this.placeMarker(map,coord);
     })  
-    
+    let clickCount = 1;
+    let startCoord,endCoord;
     map.addListener('click', (e) => {
-      let marker = new window.google.maps.Marker({
-        position: e.latLng,
-        map: map,
-        animation: window.google.maps.Animation.DROP
-      });
-      marker.addListener('click', e => {
-        this.createInfoWindow(e, map)
-      })
+      let newMarker = this.placeMarker(map,e.latLng)
+      newMarker.setMap(map)
       //this.placeMarker = (map, e.latLng)
+      if (clickCount === 1){
+        startCoord = e.latLng;
+        clickCount++;
+      }else if (clickCount === 2){
+        endCoord = e.latLng;
+        let poly = this.placePoly(startCoord,endCoord);
+        poly.setMap(map);
+        clickCount--;
+      }
     });
 
-
+    //add a map control button at the right-bottom
     let controlDiv = document.createElement('div');
     NewControl(controlDiv);
     controlDiv.index = 1;
     map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
-
+    //click and centre to the current location
     controlDiv.addEventListener('click', () => {
       this.currentLocation(map);
     });
@@ -53,13 +58,25 @@ class Map extends Component {
     let marker = new window.google.maps.Marker({
       position: coord,
       map: map,
+      icon: {url:'pin.png',
+             scaledSize: new window.google.maps.Size(30, 30)},
       animation: window.google.maps.Animation.DROP,
     });
     marker.addListener('click', e => {
       this.createInfoWindow(e, map)
     })
+    return marker
   }
 
+  placePoly = (startCoord,endCoord) => {
+    let poly = new window.google.maps.Polyline({
+      path:[startCoord,endCoord],
+      strokeColor: '#000000',
+      strokeOpacity: 1.0,
+      strokeWeight: 1.5
+    });
+    return poly
+  }
   // info window for corresponding marker
   createInfoWindow = (e, map) => {
     const infoWindow = new window.google.maps.InfoWindow({
@@ -75,7 +92,7 @@ class Map extends Component {
   currentLocation = (map) => {
     const curloc = new window.google.maps.Marker({
       clickable: false,
-      icon: {url:'https://static.thenounproject.com/png/902833-200.png',
+      icon: {url:'mylocation.png',
       scaledSize: new window.google.maps.Size(30, 30),
       origin: new window.google.maps.Point(0, 0), // origin
       anchor: new window.google.maps.Point(0, 0)},
