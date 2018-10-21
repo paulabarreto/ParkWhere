@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import InfoWindow from './InfoWindow.jsx'
+import mapstyle from './mapstyle'
 import './Map.css'
 class Map extends Component {
   constructor(props) {
@@ -10,11 +11,7 @@ class Map extends Component {
         center:{lat:43.6529, lng: -79.3849},
         zoom: 14,
         mapTypeControl: false,
-        styles: [{
-            featureType: "poi",
-            elementType: "labels",
-            stylers: [{ visibility: "off" }]
-        }]
+        styles: mapstyle 
       }
     }
   }
@@ -26,6 +23,15 @@ class Map extends Component {
       document.getElementById('map'),
       this.state.mapOption);
 
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        let pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        map.setCenter(pos);
+      })
+    }
     this.props.coords.forEach(coord =>{
       this.placeMarker(map,coord);
     })  
@@ -71,6 +77,7 @@ class Map extends Component {
     infoWindow.open(map)
   }
 
+  
   componentDidMount() {
     if (!window.google) {
       var s = document.createElement('script');
