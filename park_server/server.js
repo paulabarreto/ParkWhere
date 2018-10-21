@@ -8,7 +8,9 @@ const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const cors = require('cors');
 
+
 app.use(cors());
+
 
 app.get("/", (req, res) => {
   knex("street_parking").then((data) => {
