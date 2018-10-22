@@ -5,10 +5,21 @@ class NavBar extends Component {
 
   render() {
 
-    let login = "Login";
+    let login = "";
     if(this.props.username){
-      login = "Logout";
+      login = (
+        <NavItem eventKey={1} href="/">
+          Logout
+        </NavItem>
+      );
+    }else {
+      login = (
+        <NavItem eventKey={1} href="/login">
+          Login
+        </NavItem>
+      );
     }
+
     return (
       <Navbar>
         <Navbar.Header>
@@ -17,9 +28,7 @@ class NavBar extends Component {
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-          <NavItem eventKey={1} href="/login">
             {login}
-          </NavItem>
           <NavItem eventKey={2} href="#">
             {this.props.username}
           </NavItem>
