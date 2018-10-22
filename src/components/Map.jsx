@@ -138,16 +138,6 @@ class Map extends Component {
   }
 
   currentLocation = (map) => {
-    const curloc = new window.google.maps.Marker({
-      clickable: false,
-      icon: {url:'mylocation.png',
-      scaledSize: new window.google.maps.Size(30, 30),
-      origin: new window.google.maps.Point(0, 0), // origin
-      anchor: new window.google.maps.Point(0, 0)},
-      shadow: null,
-      zIndex: 999,
-      map: map
-    });
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
@@ -155,8 +145,27 @@ class Map extends Component {
         lat: position.coords.latitude,
         lng: position.coords.longitude
         };
-        curloc.setPosition(pos);
         map.setCenter(pos);
+        window.setTimeout(() => {
+          let curloc = new window.google.maps.Marker({
+            clickable: false,
+            icon:  {url:'mylocation.png',
+                    scaledSize: new window.google.maps.Size(30, 30),
+                    origin: new window.google.maps.Point(0, 0), 
+                    anchor: new window.google.maps.Point(0, 0)},
+            shadow: null,
+            zIndex: 999,
+            map: map,
+            animation: window.google.maps.Animation.DROP,
+            position:pos
+          });
+          window.setTimeout(() => {
+            curloc.setAnimation(window.google.maps.Animation.BOUNCE)
+            window.setTimeout(() => {
+              curloc.setAnimation(null)
+            },2000)
+          },800)  
+        },250)
       })
     }
   }
