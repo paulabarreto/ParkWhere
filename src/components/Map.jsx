@@ -18,8 +18,7 @@ class Map extends Component {
       zoom: 15,
       mapTypeControl: false,
       draggableCursor: 'default',
-      zoomControl: false,
-      fullscreenControl: false,
+      disableDefaultUI: true,
       styles: mapstyle
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
@@ -43,34 +42,55 @@ class Map extends Component {
     map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(drawPolyDiv);
 
     drawPolyDiv.addEventListener('click',() =>{
+
+      let mapClickCount = 1;
+      let checkClick = true;
+      let startCoord,endCoord;
+      let newMarkers =[], poly;
       let NotificationControlDiv = this.newControl(NotificationControl)
       map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(NotificationControlDiv);
 
       let CheckedControlDiv = this.newControl(CheckedControl)
       map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(CheckedControlDiv);
+      CheckedControlDiv.addEventListener('click', ()=>{
+        map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
+        map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
+        newMarkers.forEach(marker=>(marker.setMap(null)));
+        checkClick = false;
+        mapClickCount = 3;
+      })
 
       let UncheckedControlDiv = this.newControl(UncheckedControl)
       map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(UncheckedControlDiv);
-
-      let clickCount = 1;
-      let startCoord,endCoord;
-      map.addListener('click', (e) => {
-
-        //draw a polyline on map between 2 markers
-        if (clickCount === 1){
-          //add new marker on click
-          let newMarker = this.placeMarker(map,e.latLng);
-          startCoord = e.latLng;
-          clickCount++;
-        }else if (clickCount === 2){
-          //add new marker on click
-          let newMarker = this.placeMarker(map,e.latLng);
-          endCoord = e.latLng;
-          let poly = this.placePoly(startCoord,endCoord);
-          poly.setMap(map);
-          clickCount++;
-        }
+      UncheckedControlDiv.addEventListener('click',() =>{
+        map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
+        map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
+        newMarkers.forEach(marker=>(marker.setMap(null)));
+        if (poly){
+          poly.setMap(null)
+        };
+        checkClick = false;
+        mapClickCount = 3;
       })
+
+      if(checkClick){
+        map.addListener('click', (e) => {
+          //draw a polyline on map between 2 markers
+          if (mapClickCount === 1){
+            //add new marker on click
+            newMarkers.push(this.placeMarker(map,e.latLng));
+            startCoord = e.latLng;
+            mapClickCount++;
+          }else if (mapClickCount === 2){
+            //add new marker on click
+            newMarkers.push(this.placeMarker(map,e.latLng));
+            endCoord = e.latLng;
+            poly = this.placePoly(startCoord,endCoord);
+            poly.setMap(map);
+            mapClickCount++;
+          }
+        })
+      }
     })
   }
 
