@@ -5,14 +5,24 @@ import Home from './components/Home.jsx'
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username: ""
+    }
+  }
+
+  handleLogin = username => {
+    this.setState({username: username})
+  }
 
   render() {
-    console.log(this.state)
     return (
       <Router>
         <Switch>
-          <Route exact path='/' component={Home} />
-          <Route path='/login' component={Login} />
+          <Route exact path='/' render={(props) => <Home {...props} username={this.state.username} /> } />
+          <Route path='/login' render={(props) => <Login {...props} login={this.handleLogin} />} />
         </Switch>
      </Router>
 

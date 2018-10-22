@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 class NavBar extends Component {
+
   render() {
+
+    let login = "Login";
+    if(this.props.username){
+      login = "Logout";
+    }
     return (
       <Navbar>
         <Navbar.Header>
@@ -12,10 +18,10 @@ class NavBar extends Component {
         </Navbar.Header>
         <Nav>
           <NavItem eventKey={1} href="/login">
-            Login
+            {login}
           </NavItem>
           <NavItem eventKey={2} href="#">
-            Link
+            {this.props.username}
           </NavItem>
           <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
             <MenuItem eventKey={3.1}>Action</MenuItem>

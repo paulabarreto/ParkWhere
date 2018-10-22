@@ -7,7 +7,8 @@ import axios from 'axios';
 
 class Home extends Component {
   state = {
-    coords: []
+    coords: [],
+    username: this.props.username
   }
   componentDidMount() {
 
@@ -25,7 +26,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Nav />
+        <Nav username={this.state.username}/>
         < Map coords={this.state.coords}/>
       </div>
 
