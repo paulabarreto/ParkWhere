@@ -10,8 +10,7 @@ const cors = require('cors');
 
 
 app.use(cors());
-
-
+app.use('../public', express.static(__dirname + "/public"))
 app.get("/", (req, res) => {
   knex("street_parking").then((data) => {
     let sendData = data.map(coord => ({
