@@ -6,8 +6,8 @@ const UncheckedControl = (controlDiv) => {
   controlDiv.style.backgroundRepeat = 'no-repeat';
   controlDiv.style.marginLeft = '10px';
   controlDiv.style.marginTop = '10px';
-  controlDiv.style.height = '30px';
-  controlDiv.style.width = '30px';
+  controlDiv.style.height = '25px';
+  controlDiv.style.width = '25px';
 }
 
 export default UncheckedControl;

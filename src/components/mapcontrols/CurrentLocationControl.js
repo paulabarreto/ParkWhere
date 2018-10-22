@@ -8,10 +8,10 @@ const CurrentLocationControl = (controlDiv) => {
   controlDiv.style.backgroundSize = 'cover';
   controlDiv.style.backgroundRepeat = 'no-repeat';
   controlDiv.style.marginRight = '10px';
+  controlDiv.style.marginBottom = '10px';
   controlDiv.style.textAlign = 'center';
-  controlDiv.style.height = '40px';
-  controlDiv.style.width = '40px';
-  
+  controlDiv.style.height = '30px';
+  controlDiv.style.width = '30px';
 }
 
 export default CurrentLocationControl;

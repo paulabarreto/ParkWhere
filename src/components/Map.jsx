@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import InfoWindow from './InfoWindow.jsx';
 import mapstyle from './mapcontrols/mapstyle';
-import './Map.css';
 import CurrentLocationControl from './mapcontrols/CurrentLocationControl';
 import DrawPolyControl from './mapcontrols/DrawPolyControl';
 import NotificationControl from  './mapcontrols/NotificationControl';
 import CheckedControl from './mapcontrols/CheckedControl';
 import UncheckedControl from  './mapcontrols/UncheckedControl';
+import SubmitInfo from './SubmitInfo.jsx'
 
 class Map extends Component {
-  
+  constructor(props){
+    super(props);
+    this.state = {
+      curloc: null,
+      showModal:false
+    };
+  }
+
   //create google map on the window
   loadMap = () => {
     let mapOption = {
@@ -28,68 +35,103 @@ class Map extends Component {
       this.placeMarker(map,coord);
     }) 
 
-    //add a map control button at the right-bottom
+    this.handleCurrentLocation(map);
+    this.handleDrawPoly(map);
+
+    //add button for new parking info
+  }
+
+  handleCurrentLocation = (map) => {
+
+    //create a div container for current location 
     let currentLocationDiv = this.newControl(CurrentLocationControl);
+    //push the div into google map as a new map control
     map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(currentLocationDiv);
 
-    //click and centre to the current location
+    //add eventlistener for the current location button to get the pin point to current location
     currentLocationDiv.addEventListener('click', () => {
-      this.currentLocation(map);
+      if (this.state.curloc) {
+        //clear the marker if existed on the map
+        this.state.curloc.setMap(null);
+        this.currentLocation(map);
+      }
+      else{
+        this.currentLocation(map);
+      }
     });
-    
-    //add button for new parking info
+  } 
+
+  handleDrawPoly = (map) => {
+    //create a div container for button to enable poly drawing 
     let drawPolyDiv = this.newControl(DrawPolyControl)
     map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(drawPolyDiv);
 
+    //store the click state of the draw_poly_button 
+    let checkDrawPolyClick  = true;
+
+    // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
+      if (checkDrawPolyClick){
+        //disable the click state once it has been click
+        checkDrawPolyClick = false;
+        
+        let mapClickCount = 1; //count clicks on the map
+        let checkMapClick = true; //enable map click 
+        let startCoord,endCoord; //coordinates for poly line based on first and second click
+        let newMarkers =[], poly; //add markers for the coordinates
 
-      let mapClickCount = 1;
-      let checkClick = true;
-      let startCoord,endCoord;
-      let newMarkers =[], poly;
-      let NotificationControlDiv = this.newControl(NotificationControl)
-      map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(NotificationControlDiv);
+        // add notification for draw poly instruction, shown on the top centre on the map
+        let NotificationControlDiv = this.newControl(NotificationControl);
+        map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(NotificationControlDiv);
+        
+        // add checked button to confirm draw poly line
+        let CheckedControlDiv = this.newControl(CheckedControl)
+        map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(CheckedControlDiv);
 
-      let CheckedControlDiv = this.newControl(CheckedControl)
-      map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(CheckedControlDiv);
-      CheckedControlDiv.addEventListener('click', ()=>{
-        map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
-        map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
-        newMarkers.forEach(marker=>(marker.setMap(null)));
-        checkClick = false;
-        mapClickCount = 3;
-      })
 
-      let UncheckedControlDiv = this.newControl(UncheckedControl)
-      map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(UncheckedControlDiv);
-      UncheckedControlDiv.addEventListener('click',() =>{
-        map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
-        map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
-        newMarkers.forEach(marker=>(marker.setMap(null)));
-        if (poly){
-          poly.setMap(null)
-        };
-        checkClick = false;
-        mapClickCount = 3;
-      })
-
-      if(checkClick){
-        map.addListener('click', (e) => {
-          //draw a polyline on map between 2 markers
-          if (mapClickCount === 1){
-            //add new marker on click
-            newMarkers.push(this.placeMarker(map,e.latLng));
-            startCoord = e.latLng;
-            mapClickCount++;
-          }else if (mapClickCount === 2){
-            //add new marker on click
-            newMarkers.push(this.placeMarker(map,e.latLng));
-            endCoord = e.latLng;
-            poly = this.placePoly(startCoord,endCoord);
-            poly.setMap(map);
-            mapClickCount++;
-          }
+        CheckedControlDiv.addEventListener('click', ()=>{
+          this.setState({showModal:true})
+          map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
+          map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear(); //clear both c
+          newMarkers.forEach(marker=>(marker.setMap(null)));
+          checkMapClick = false;
+          mapClickCount = 3;
+          checkDrawPolyClick = true;
         })
+  
+
+        let UncheckedControlDiv = this.newControl(UncheckedControl)
+        map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(UncheckedControlDiv);
+        UncheckedControlDiv.addEventListener('click',() =>{
+          map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
+          map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
+          newMarkers.forEach(marker=>(marker.setMap(null)));
+          if (poly){
+            poly.setMap(null)
+          };
+          checkMapClick = false;
+          mapClickCount = 3;
+          checkDrawPolyClick = true;
+        })
+  
+        if(checkMapClick){
+          map.addListener('click', (e) => {
+            //draw a polyline on map between 2 markers
+            if (mapClickCount === 1){
+              //add new marker on click
+              newMarkers.push(this.placeMarker(map,e.latLng));
+              startCoord = e.latLng;
+              mapClickCount++;
+            }else if (mapClickCount === 2){
+              //add new marker on click
+              newMarkers.push(this.placeMarker(map,e.latLng));
+              endCoord = e.latLng;
+              poly = this.placePoly(startCoord,endCoord);
+              poly.setMap(map);
+              mapClickCount++;
+            }
+          })
+        }
       }
     })
   }
@@ -138,29 +180,39 @@ class Map extends Component {
   }
 
   currentLocation = (map) => {
-    const curloc = new window.google.maps.Marker({
-      clickable: false,
-      icon: {url:'mylocation.png',
-      scaledSize: new window.google.maps.Size(30, 30),
-      origin: new window.google.maps.Point(0, 0), // origin
-      anchor: new window.google.maps.Point(0, 0)},
-      shadow: null,
-      zIndex: 999,
-      map: map
-    });
-
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
       let pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
         };
-        curloc.setPosition(pos);
         map.setCenter(pos);
+        let curloc = new window.google.maps.Marker({
+          clickable: false,
+          icon:  {url:'mylocation.png',
+                  scaledSize: new window.google.maps.Size(30, 30),
+                  origin: new window.google.maps.Point(0, 0), 
+                  anchor: new window.google.maps.Point(0, 0)},
+          shadow: null,
+          zIndex: 999,
+          map: map,
+          animation: window.google.maps.Animation.DROP,
+          position:pos
+        });
+        window.setTimeout(() => {
+          curloc.setAnimation(window.google.maps.Animation.BOUNCE)
+          window.setTimeout(() => {
+            curloc.setAnimation(null)
+          },2000)
+        },800) 
+        this.setState({curloc: curloc}) 
       })
     }
   }
   
+  closeSubmitInfo = () => {
+    this.setState({ showModal: false });
+  }
 
   componentDidMount() {
     if (!window.google) {
@@ -179,7 +231,10 @@ class Map extends Component {
 
   render() {
     return (
-      <div style={{ width: '100%', height: '80vh' }} id={'map'} />
+      <>
+        <div style={{ width: '100%', height: '80vh' }} id={'map'} />
+        <SubmitInfo show={this.state.showModal} onHide={this.closeSubmitInfo}/>
+      </>
     );
   }
 }
