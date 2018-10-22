@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Login from './components/Login.jsx'
-import Home from './components/Home.jsx'
+import Home from './components/Home.jsx';
+
 
 class App extends Component {
 
@@ -9,9 +10,11 @@ class App extends Component {
     super(props);
 
     this.state = {
-      username: ""
+      username: "",
+      show: false
     }
   }
+
 
   handleLogin = username => {
     this.setState({username: username})
@@ -22,7 +25,6 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path='/' render={(props) => <Home {...props} username={this.state.username} /> } />
-          <Route path='/login' render={(props) => <Login {...props} login={this.handleLogin} />} />
         </Switch>
      </Router>
 

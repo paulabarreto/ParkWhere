@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Modal } from "react-bootstrap";
 import {Redirect} from 'react-router';
 import "./Login.css";
 
@@ -41,43 +41,48 @@ export default class Login extends Component {
       return <Redirect to="/" />
     }
     return (
-      <div className="Login">
-        <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="name" bsSize="large">
-            <ControlLabel>Name</ControlLabel>
-            <FormControl
-              autoFocus
-              type="text"
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
-            <FormControl
-              autoFocus
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <Button
-            block
-            bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
-          >
-            Login
-          </Button>
-        </form>
-      </div>
+      <Modal show={this.props.show} onHide={this.props.handleClose}>
+        <Modal.body>
+          <div className="Login">
+            <form onSubmit={this.handleSubmit}>
+              <FormGroup controlId="name" bsSize="large">
+                <ControlLabel>Name</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="text"
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup controlId="email" bsSize="large">
+                <ControlLabel>Email</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="email"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup controlId="password" bsSize="large">
+                <ControlLabel>Password</ControlLabel>
+                <FormControl
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                  type="password"
+                />
+              </FormGroup>
+              <Button
+                block
+                bsSize="large"
+                disabled={!this.validateForm()}
+                type="submit"
+              >
+                Login
+              </Button>
+            </form>
+          </div>
+        </Modal.body>
+      </Modal>
+
     );
   }
 }
