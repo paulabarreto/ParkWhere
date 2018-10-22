@@ -10,7 +10,10 @@ import CheckedControl from './mapcontrols/CheckedControl';
 import UncheckedControl from  './mapcontrols/UncheckedControl';
 
 class Map extends Component {
-  
+  state={
+    curloc: null
+  }
+
   //create google map on the window
   loadMap = () => {
     let mapOption = {
@@ -34,7 +37,13 @@ class Map extends Component {
 
     //click and centre to the current location
     currentLocationDiv.addEventListener('click', () => {
-      this.currentLocation(map);
+      if (this.state.curloc) {
+        this.state.curloc.setMap(null);
+        this.currentLocation(map);
+      }
+      else{
+        this.currentLocation(map);
+      }
     });
     
     //add button for new parking info
@@ -47,7 +56,7 @@ class Map extends Component {
       let checkClick = true;
       let startCoord,endCoord;
       let newMarkers =[], poly;
-      let NotificationControlDiv = this.newControl(NotificationControl)
+      let NotificationControlDiv = this.newControl(NotificationControl);
       map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(NotificationControlDiv);
 
       let CheckedControlDiv = this.newControl(CheckedControl)
@@ -138,7 +147,6 @@ class Map extends Component {
   }
 
   currentLocation = (map) => {
-
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
       let pos = {
@@ -146,26 +154,25 @@ class Map extends Component {
         lng: position.coords.longitude
         };
         map.setCenter(pos);
+        let curloc = new window.google.maps.Marker({
+          clickable: false,
+          icon:  {url:'mylocation.png',
+                  scaledSize: new window.google.maps.Size(30, 30),
+                  origin: new window.google.maps.Point(0, 0), 
+                  anchor: new window.google.maps.Point(0, 0)},
+          shadow: null,
+          zIndex: 999,
+          map: map,
+          animation: window.google.maps.Animation.DROP,
+          position:pos
+        });
         window.setTimeout(() => {
-          let curloc = new window.google.maps.Marker({
-            clickable: false,
-            icon:  {url:'mylocation.png',
-                    scaledSize: new window.google.maps.Size(30, 30),
-                    origin: new window.google.maps.Point(0, 0), 
-                    anchor: new window.google.maps.Point(0, 0)},
-            shadow: null,
-            zIndex: 999,
-            map: map,
-            animation: window.google.maps.Animation.DROP,
-            position:pos
-          });
+          curloc.setAnimation(window.google.maps.Animation.BOUNCE)
           window.setTimeout(() => {
-            curloc.setAnimation(window.google.maps.Animation.BOUNCE)
-            window.setTimeout(() => {
-              curloc.setAnimation(null)
-            },2000)
-          },800)  
-        },250)
+            curloc.setAnimation(null)
+          },2000)
+        },800) 
+        this.setState({curloc: curloc}) 
       })
     }
   }
