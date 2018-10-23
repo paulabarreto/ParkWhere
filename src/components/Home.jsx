@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Nav from './Nav.jsx';
 import Map from './Map.jsx';
 import axios from 'axios';
-
-
+import ParkingInfo from './ParkingInfo.jsx'
+import SubmitInfo from './SubmitInfo.jsx'
+import Model from './Model.jsx'
 class Home extends Component {
   state = {
     coords: [],

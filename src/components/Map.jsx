@@ -226,12 +226,8 @@ class Map extends Component {
 
   render() {
     return (
-      <>
-        <div style={{ width: '100%', height: '80vh' }} id={'map'} />
- 
-      </>
+      <div style={{ width: '100%', height: '84vh' }} id={'map'} />
     );
   }
 }
-
 export default Map
