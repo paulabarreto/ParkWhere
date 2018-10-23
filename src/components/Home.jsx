@@ -6,6 +6,7 @@ import ParkingInfo from './ParkingInfo.jsx'
 class Home extends Component {
   state = {
     coords: [],
+    hours: [],
     username: this.props.username,
     show:false,
     isInfoOpen: false
@@ -21,7 +22,6 @@ class Home extends Component {
       .then(res => {
         this.setState({coords:res.data})
         console.log(this.state);
-
         // axios.get("http://localhost:8080/session", {withCredentials: true})
         // .then(console.log)
       })
@@ -37,11 +37,7 @@ class Home extends Component {
   setCoords = (coord1,coord2) => {
     this.setState({coords:[coord1,coord2]})
   }
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> 53eb0475b434c319d527e6b121eaca89f4391a62
   render() {
   const onButton = () => {
     this.handleShow('isInfoOpen')
@@ -57,7 +53,6 @@ class Home extends Component {
         </button>
         <Nav username={this.state.username}/>
         <ParkingInfo classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'} onInfoShow={this.handleShow} onInfoHide={this.handleClose} getCoords={this.state.coords} onSubmit={onSubmit}/>
-
         <div className='map-container'>
           <Map coords={this.state.coords} onInfoShow={this.handleShow} onInfoHide={this.handleClose } setCoords={this.setCoords}/>
         </div>

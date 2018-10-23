@@ -236,18 +236,7 @@ class Map extends Component {
 
   render() {
     return (
-<<<<<<< HEAD
-<<<<<<< HEAD
       <div style={{ width: '100%', height: '84vh' }} id={'map'} />
-=======
-      <>
-        <div style={{ width: '100%', height: '80vh' }} id={'map'} />
-
-      </>
->>>>>>> 6268a8669b320a13f486f9389bdfadbe4ba6bbb5
-=======
-      <div style={{ width: '100%', height: '84vh' }} id={'map'} />
->>>>>>> 53eb0475b434c319d527e6b121eaca89f4391a62
     );
   }
 }

@@ -10,22 +10,16 @@ class App extends Component {
     super(props);
 
     this.state = {
-      username: "",
       show: false
     }
   }
 
-
-  handleLogin = username => {
-    this.setState({username: username})
-  }
 
   render() {
     return (
       <Router>
         <Switch>
           <Route exact path='/' render={(props) => <Home {...props} username={this.state.username} /> } />
-          <Route path='/login' render={(props) => <Login {...props} login={this.handleLogin} />} />
           <Route path='/register' render={(props) => <Register {...props} login={this.handleLogin} />} />
       </Switch>
      </Router>

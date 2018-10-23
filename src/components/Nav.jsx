@@ -1,24 +1,37 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import "./Login.css";
+import Login from "./Login.jsx"
 
 
 class NavBar extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username: "",
+    }
+  }
+
+  handleLogin = username => {
+    this.setState({username: username})
+  }
 
   render() {
 
     let login = "";
     let register = "";
-    if(this.props.username){
+    if(this.state.username){
       login = (
         <NavItem eventKey={1} href="/">
-          {this.props.username} | Logout
+          {this.state.username} | Logout
         </NavItem>
       );
     }else {
       login = (
-          <NavItem eventKey={1} href="/login">
-            Login
+          <NavItem eventKey={1}>
+            <Login login={this.handleLogin}/>
           </NavItem>
       );
       register = (
