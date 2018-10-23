@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Modal, InputGroup, DropdownButton, MenuItem } from "react-bootstrap";
+
 import {Redirect} from 'react-router';
 import axios from 'axios';
 
@@ -10,11 +11,15 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
 
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
     this.state = {
       name: "",
       email: "",
       password: "",
-      redirect: false
+      redirect: false,
+      show: false
     };
   }
 
@@ -28,12 +33,18 @@ export default class Login extends Component {
     });
   }
 
+  handleClose() {
+    this.setState({ show: false });
+  }
 
+  handleShow() {
+    this.setState({ show: true });
+  }
 
   handleSubmit = event => {
-    event.preventDefault();
+    // event.preventDefault();
     this.props.login(this.state.name);
-    this.setState({redirect: true});
+    this.setState({show: false});
     axios({
       method: 'post',
       url: 'http://localhost:8080/login',
@@ -51,47 +62,62 @@ export default class Login extends Component {
   // }
 
   render() {
-    if(this.state.redirect){
-      return <Redirect to="/" />
-    }
+    // if(this.state.redirect){
+    //   return <Redirect to="/" />
+    // }
     return (
       <div className="Login">
-        <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="name" bsSize="large">
-            <ControlLabel>Name</ControlLabel>
-            <FormControl
-              autoFocus
-              type="text"
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
-            <FormControl
-              autoFocus
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <Button
-            block
-            bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
-          >
-            Login
-          </Button>
-        </form>
+        <div onClick={this.handleShow}>
+          Login
+        </div>
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Login</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form onSubmit={this.handleSubmit}>
+              <FormGroup controlId="name" bsSize="large">
+                <ControlLabel>Name</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="text"
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup controlId="email" bsSize="large">
+                <ControlLabel>Email</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="email"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup controlId="password" bsSize="large">
+                <ControlLabel>Password</ControlLabel>
+                <FormControl
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                  type="password"
+                />
+              </FormGroup>
+              <Button
+                block
+                bsSize="large"
+                disabled={!this.validateForm()}
+                type="submit"
+                onClick={this.handleSubmit}
+              >
+                Login
+              </Button>
+            </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.handleClose}>Cancel</Button>
+        </Modal.Footer>
+        </Modal>
       </div>
+
     );
   }
 }

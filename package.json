@@ -52,10 +52,13 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 53eb0475b434c319d527e6b121eaca89f4391a62
 =======
 >>>>>>> features/map
+=======
+>>>>>>> dc3dde754e753dba76ca7b566143bd3233338be1
     "resolve": "1.8.1",
     "sass-loader": "^7.1.0",
     "style-loader": "0.23.0",
@@ -64,17 +67,9 @@
     "webpack": "4.19.1",
     "webpack-dev-server": "3.1.9",
     "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "3.6.2"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+    "workbox-webpack-plugin": "3.6.2",
     "react-scripts": "^2.0.5",
     "universal-cookie": "^3.0.4"
->>>>>>> 6268a8669b320a13f486f9389bdfadbe4ba6bbb5
-=======
->>>>>>> 53eb0475b434c319d527e6b121eaca89f4391a62
-=======
->>>>>>> features/map
   },
   "scripts": {
     "start": "node scripts/start.js",

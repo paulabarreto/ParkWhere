@@ -33,8 +33,9 @@ class Map extends Component {
       this.props.onInfoHide('isInfoOpen')
     })
     //put all markers from database to the map
-    this.props.coords.forEach(coord =>{
-      this.placeMarker(map,coord);
+    this.props.coords.forEach(coord => {
+      let newPoly = this.placePoly({lat: coord.lat_start, lng: coord.lng_start}, {lat: coord.lat_end, lng: coord.lng_end});
+      newPoly.setMap(map);
     })
 
     this.handleCurrentLocation(map);
