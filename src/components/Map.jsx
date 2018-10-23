@@ -35,7 +35,7 @@ class Map extends Component {
     //put all markers from database to the map
     this.props.coords.forEach(coord =>{
       this.placeMarker(map,coord);
-    }) 
+    })
 
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map);
@@ -236,6 +236,7 @@ class Map extends Component {
   render() {
     return (
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div style={{ width: '100%', height: '84vh' }} id={'map'} />
 =======
       <>
@@ -243,6 +244,9 @@ class Map extends Component {
 
       </>
 >>>>>>> 6268a8669b320a13f486f9389bdfadbe4ba6bbb5
+=======
+      <div style={{ width: '100%', height: '84vh' }} id={'map'} />
+>>>>>>> 53eb0475b434c319d527e6b121eaca89f4391a62
     );
   }
 }
