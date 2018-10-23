@@ -7,15 +7,26 @@ const app = express();
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const cors = require('cors');
+const Cookies = require('universal-cookie');
+const cookieParser = require('cookie-parser');
 
+app.use(cookieParser());
 
 app.use(cors());
 app.use('../public', express.static(__dirname + "/public"))
+
+app.get('/', function(req, res){
+   res.cookie('name', 'express').send('cookie set'); //Sets name = express
+   console.log(req.cookies);
+});
+
+
+
 app.get("/", (req, res) => {
   knex("street_parking").then((data) => {
     let sendData = data.map(coord => ({
-      lat: coord.latitude,
-      lng: coord.longitude
+      lat_start: coord.latitude,
+      lng_start: coord.longitude
     }))
       res.json(sendData)
 

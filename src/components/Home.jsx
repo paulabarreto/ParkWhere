@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import Nav from './Nav.jsx';
 import Map from './Map.jsx';
 import axios from 'axios';
-import Model from './Model.jsx'
-import SubmitInfo from './SubmitInfo.jsx'
+
 
 class Home extends Component {
   state = {
     coords: [],
-    username: this.props.username,
-    show:false
+    username: this.props.username
   }
   componentDidMount() {
 
@@ -24,24 +22,11 @@ class Home extends Component {
       })
   }
 
-  handleShow = () => {
-    this.setState({ show: true });
-  }
-
-  handleClose = () => {
-   this.setState({ show: false });
- }
-
   render() {
     return (
       <div>
-        <button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-          Launch demo modal
-        </button>
         <Nav username={this.state.username}/>
-        < Map coords={this.state.coords} showSubmitInfo={this.handleShow} submitInfoState={this.state.show}/>
-        <Model show={this.state.show} onHide={this.handleClose}/>
-        <SubmitInfo show={this.state.show} onHide={this.handleClose}/>
+        <Map coords={this.state.coords}/>
       </div>
 
     );

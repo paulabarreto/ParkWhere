@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { Redirect } from 'react-router-dom';
-import axios from 'axios';
+import {Redirect} from 'react-router';
 import "./Login.css";
 
-export default class Register extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -12,7 +11,7 @@ export default class Register extends Component {
       name: "",
       email: "",
       password: "",
-      isAuthenticated: false
+      redirect: false
     };
   }
 
@@ -28,24 +27,14 @@ export default class Register extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.setState({ isAuthenticated: true });
-    axios.post('/users', {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    this.props.login(this.state.name);
+    this.setState({redirect: true});
+
   }
 
   render() {
-
-    if (this.state.isAuthenticated) {
-      return <Redirect to='/' authentication={this.state.email}/>;
+    if(this.state.redirect){
+      return <Redirect to="/" />
     }
     return (
       <div className="Login">
@@ -55,7 +44,6 @@ export default class Register extends Component {
             <FormControl
               autoFocus
               type="text"
-              value={this.state.name}
               onChange={this.handleChange}
             />
           </FormGroup>
