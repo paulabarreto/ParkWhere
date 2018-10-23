@@ -37,7 +37,11 @@ class Home extends Component {
   setCoords = (coord1,coord2) => {
     this.setState({coords:[coord1,coord2]})
   }
+<<<<<<< HEAD
+  
+=======
 
+>>>>>>> 53eb0475b434c319d527e6b121eaca89f4391a62
   render() {
   const onButton = () => {
     this.handleShow('isInfoOpen')
