@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Nav from './Nav.jsx';
 import Map from './Map.jsx';
 import axios from 'axios';
-import Model from './Model.jsx'
-import SubmitInfo from './SubmitInfo.jsx'
+import ParkingInfo from './ParkingInfo.jsx'
+
 
 class Home extends Component {
   state = {
