@@ -92,7 +92,7 @@ class Map extends Component {
           if (startCoord && endCoord){
             let c1 = {lat:startCoord.lat(),lng: startCoord.lng()}
             let c2 = {lat:endCoord.lat(),lng: endCoord.lng()}
-            console.log(c1,c2)
+            this.props.onInfoShow('isAddInfoOpen');
             this.props.setCoords(c1,c2)
           }
 
@@ -156,9 +156,9 @@ class Map extends Component {
              scaledSize: new window.google.maps.Size(30, 30)},
       animation: window.google.maps.Animation.DROP,
     });
-    marker.addListener('click', e => {
-      this.createInfoWindow(e, map)
-    })
+    // marker.addListener('click', e => {
+    //   this.createInfoWindow(e, map)
+    // })
     return marker
   }
 
@@ -175,17 +175,18 @@ class Map extends Component {
     })
     return poly
   }
+
   // info window for corresponding marker
-  createInfoWindow = (e, map) => {
-    const infoWindow = new window.google.maps.InfoWindow({
-        content: '<div id="infoWindow" />',
-        position: e.latLng
-    })
-    infoWindow.addListener('domready', e => {
-      render(<InfoWindow />, document.getElementById('infoWindow'))
-    })
-    infoWindow.open(map)
-  }
+  // createInfoWindow = (e, map) => {
+  //   const infoWindow = new window.google.maps.InfoWindow({
+  //       content: '<div id="infoWindow" />',
+  //       position: e.latLng
+  //   })
+  //   infoWindow.addListener('domready', e => {
+  //     render(<InfoWindow />, document.getElementById('infoWindow'))
+  //   })
+  //   infoWindow.open(map)
+  // }
 
   currentLocation = (map) => {
   if (navigator.geolocation) {
@@ -235,18 +236,7 @@ class Map extends Component {
 
   render() {
     return (
-<<<<<<< HEAD
-<<<<<<< HEAD
       <div style={{ width: '100%', height: '84vh' }} id={'map'} />
-=======
-      <>
-        <div style={{ width: '100%', height: '80vh' }} id={'map'} />
-
-      </>
->>>>>>> 6268a8669b320a13f486f9389bdfadbe4ba6bbb5
-=======
-      <div style={{ width: '100%', height: '84vh' }} id={'map'} />
->>>>>>> 53eb0475b434c319d527e6b121eaca89f4391a62
     );
   }
 }
