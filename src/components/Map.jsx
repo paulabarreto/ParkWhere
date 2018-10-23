@@ -92,7 +92,7 @@ class Map extends Component {
           if (startCoord && endCoord){
             let c1 = {lat:startCoord.lat(),lng: startCoord.lng()}
             let c2 = {lat:endCoord.lat(),lng: endCoord.lng()}
-            console.log(c1,c2)
+            this.props.onInfoShow('isInfoOpen');
             this.props.setCoords(c1,c2)
           }
 
@@ -235,14 +235,7 @@ class Map extends Component {
 
   render() {
     return (
-<<<<<<< HEAD
       <div style={{ width: '100%', height: '84vh' }} id={'map'} />
-=======
-      <>
-        <div style={{ width: '100%', height: '80vh' }} id={'map'} />
-
-      </>
->>>>>>> 6268a8669b320a13f486f9389bdfadbe4ba6bbb5
     );
   }
 }
