@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-app.use(cors({origin: "http://localhost:3001", credentials: true}));
+app.use(cors({origin: "http://localhost:3000", credentials: true}));
+
 app.use('../public', express.static(__dirname + "/public"))
 
 // app.get("/session", (req, res) => {
@@ -32,12 +33,11 @@ app.get("/", (req, res) => {
 
   knex("street_parking").then((data) => {
     let sendData = data.map(coord => ({
-      lat_start: coord.latitude,
-      lng_start: coord.longitude
+      lat_start: coord.lat_start, lng_start: coord.long_start,
+      lat_end: coord.lat_end, lng_end: coord.long_end
     }))
-    res.json(sendData)
-
-    res.end()
+    res.send(sendData)
+  });
   //Fetching data from database
   knex("street_parking")
     .where({
@@ -64,7 +64,6 @@ app.get("/", (req, res) => {
   //   .catch(function(error) {
   //     console.error(error);
   //   });
-  })
 });
 
 

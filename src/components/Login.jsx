@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import {Redirect} from 'react-router';
-import Cookies from 'universal-cookie';
 import axios from 'axios';
 
 

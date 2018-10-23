@@ -20,7 +20,8 @@ class Home extends Component {
     })
       .then(res => {
         this.setState({coords:res.data})
-        // console.log(res)
+        console.log(this.state);
+
         // axios.get("http://localhost:8080/session", {withCredentials: true})
         // .then(console.log)
       })
@@ -46,7 +47,6 @@ class Home extends Component {
   }
     return (
       <div>
-        // <Nav username={this.state.username}/>
 
         <button onClick={onButton}>
           Launch demo modal
@@ -55,7 +55,7 @@ class Home extends Component {
         <ParkingInfo classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'} onInfoShow={this.handleShow} onInfoHide={this.handleClose} getCoords={this.state.coords} onSubmit={onSubmit}/>
 
         <div className='map-container'>
-          < Map coords={this.state.coords} onInfoShow={this.handleShow} onInfoHide={this.handleClose } setCoords={this.setCoords}/>
+          <Map coords={this.state.coords} onInfoShow={this.handleShow} onInfoHide={this.handleClose } setCoords={this.setCoords}/>
         </div>
       </div>
     );
