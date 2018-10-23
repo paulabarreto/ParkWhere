@@ -14,11 +14,14 @@ class Home extends Component {
     axios.get("http://localhost:8080/",{
       params: {
         ID: 12345
-      }
+      },
+      withCredentials: true
     })
       .then(res => {
         this.setState({coords:res.data})
-        //console.log(this.state)
+        // console.log(res)
+        // axios.get("http://localhost:8080/session", {withCredentials: true})
+        // .then(console.log)
       })
   }
 

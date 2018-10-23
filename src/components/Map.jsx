@@ -30,10 +30,10 @@ class Map extends Component {
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
 
-    //put all markers from database to the map
-    this.props.coords.forEach(coord =>{
-      this.placeMarker(map,coord);
-    }) 
+    // //put all markers from database to the map
+    // this.props.coords.forEach(coord =>{
+    //   this.placeMarker(map,coord);
+    // }) 
 
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map);
@@ -41,7 +41,7 @@ class Map extends Component {
 
   handleCurrentLocation = (map) => {
 
-    //create a div container for current location 
+    //create a div container for current location
     let currentLocationDiv = this.newControl(CurrentLocationControl);
     //push the div into google map as a new map control
     map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(currentLocationDiv);
@@ -57,14 +57,14 @@ class Map extends Component {
         this.currentLocation(map);
       }
     });
-  } 
+  }
 
   handleDrawPoly = (map) => {
-    //create a div container for button to enable poly drawing 
+    //create a div container for button to enable poly drawing
     let drawPolyDiv = this.newControl(DrawPolyControl)
     map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(drawPolyDiv);
 
-    //store the click state of the draw_poly_button 
+    //store the click state of the draw_poly_button
     let checkDrawPolyClick  = true;
 
     // add click event to the draw_poly_button
@@ -72,16 +72,16 @@ class Map extends Component {
       if (checkDrawPolyClick){
         //disable the click state once it has been click
         checkDrawPolyClick = false;
-        
+
         let mapClickCount = 1; //count clicks on the map
-        let checkMapClick = true; //enable map click 
+        let checkMapClick = true; //enable map click
         let startCoord,endCoord; //coordinates for poly line based on first and second click
         let newMarkers =[]; //add markers for the coordinates
 
         // add notification for draw poly instruction, shown on the top centre on the map
         let NotificationControlDiv = this.newControl(NotificationControl);
         map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(NotificationControlDiv);
-        
+
         // add checked button to confirm draw poly line
         let CheckedControlDiv = this.newControl(CheckedControl)
         map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(CheckedControlDiv);
@@ -90,7 +90,7 @@ class Map extends Component {
           if (startCoord && endCoord){
             this.props.showSubmitInfo();
           }
-          
+
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear(); //clear both c
           newMarkers.forEach(marker=>(marker.setMap(null)));
@@ -98,7 +98,7 @@ class Map extends Component {
           mapClickCount = 3;
           checkDrawPolyClick = true;
         })
-  
+
         let UncheckedControlDiv = this.newControl(UncheckedControl)
         map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(UncheckedControlDiv);
         UncheckedControlDiv.addEventListener('click',() =>{
@@ -112,7 +112,7 @@ class Map extends Component {
           mapClickCount = 3;
           checkDrawPolyClick = true;
         })
-  
+
         if(checkMapClick){
           map.addListener('click', (e) => {
             //draw a polyline on map between 2 markers
@@ -190,7 +190,7 @@ class Map extends Component {
           clickable: false,
           icon:  {url:'mylocation.png',
                   scaledSize: new window.google.maps.Size(30, 30),
-                  origin: new window.google.maps.Point(0, 0), 
+                  origin: new window.google.maps.Point(0, 0),
                   anchor: new window.google.maps.Point(0, 0)},
           shadow: null,
           zIndex: 999,
@@ -203,12 +203,12 @@ class Map extends Component {
           window.setTimeout(() => {
             curloc.setAnimation(null)
           },2000)
-        },800) 
-        this.setState({curloc: curloc}) 
+        },800)
+        this.setState({curloc: curloc})
       })
     }
   }
-  
+
   componentDidMount() {
     if (!window.google) {
       var s = document.createElement('script');
@@ -228,7 +228,7 @@ class Map extends Component {
     return (
       <>
         <div style={{ width: '100%', height: '80vh' }} id={'map'} />
- 
+
       </>
     );
   }
