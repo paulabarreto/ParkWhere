@@ -29,7 +29,9 @@ class Map extends Component {
       styles: mapstyle
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
-
+    map.addListener('click',()=>{
+      this.props.onInfoHide('isInfoOpen')
+    })
     //put all markers from database to the map
     this.props.coords.forEach(coord =>{
       this.placeMarker(map,coord);
@@ -88,7 +90,10 @@ class Map extends Component {
 
         CheckedControlDiv.addEventListener('click', ()=>{
           if (startCoord && endCoord){
-            this.props.showSubmitInfo();
+            let c1 = {lat:startCoord.lat(),lng: startCoord.lng()}
+            let c2 = {lat:endCoord.lat(),lng: endCoord.lng()}
+            console.log(c1,c2)
+            this.props.setCoords(c1,c2)
           }
           
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
@@ -164,6 +169,10 @@ class Map extends Component {
       strokeOpacity: 1.0,
       strokeWeight: 1.5
     });
+
+    poly.addListener('click',(e)=>{
+      this.props.onInfoShow('isInfoOpen');
+    })
     return poly
   }
   // info window for corresponding marker
