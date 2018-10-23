@@ -15,7 +15,7 @@ class AddParkingInfo  extends Component {
   }
 
   onInfoHide = () => {
-    this.props.onInfoHide('isInfoOpen')
+    this.props.onInfoHide('isAddInfoOpen')
     this.setState({
       date:'Duration',
       price:'$/hr',
@@ -25,7 +25,7 @@ class AddParkingInfo  extends Component {
       to_suffix: 'AM'
     })
   }
-  
+
   render(){
     const onSelect = key => (ek,e) => {
       let newVal = e.target.text;
