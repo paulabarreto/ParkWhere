@@ -34,17 +34,13 @@ app.get("/", (req, res) => {
   knex("street_parking").then((data) => {
     let sendData = data.map(coord => ({
       lat_start: coord.lat_start, lng_start: coord.long_start,
-      lat_end: coord.lat_end, lng_end: coord.long_end
+      lat_end: coord.lat_end, lng_end: coord.long_end,
+      hours: coord.hours, rate: coord.rate
     }))
     res.send(sendData)
   });
-  //Fetching data from database
-  knex("street_parking")
-    .where({
-      id: 1
-    }).then(function (rows){
-      // console.log(rows);
-    })
+
+
 
   //Testing sending data to db
   // const point = {
