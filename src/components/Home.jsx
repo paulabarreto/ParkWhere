@@ -26,8 +26,12 @@ class Home extends Component {
     return (
       <div>
         <Nav />
-        <ParkingInfo />
-        < Map coords={this.state.coords}/>
+        <div className='info-map-container'>
+          <ParkingInfo />
+          <div className='map-container'>
+            < Map coords={this.state.coords}/>
+          </div>
+        </div>
       </div>
 
     );

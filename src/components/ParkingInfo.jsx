@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Well }from 'react-bootstrap';
 
 const ParkingInfo = (props) => (
-  <div className='parking-info'>
-    <Well>
+    <Well className='parking-info'>
       You are more fun than anyone or anything I know, including bubble wrap.
     </Well>
-  </div>
 )
 
 export default ParkingInfo;

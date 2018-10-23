@@ -7,7 +7,6 @@ import DrawPolyControl from './mapcontrols/DrawPolyControl';
 import NotificationControl from  './mapcontrols/NotificationControl';
 import CheckedControl from './mapcontrols/CheckedControl';
 import UncheckedControl from  './mapcontrols/UncheckedControl';
-import SubmitInfo from './SubmitInfo.jsx'
 
 class Map extends Component {
   constructor(props){
@@ -210,10 +209,6 @@ class Map extends Component {
     }
   }
   
-  closeSubmitInfo = () => {
-    this.setState({ showModal: false });
-  }
-
   componentDidMount() {
     if (!window.google) {
       var s = document.createElement('script');
@@ -233,7 +228,6 @@ class Map extends Component {
     return (
       <>
         <div style={{ width: '100%', height: '80vh' }} id={'map'} />
-        <SubmitInfo show={this.state.showModal} onHide={this.closeSubmitInfo}/>
       </>
     );
   }
