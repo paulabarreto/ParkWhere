@@ -7,18 +7,37 @@ const app = express();
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
 
-app.use(cors());
+app.use(cookieParser());
+
+app.use(cors({origin: "http://localhost:3001", credentials: true}));
 app.use('../public', express.static(__dirname + "/public"))
+
+// app.get("/session", (req, res) => {
+//   console.log('Cookies: ', req.cookies);
+//   res.send(req.cookies.name)
+// })
+
+app.post("/login", (req, res) => {
+  res.cookie('name', req.body.username);
+  res.send(req.cookies.name)
+})
+
 app.get("/", (req, res) => {
+  // res.cookie('name', 'express'); //Sets name = express
+
   knex("street_parking").then((data) => {
     let sendData = data.map(coord => ({
-      lat: coord.latitude,
-      lng: coord.longitude
+      lat_start: coord.latitude,
+      lng_start: coord.longitude
     }))
-      res.json(sendData)
+    res.json(sendData)
 
+    res.end()
   //Fetching data from database
   knex("street_parking")
     .where({

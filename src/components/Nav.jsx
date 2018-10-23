@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import "./Login.css";
+
 
 class NavBar extends Component {
 
   render() {
 
     let login = "";
+    let register = "";
     if(this.props.username){
       login = (
         <NavItem eventKey={1} href="/">
@@ -14,9 +17,14 @@ class NavBar extends Component {
       );
     }else {
       login = (
-        <NavItem eventKey={1} href="/login">
-          Login
-        </NavItem>
+          <NavItem eventKey={1} href="/login">
+            Login
+          </NavItem>
+      );
+      register = (
+          <NavItem eventKey={1} href="/register">
+            Register
+          </NavItem>
       );
     }
 
@@ -27,8 +35,8 @@ class NavBar extends Component {
             ParkWhere
           </Navbar.Brand>
         </Navbar.Header>
-        <Nav>
-            {login}
+        <Nav className="user_auth">
+            {login}  {register}
         </Nav>
       </Navbar>
     );
