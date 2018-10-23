@@ -2,23 +2,26 @@ import React, { Component } from 'react';
 import { Modal, Button, FormGroup, InputGroup, FormControl, DropdownButton, MenuItem }from 'react-bootstrap';
 
 class SubmitInfo extends Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
       title:''
     };
   }
 
+  onHide = () => {
+    this.props.onHide('show')
+  }
   render() {
     const onDropdownChange = key => (e) => {
       this.setState({[key]: e.target.text})
     };
     return (
       <div className="modal-container" >
-        <Modal show={this.props.show} onHide={this.props.onHide} bsSize="small" >
+        <Modal show={this.props.show} onHide={this.onHide} bsSize="small" >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title">
-              Parking Info
+              Add Parking Info
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -42,7 +45,7 @@ class SubmitInfo extends Component {
             </form>
           </Modal.Body>
           <Modal.Footer>
-          <Button onClick={this.props.onHide}>Cancel</Button>
+          <Button onClick={this.onHide}>Cancel</Button>
           <Button type='submit'>Submit</Button>
           </Modal.Footer>
         </Modal>

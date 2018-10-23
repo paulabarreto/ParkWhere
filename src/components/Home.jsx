@@ -3,12 +3,12 @@ import Nav from './Nav.jsx';
 import Map from './Map.jsx';
 import axios from 'axios';
 import ParkingInfo from './ParkingInfo.jsx'
-import SubmitInfo from './SubmitInfo.jsx'
-import Model from './Model.jsx'
 class Home extends Component {
   state = {
     coords: [],
-    username: this.props.username
+    username: this.props.username,
+    show:false,
+    isInfoOpen: false
   }
   componentDidMount() {
 
@@ -26,13 +26,38 @@ class Home extends Component {
       })
   }
 
+  handleShow = key => {
+    this.setState({ [key]: true });
+  }
+
+  handleClose = key => {
+   this.setState({ [key]: false });
+ }
+  setCoords = (coord1,coord2) => {
+    this.setState({coords:[coord1,coord2]})
+  }
+
   render() {
+  const onButton = () => {
+    this.handleShow('isInfoOpen')
+  }
+  const onSubmit = (e) => {
+    console.log(e.target)
+  }
     return (
       <div>
-        <Nav username={this.state.username}/>
-        <Map coords={this.state.coords}/>
-      </div>
+        // <Nav username={this.state.username}/>
 
+        <button onClick={onButton}>
+          Launch demo modal
+        </button>
+        <Nav username={this.state.username}/>
+        <ParkingInfo classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'} onInfoShow={this.handleShow} onInfoHide={this.handleClose} getCoords={this.state.coords} onSubmit={onSubmit}/>
+
+        <div className='map-container'>
+          < Map coords={this.state.coords} onInfoShow={this.handleShow} onInfoHide={this.handleClose } setCoords={this.setCoords}/>
+        </div>
+      </div>
     );
   }
 }
