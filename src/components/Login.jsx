@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import {Redirect} from 'react-router';
 import Cookies from 'universal-cookie';
+import axios from 'axios';
+
 
 import "./Login.css";
 
@@ -33,10 +35,21 @@ export default class Login extends Component {
     event.preventDefault();
     this.props.login(this.state.name);
     this.setState({redirect: true});
-    const cookies = new Cookies();
-    cookies.set('Name', this.state.name, { path: '/' });
-    console.log(cookies.get('Name'));
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/login',
+      data: {
+        username: this.state.name,
+        withCredentials: true
+      }
+    }).then(res => {console.log(res.data)})
   }
+  //   axios.post("http://localhost:8080/login", {withCredentials: true},
+  //     {username: this.state.name}
+  //   )
+  //   .then(res => {console.log(res)}
+  //   )
+  // }
 
   render() {
     if(this.state.redirect){
