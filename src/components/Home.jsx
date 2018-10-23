@@ -3,8 +3,8 @@ import Nav from './Nav.jsx';
 import Map from './Map.jsx';
 import axios from 'axios';
 import ParkingInfo from './ParkingInfo.jsx'
-
-
+import SubmitInfo from './SubmitInfo.jsx'
+import Model from './Model.jsx'
 class Home extends Component {
   state = {
     coords: [],
@@ -35,11 +35,17 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+        <button onClick={this.handleShow}>
           Launch demo modal
         </button>
         <Nav username={this.state.username}/>
-        < Map coords={this.state.coords} showSubmitInfo={this.handleShow} submitInfoState={this.state.show}/>
+        <div className='map-info-container'>
+          <ParkingInfo />
+          <div className='map-container'>
+            < Map coords={this.state.coords} showSubmitInfo={this.handleShow} submitInfoState={this.state.show}/>
+          </div>
+        </div>
+
         <Model show={this.state.show} onHide={this.handleClose}/>
         <SubmitInfo show={this.state.show} onHide={this.handleClose}/>
       </div>
