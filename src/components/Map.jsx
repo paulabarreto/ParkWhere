@@ -7,14 +7,14 @@ import DrawPolyControl from './mapcontrols/DrawPolyControl';
 import NotificationControl from  './mapcontrols/NotificationControl';
 import CheckedControl from './mapcontrols/CheckedControl';
 import UncheckedControl from  './mapcontrols/UncheckedControl';
-import SubmitInfo from './SubmitInfo.jsx'
+
 
 class Map extends Component {
   constructor(props){
     super(props);
     this.state = {
       curloc: null,
-      showModal:false
+      poly:''
     };
   }
 
@@ -37,8 +37,6 @@ class Map extends Component {
 
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map);
-
-    //add button for new parking info
   }
 
   handleCurrentLocation = (map) => {
@@ -78,7 +76,7 @@ class Map extends Component {
         let mapClickCount = 1; //count clicks on the map
         let checkMapClick = true; //enable map click 
         let startCoord,endCoord; //coordinates for poly line based on first and second click
-        let newMarkers =[], poly; //add markers for the coordinates
+        let newMarkers =[]; //add markers for the coordinates
 
         // add notification for draw poly instruction, shown on the top centre on the map
         let NotificationControlDiv = this.newControl(NotificationControl);
@@ -88,9 +86,11 @@ class Map extends Component {
         let CheckedControlDiv = this.newControl(CheckedControl)
         map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(CheckedControlDiv);
 
-
         CheckedControlDiv.addEventListener('click', ()=>{
-          this.setState({showModal:true})
+          if (startCoord && endCoord){
+            this.props.showSubmitInfo();
+          }
+          
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear(); //clear both c
           newMarkers.forEach(marker=>(marker.setMap(null)));
@@ -99,15 +99,14 @@ class Map extends Component {
           checkDrawPolyClick = true;
         })
   
-
         let UncheckedControlDiv = this.newControl(UncheckedControl)
         map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(UncheckedControlDiv);
         UncheckedControlDiv.addEventListener('click',() =>{
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
-          if (poly){
-            poly.setMap(null)
+          if (this.state.poly){
+            this.state.poly.setMap(null)
           };
           checkMapClick = false;
           mapClickCount = 3;
@@ -126,8 +125,8 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              poly = this.placePoly(startCoord,endCoord);
-              poly.setMap(map);
+              this.setState({poly:this.placePoly(startCoord,endCoord)});
+              this.state.poly.setMap(map);
               mapClickCount++;
             }
           })
@@ -210,10 +209,6 @@ class Map extends Component {
     }
   }
   
-  closeSubmitInfo = () => {
-    this.setState({ showModal: false });
-  }
-
   componentDidMount() {
     if (!window.google) {
       var s = document.createElement('script');
@@ -233,7 +228,7 @@ class Map extends Component {
     return (
       <>
         <div style={{ width: '100%', height: '80vh' }} id={'map'} />
-        <SubmitInfo show={this.state.showModal} onHide={this.closeSubmitInfo}/>
+ 
       </>
     );
   }
