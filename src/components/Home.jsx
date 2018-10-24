@@ -2,15 +2,21 @@ import React, { Component } from 'react';
 import Nav from './Nav.jsx';
 import Map from './Map.jsx';
 import axios from 'axios';
-import AddParkingInfo from './AddParkingInfo.jsx'
+import SubmitParkingInfo from './SubmitParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
 class Home extends Component {
   state = {
-    coords: [],
+    parkinginfo:{
+      startCoord:{lat:'',lng:''},
+      endCoord:{lat:'',lng:''},
+      hours:'',
+      rate:'',
+      parking_id:''},
     username: this.props.username,
+    infoFromServer:[],
     isInfoOpen: false,
-    isAddInfoOpen: false,
-    parking_id:''
+    isSubmitInfoOpen: false,
+    isEditInfoClicked: false
   }
   componentDidMount() {
 
@@ -18,33 +24,38 @@ class Home extends Component {
       withCredentials: true
     })
       .then(res => {
-        this.setState(prevState => ({...prevState, coords:res.data}))
+        this.setState(prevState => ({...prevState, infoFromServer:res.data}))
         console.log(res.data)
       })
   }
 
-  handleShow = key => {
+  setTrue = key => {
     this.setState(prevState => ({...prevState, [key]: true}));
   }
 
-  handleClose = key => {
+  setFalse = key => {
     this.setState(prevState => ({...prevState, [key]: false}));
  }
-  setCoords = (coord1,coord2) => {
-    this.setState(prevState => ({...prevState, coords:[coord1,coord2]}))
-  }
-  
-  render() {
-    const testbutton =()=>{
-      this.setState({ isInfoOpen: true })
-  }
-  const handleParkingInfoSubmit = (data) => {
+
+  _handleInfoSubmit = () => {
     axios.post("http://localhost:8080/add_parking_info_data",{
-      data:{...data,coords:this.state.coords},
+      data:{...this.state.parkinginfo},
       withCredentials: true
     })
     .then(res => console(res))
   }
+
+  setPrkInfo = (key,value) => {
+    let prkinfo = {...this.state.parkinginfo};
+    prkinfo[key] = value;
+    this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
+    console.log(this.state.parkinginfo)
+  }
+  render() {
+    const testbutton =()=>{
+      this.setState({ isInfoOpen: true })
+  }
+
     return (
       <div>
         <button onClick={testbutton}>
@@ -52,20 +63,24 @@ class Home extends Component {
         </button>
         {/* <Nav username={this.state.username}/> */}
 
-        <AddParkingInfo 
-        classname={this.state.isAddInfoOpen ? 'parking-info': 'parking-info-hide'} 
-        onInfoShow={this.handleShow} 
-        onInfoHide={this.handleClose} 
-        getCoords={this.state.coords} 
-        onSubmit={handleParkingInfoSubmit}/>
+        <SubmitParkingInfo 
+        classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'} 
+        onInfoShow={this.setTrue} 
+        onInfoHide={this.setFalse} 
+        getInfo={this.state.parkinginfo} 
+        onSubmit={this._handleInfoSubmit}
+        onChange={this.setPrkInfo}
+        />
           <ParkingInfo 
-          classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}/>
+          classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
+          getInfo={this.state.parkinginfo} 
+          />
 
         <div className='map-container'>
-          < Map coords={this.state.coords} 
-          onInfoShow={this.handleShow} 
-          onInfoHide={this.handleClose } 
-          setCoords={this.setCoords}/>
+          < Map coords={this.state.infoFromServer} 
+          onInfoShow={this.setTrue} 
+          onInfoHide={this.setFalse } 
+          setInfo={this.setPrkInfo}/>
         </div>
       </div>
     );

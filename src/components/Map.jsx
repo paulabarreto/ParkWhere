@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
-import InfoWindow from './InfoWindow.jsx';
 import mapstyle from './mapcontrols/mapstyle';
 import CurrentLocationControl from './mapcontrols/CurrentLocationControl';
 import DrawPolyControl from './mapcontrols/DrawPolyControl';
 import NotificationControl from  './mapcontrols/NotificationControl';
 import CheckedControl from './mapcontrols/CheckedControl';
 import UncheckedControl from  './mapcontrols/UncheckedControl';
-
 
 class Map extends Component {
   constructor(props){
@@ -34,9 +31,11 @@ class Map extends Component {
     })
     //put all markers from database to the map
     this.props.coords.forEach(coord => {
-      let newPoly = this.placePoly({lat: coord.lat_start, lng: coord.lng_start}, {lat: coord.lat_end, lng: coord.lng_end},{hours:coord.hours,rate:coord.rate,id:coord.id});
+      let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
+      let endCoord = {lat: coord.lat_end, lng: coord.lng_end};
+      let data = {hours:coord.hours,rate:coord.rate,id:coord.id};
+      let newPoly = this.placePoly(startCoord, endCoord, data);
       newPoly.setMap(map);
-      console.log(newPoly.rate)
     })
 
     this.handleCurrentLocation(map);
@@ -94,8 +93,9 @@ class Map extends Component {
           if (startCoord && endCoord){
             let c1 = {lat:startCoord.lat(),lng: startCoord.lng()}
             let c2 = {lat:endCoord.lat(),lng: endCoord.lng()}
-            this.props.onInfoShow('isAddInfoOpen');
-            this.props.setCoords(c1,c2)
+            this.props.onInfoShow('isSubmitInfoOpen');
+            this.props.setInfo('startCoord',c1);
+            this.props.setInfo('endCoord',c2);
           }
 
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
@@ -176,7 +176,11 @@ class Map extends Component {
     }
     poly.addListener('click',(e)=>{
       this.props.onInfoShow('isInfoOpen');
-      console.log(data.id)
+      this.props.setInfo('startCoord',startCoord);
+      this.props.setInfo('endCoord',endCoord)
+      for(let key in data){
+        this.props.setInfo(key,data[key])
+      }
     })
     return poly
   }

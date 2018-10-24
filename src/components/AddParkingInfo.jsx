@@ -34,7 +34,7 @@ class AddParkingInfo  extends Component {
 
     const onSubmit = (e) => {
       e.preventDefault();
-      this.props.onSubmit(this.state)
+      this.props.onSubmit();
       this.props.onInfoHide('isInfoOpen');
     }
 
