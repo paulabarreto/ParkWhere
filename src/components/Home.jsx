@@ -13,9 +13,11 @@ class Home extends Component {
       rate:'',
       parking_id:''},
     username: this.props.username,
-    infoFromServer:[],
+    infofromserver:[],
+    curpoly:'',
     isInfoOpen: false,
-    isSubmitInfoOpen: false
+    isSubmitInfoOpen: false,
+    isPolyPlaced: false
   }
   componentDidMount() {
 
@@ -23,7 +25,7 @@ class Home extends Component {
       withCredentials: true
     })
       .then(res => {
-        this.setState(prevState => ({...prevState, infoFromServer:res.data}))
+        this.setState(prevState => ({...prevState, infofromserver:res.data}))
         console.log(res.data)
       })
   }
@@ -55,16 +57,19 @@ class Home extends Component {
       parking_id:''};
     this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
   }
+  setPoly = (poly) => {
+    this.setState(prevState => ({...prevState, curpoly:poly}));
+  }
+
   render() {
 
     return (
       <div>
-        {/* <Nav username={this.state.username}/> */}
+        <Nav username={this.state.username}/>
 
         <NewParkingInfo 
         classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'} 
-        onInfoShow={this.setCond} 
-        onInfoHide={this.setCond} 
+        onCondChange={this.setCond} 
         getInfo={this.state.parkinginfo} 
         onSubmit={this._handleInfoSubmit}
         onChange={this.setPrkInfo}
@@ -77,10 +82,13 @@ class Home extends Component {
           />
 
         <div className='map-container'>
-          < Map coords={this.state.infoFromServer} 
-          onInfoShow={this.setCond} 
-          onInfoHide={this.setCond } 
-          setInfo={this.setPrkInfo}/>
+          < Map coords={this.state.infofromserver} 
+          onCondChange={this.setCond} 
+          setInfo={this.setPrkInfo}
+          isPolyPlaced={this.state.isPolyPlaced}
+          setPoly={this.setPoly}
+          getPoly={this.state.curpoly}
+          />
         </div>
       </div>
     );

@@ -10,8 +10,7 @@ class Map extends Component {
   constructor(props){
     super(props);
     this.state = {
-      curloc: null,
-      poly:''
+      curloc: null
     };
   }
 
@@ -27,7 +26,7 @@ class Map extends Component {
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
     map.addListener('click',()=>{
-      this.props.onInfoHide('isInfoOpen',false)
+      this.props.onCondChange('isInfoOpen',false)
     })
     //put all markers from database to the map
     this.props.coords.forEach(coord => {
@@ -37,9 +36,13 @@ class Map extends Component {
       let newPoly = this.placePoly(startCoord, endCoord, data);
       newPoly.setMap(map);
     })
-
+    
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map);
+    if(this.props.getPoly&&this.props.isPolyPlaced){
+      console.log('lalalalal')
+      this.props.getPoly.setMap(null)
+    }
   }
 
   handleCurrentLocation = (map) => {
@@ -69,7 +72,7 @@ class Map extends Component {
 
     //store the click state of the draw_poly_button
     let checkDrawPolyClick  = true;
-
+   
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
       if (checkDrawPolyClick){
@@ -93,7 +96,7 @@ class Map extends Component {
           if (startCoord && endCoord){
             let c1 = {lat:startCoord.lat(),lng: startCoord.lng()}
             let c2 = {lat:endCoord.lat(),lng: endCoord.lng()}
-            this.props.onInfoShow('isSubmitInfoOpen',true);
+            this.props.onCondChange('isSubmitInfoOpen',true);
             this.props.setInfo('startCoord',c1);
             this.props.setInfo('endCoord',c2);
           }
@@ -112,9 +115,7 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
-          if (this.state.poly){
-            this.state.poly.setMap(null)
-          };
+          this.props.getPoly.setMap(null)
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
@@ -132,8 +133,8 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              this.setState({poly:this.placePoly(startCoord,endCoord,{hours:'',rate:''})});
-              this.state.poly.setMap(map);
+              this.props.setPoly(this.placePoly(startCoord,endCoord,{hours:'',rate:''}))
+              this.props.getPoly.setMap(map);
               mapClickCount++;
             }
           })
@@ -175,7 +176,7 @@ class Map extends Component {
       poly[key] = data[key]
     }
     poly.addListener('click',(e)=>{
-      this.props.onInfoShow('isInfoOpen',true);
+      this.props.onCondChange('isInfoOpen',true);
       this.props.setInfo('startCoord',startCoord);
       this.props.setInfo('endCoord',endCoord)
       for(let key in data){
