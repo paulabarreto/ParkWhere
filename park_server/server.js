@@ -38,7 +38,7 @@ app.get("/parking_info", (req, res) => {
     let sendData = data.map(coord => ({
       lat_start: coord.lat_start, lng_start: coord.long_start,
       lat_end: coord.lat_end, lng_end: coord.long_end,
-      hours: coord.hours, rate: coord.rate,
+      hours: coord.hours, rate: coord.rate, comments: coord.comments,
       id:coord.id
     }))
     res.send(sendData)
