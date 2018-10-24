@@ -34,8 +34,9 @@ class Map extends Component {
     })
     //put all markers from database to the map
     this.props.coords.forEach(coord => {
-      let newPoly = this.placePoly({lat: coord.lat_start, lng: coord.lng_start}, {lat: coord.lat_end, lng: coord.lng_end});
+      let newPoly = this.placePoly({lat: coord.lat_start, lng: coord.lng_start}, {lat: coord.lat_end, lng: coord.lng_end},{hours:coord.hours,rate:coord.rate,id:coord.id});
       newPoly.setMap(map);
+      console.log(newPoly.rate)
     })
 
     this.handleCurrentLocation(map);
@@ -131,7 +132,7 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              this.setState({poly:this.placePoly(startCoord,endCoord)});
+              this.setState({poly:this.placePoly(startCoord,endCoord,{hours:'',rate:''})});
               this.state.poly.setMap(map);
               mapClickCount++;
             }
@@ -163,16 +164,19 @@ class Map extends Component {
     return marker
   }
 
-  placePoly = (startCoord,endCoord) => {
+  placePoly = (startCoord,endCoord,data) => {
     let poly = new window.google.maps.Polyline({
       path:[startCoord,endCoord],
       strokeColor: '#000000',
       strokeOpacity: 1.0,
       strokeWeight: 1.5
     });
-
+    for(let key in data){
+      poly[key] = data[key]
+    }
     poly.addListener('click',(e)=>{
       this.props.onInfoShow('isInfoOpen');
+      console.log(data.id)
     })
     return poly
   }

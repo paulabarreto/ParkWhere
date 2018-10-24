@@ -7,7 +7,6 @@ import ParkingInfo from './ParkingInfo.jsx'
 class Home extends Component {
   state = {
     coords: [],
-    hours: [],
     username: this.props.username,
     isInfoOpen: false,
     isAddInfoOpen: false,
@@ -15,18 +14,13 @@ class Home extends Component {
   }
   componentDidMount() {
 
-    // axios.get("http://localhost:8080/",{
-    //   params: {
-    //     ID: 12345
-    //   },
-    //   withCredentials: true
-    // })
-    //   .then(res => {
-    //     this.setState({coords:res.data})
-    //     // console.log(res)
-    //     // axios.get("http://localhost:8080/session", {withCredentials: true})
-    //     // .then(console.log)
-    //   })
+    axios.get("http://localhost:8080/parking_info",{
+      withCredentials: true
+    })
+      .then(res => {
+        this.setState(prevState => ({...prevState, coords:res.data}))
+        console.log(res.data)
+      })
   }
 
   handleShow = key => {
@@ -39,7 +33,7 @@ class Home extends Component {
   setCoords = (coord1,coord2) => {
     this.setState(prevState => ({...prevState, coords:[coord1,coord2]}))
   }
-
+  
   render() {
     const testbutton =()=>{
       this.setState({ isInfoOpen: true })
@@ -53,13 +47,10 @@ class Home extends Component {
   }
     return (
       <div>
-
-        <Nav username={this.state.username}/>
-
         <button onClick={testbutton}>
           Parking Info Test Button
         </button>
-        <Nav username={this.state.username}/>
+        {/* <Nav username={this.state.username}/> */}
 
         <AddParkingInfo 
         classname={this.state.isAddInfoOpen ? 'parking-info': 'parking-info-hide'} 
@@ -75,10 +66,6 @@ class Home extends Component {
           onInfoShow={this.handleShow} 
           onInfoHide={this.handleClose } 
           setCoords={this.setCoords}/>
-        </div>
-        <ParkingInfo classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'} onInfoShow={this.handleShow} onInfoHide={this.handleClose} getCoords={this.state.coords} onSubmit={onSubmit}/>
-        <div className='map-container'>
-          <Map coords={this.state.coords} onInfoShow={this.handleShow} onInfoHide={this.handleClose } setCoords={this.setCoords}/>
         </div>
       </div>
     );

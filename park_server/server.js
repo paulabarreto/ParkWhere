@@ -27,14 +27,15 @@ app.post("/login", (req, res) => {
   res.send(req.cookies.name)
 })
 
-app.get("/", (req, res) => {
+app.get("/parking_info", (req, res) => {
   // res.cookie('name', 'express'); //Sets name = express
 
   knex("street_parking").then((data) => {
     let sendData = data.map(coord => ({
       lat_start: coord.lat_start, lng_start: coord.long_start,
       lat_end: coord.lat_end, lng_end: coord.long_end,
-      hours: coord.hours, rate: coord.rate
+      hours: coord.hours, rate: coord.rate,
+      id:coord.id
     }))
     res.send(sendData)
   });
