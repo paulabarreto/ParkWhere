@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from './Nav.jsx';
 import Map from './Map.jsx';
 import axios from 'axios';
-import SubmitParkingInfo from './SubmitParkingInfo.jsx'
+import NewParkingInfo from './NewParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
 class Home extends Component {
   state = {
@@ -15,8 +15,7 @@ class Home extends Component {
     username: this.props.username,
     infoFromServer:[],
     isInfoOpen: false,
-    isSubmitInfoOpen: false,
-    isEditInfoClicked: false
+    isSubmitInfoOpen: false
   }
   componentDidMount() {
 
@@ -29,20 +28,15 @@ class Home extends Component {
       })
   }
 
-  setTrue = key => {
-    this.setState(prevState => ({...prevState, [key]: true}));
-  }
-
-  setFalse = key => {
-    this.setState(prevState => ({...prevState, [key]: false}));
- }
-
   _handleInfoSubmit = () => {
     axios.post("http://localhost:8080/add_parking_info_data",{
       data:{...this.state.parkinginfo},
       withCredentials: true
     })
     .then(res => console(res))
+  }
+  setCond = (key,boolean) => {
+    this.setState(prevState => ({...prevState, [key]: boolean}));
   }
 
   setPrkInfo = (key,value) => {
@@ -51,35 +45,41 @@ class Home extends Component {
     this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
     console.log(this.state.parkinginfo)
   }
-  render() {
-    const testbutton =()=>{
-      this.setState({ isInfoOpen: true })
+
+  setOriginPrkInfoState = () => {
+    let prkinfo = {
+      startCoord:{lat:'',lng:''},
+      endCoord:{lat:'',lng:''},
+      hours:'',
+      rate:'',
+      parking_id:''};
+    this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
   }
+  render() {
 
     return (
       <div>
-        <button onClick={testbutton}>
-          Parking Info Test Button
-        </button>
         {/* <Nav username={this.state.username}/> */}
 
-        <SubmitParkingInfo 
+        <NewParkingInfo 
         classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'} 
-        onInfoShow={this.setTrue} 
-        onInfoHide={this.setFalse} 
+        onInfoShow={this.setCond} 
+        onInfoHide={this.setCond} 
         getInfo={this.state.parkinginfo} 
         onSubmit={this._handleInfoSubmit}
         onChange={this.setPrkInfo}
+        clearForm={this.setOriginPrkInfoState}
         />
           <ParkingInfo 
           classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
           getInfo={this.state.parkinginfo} 
+          onEditClick={this.setCond}
           />
 
         <div className='map-container'>
           < Map coords={this.state.infoFromServer} 
-          onInfoShow={this.setTrue} 
-          onInfoHide={this.setFalse } 
+          onInfoShow={this.setCond} 
+          onInfoHide={this.setCond } 
           setInfo={this.setPrkInfo}/>
         </div>
       </div>

@@ -27,7 +27,7 @@ class Map extends Component {
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
     map.addListener('click',()=>{
-      this.props.onInfoHide('isInfoOpen')
+      this.props.onInfoHide('isInfoOpen',false)
     })
     //put all markers from database to the map
     this.props.coords.forEach(coord => {
@@ -93,7 +93,7 @@ class Map extends Component {
           if (startCoord && endCoord){
             let c1 = {lat:startCoord.lat(),lng: startCoord.lng()}
             let c2 = {lat:endCoord.lat(),lng: endCoord.lng()}
-            this.props.onInfoShow('isSubmitInfoOpen');
+            this.props.onInfoShow('isSubmitInfoOpen',true);
             this.props.setInfo('startCoord',c1);
             this.props.setInfo('endCoord',c2);
           }
@@ -175,7 +175,7 @@ class Map extends Component {
       poly[key] = data[key]
     }
     poly.addListener('click',(e)=>{
-      this.props.onInfoShow('isInfoOpen');
+      this.props.onInfoShow('isInfoOpen',true);
       this.props.setInfo('startCoord',startCoord);
       this.props.setInfo('endCoord',endCoord)
       for(let key in data){

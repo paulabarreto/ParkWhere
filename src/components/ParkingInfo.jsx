@@ -5,8 +5,12 @@ class ParkingInfo  extends Component {
   constructor(props) {
     super(props);
   }
-
+  onClick = () => {
+    this.props.onEditClick('isInfoOpen',false);
+    this.props.onEditClick('isSubmitInfoOpen',true);
+  }
   render(){
+  
     const lat1 = this.props.getInfo.startCoord.lat;
     const lng1 = this.props.getInfo.startCoord.lng;
     const lat2 = this.props.getInfo.endCoord.lat;
@@ -17,7 +21,7 @@ class ParkingInfo  extends Component {
         <p>Coordinates: [{lat1},{lng1}],[{lat2},{lng2}]</p> <br/>
         <p>Hours: {this.props.getInfo.hours}</p> <br/>
         <p>Rate: {this.props.getInfo.rate}</p> <br/>
-        <Button bsStyle="primary">Edit</Button>
+        <Button bsStyle="primary" onClick={this.onClick}>Edit</Button>
       </Well>
     )
   }
