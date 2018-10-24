@@ -74,7 +74,8 @@ app.post('/add_parking_info_data', (req,res)=>{
     lat_end: newData.endCoord.lat,
     long_end: newData.endCoord.lng,
     hours: newData.hours,
-    rate: newData.rate
+    rate: newData.rate,
+    comments: newData.comments
   }
   knex.insert(newParking, "id")
       .into("street_parking")

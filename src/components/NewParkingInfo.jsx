@@ -26,30 +26,30 @@ class NewParkingInfo  extends Component {
     }
 
     return  (
-      <Well className={this.props.classname}> 
+      <Well className={this.props.classname}>
         <form onSubmit={onSubmit}>
         Enter Parkin Info
           <FormGroup>
           <InputGroup.Addon>Coodinates</InputGroup.Addon>
           <InputGroup>
-                <FormControl 
-                type="text" 
+                <FormControl
+                type="text"
                 onChange={onChange('hours')}
                 value={lat1}
                 />
-                <FormControl 
-                type="text" 
+                <FormControl
+                type="text"
                 onChange={onChange('hours')}
                 value={lng1}
                 />
                 <br/>
-                <FormControl 
-                type="text" 
+                <FormControl
+                type="text"
                 onChange={onChange('hours')}
                 value={lat2}
                 />
-                <FormControl 
-                type="text" 
+                <FormControl
+                type="text"
                 onChange={onChange('hours')}
                 value={lng2}
                 />
@@ -57,8 +57,8 @@ class NewParkingInfo  extends Component {
 
             <InputGroup>
               <InputGroup.Addon>Hours</InputGroup.Addon>
-                <FormControl 
-                type="text" 
+                <FormControl
+                type="text"
                 onChange={onChange('hours')}
                 value={this.props.getInfo.hours}
                 />
@@ -66,12 +66,21 @@ class NewParkingInfo  extends Component {
 
             <InputGroup>
               <InputGroup.Addon>Rate</InputGroup.Addon>
-                <FormControl 
-                type="text" 
+                <FormControl
+                type="text"
                 onChange={onChange('rate')}
                 value={this.props.getInfo.rate}
                 />
-            </InputGroup>     
+            </InputGroup>
+
+            <InputGroup>
+              <InputGroup.Addon>Comments</InputGroup.Addon>
+                <FormControl
+                type="text"
+                onChange={onChange('comments')}
+                value={this.props.getInfo.comments}
+                />
+            </InputGroup>
           </FormGroup>
           <Button onClick={onCancel}>Cancel</Button>
          <Button type='submit'>Submit</Button>

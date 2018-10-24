@@ -169,7 +169,7 @@ class Map extends Component {
       path:[startCoord,endCoord],
       strokeColor: '#000000',
       strokeOpacity: 1.0,
-      strokeWeight: 1.5
+      strokeWeight: 2.5
     });
     for(let key in data){
       poly[key] = data[key]

@@ -11,6 +11,7 @@ class Home extends Component {
       endCoord:{lat:'',lng:''},
       hours:'',
       rate:'',
+      comments: '',
       parking_id:''},
     username: this.props.username,
     infoFromServer:[],
@@ -43,7 +44,6 @@ class Home extends Component {
     let prkinfo = {...this.state.parkinginfo};
     prkinfo[key] = value;
     this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
-    console.log(this.state.parkinginfo)
   }
 
   setOriginPrkInfoState = () => {
@@ -52,6 +52,7 @@ class Home extends Component {
       endCoord:{lat:'',lng:''},
       hours:'',
       rate:'',
+      comments: '',
       parking_id:''};
     this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
   }
@@ -61,25 +62,25 @@ class Home extends Component {
       <div>
         {/* <Nav username={this.state.username}/> */}
 
-        <NewParkingInfo 
-        classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'} 
-        onInfoShow={this.setCond} 
-        onInfoHide={this.setCond} 
-        getInfo={this.state.parkinginfo} 
+        <NewParkingInfo
+        classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'}
+        onInfoShow={this.setCond}
+        onInfoHide={this.setCond}
+        getInfo={this.state.parkinginfo}
         onSubmit={this._handleInfoSubmit}
         onChange={this.setPrkInfo}
         clearForm={this.setOriginPrkInfoState}
         />
-          <ParkingInfo 
+          <ParkingInfo
           classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
-          getInfo={this.state.parkinginfo} 
+          getInfo={this.state.parkinginfo}
           onEditClick={this.setCond}
           />
 
         <div className='map-container'>
-          < Map coords={this.state.infoFromServer} 
-          onInfoShow={this.setCond} 
-          onInfoHide={this.setCond } 
+          < Map coords={this.state.infoFromServer}
+          onInfoShow={this.setCond}
+          onInfoHide={this.setCond }
           setInfo={this.setPrkInfo}/>
         </div>
       </div>
