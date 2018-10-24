@@ -5,9 +5,9 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('street_parking').insert([
-        {id: 1, lat_start: 43.645122, long_start: -79.396500, lat_end: 43.645339, long_end: -79.395416, hours: "Mon-Sun 6pm-6am", rate: 2},
-        {id: 2, lat_start: 43.643709, long_start: -79.395867, lat_end: 43.643895, long_end: -79.394955, hours: "Sat-Sun 6am-11pm", rate: 5},
-        {id: 3, lat_start: 43.642071, long_start: -79.396790, lat_end: 43.642661, long_end: -79.394526, hours: null, rate: null, rate: 0}
+        {lat_start: 43.64399411938505, long_start: -79.39475806736039, lat_end: 43.643895130371966, long_end: -79.39524086498307, hours: "Mon-Sat 8am-9pm / Sun 1pm-9pm", rate: 4, comments: "Construction Site - your car will get dirty!"},
+        {lat_start: 43.643205326305576, long_start: -79.39949809259019, lat_end: 43.64362263661553, long_end: -79.39966975396715, hours: "Mon-Sat 8am-9pm / Sun 1pm-9pm", rate: 4, comments: "Good place to park your car!"},
+        {lat_start: 43.646041610793134, long_start: -79.39800959910235, lat_end: 43.64572718525768, long_end: -79.39788621748767, hours: "Mon-Sun 6pm-8am", rate: 0, comments: "Student pick up area - can't park during the day!"}
       ]);
     });
 };
