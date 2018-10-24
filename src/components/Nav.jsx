@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import "./Login.css";
-import Login from "./Login.jsx"
-
+import Login from "./Login.jsx";
+import Register from "./Register.jsx";
 
 class NavBar extends Component {
 
@@ -30,14 +29,14 @@ class NavBar extends Component {
       );
     }else {
       login = (
-          <NavItem eventKey={1}>
-            <Login login={this.handleLogin}/>
-          </NavItem>
+        <NavItem eventKey={1}>
+          <Login login={this.handleLogin}/>
+        </NavItem>
       );
       register = (
-          <NavItem eventKey={1} href="/register">
-            Register
-          </NavItem>
+        <NavItem eventKey={1}>
+          <Register login={this.handleLogin}/>
+        </NavItem>
       );
     }
 
@@ -47,10 +46,11 @@ class NavBar extends Component {
           <Navbar.Brand>
             ParkWhere
           </Navbar.Brand>
-        </Navbar.Header>
-        <Nav className="user_auth">
+          <Nav>
             {login}  {register}
-        </Nav>
+          </Nav>
+        </Navbar.Header>
+
       </Navbar>
     );
   }

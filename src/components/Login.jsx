@@ -4,9 +4,6 @@ import { Button, FormGroup, FormControl, ControlLabel, Modal, InputGroup, Dropdo
 import {Redirect} from 'react-router';
 import axios from 'axios';
 
-
-import "./Login.css";
-
 export default class Login extends Component {
   constructor(props) {
     super(props);

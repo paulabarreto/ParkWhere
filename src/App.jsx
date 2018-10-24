@@ -20,7 +20,6 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path='/' render={(props) => <Home {...props} username={this.state.username} /> } />
-          <Route path='/register' render={(props) => <Register {...props} login={this.handleLogin} />} />
       </Switch>
      </Router>
 
