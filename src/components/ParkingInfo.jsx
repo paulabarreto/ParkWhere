@@ -9,6 +9,11 @@ class ParkingInfo  extends Component {
     this.props.onEditClick('isSubmitInfoOpen',true);
     this.props.onEditClick('isEditClick',true);
   }
+
+  addComent = () => {
+    this.props.onEditClick('isInfoOpen',true);
+    this.props.addComent = true;
+  }
   render(){
     const onRatingClick = e => (this.props.onChange('rating', e));
 
@@ -35,7 +40,7 @@ class ParkingInfo  extends Component {
       <p>Comments:</p>
          {this.props.polyLine.comments? commentsArr.map(comment => <p key={uuid()}>{comment}</p>):''}
          <br/>
-         <Button bsStyle="primary" onClick={this.onClick}>Add a Comment</Button>
+         <Button bsStyle="primary" onClick={this.props.addComent}>Add a Comment</Button>
       </Well>
     )
   }

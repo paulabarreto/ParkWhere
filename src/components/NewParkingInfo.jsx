@@ -7,6 +7,7 @@ class NewParkingInfo  extends Component {
 
   render(){
     const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
+    const commentsArr = this.props.polyLine.comments? this.props.polyLine.comments : [];
 
     const onCancel = () => {
       this.props.onCondChange('isSubmitInfoOpen',false)
@@ -60,6 +61,9 @@ class NewParkingInfo  extends Component {
               <InputGroup.Addon>Comments</InputGroup.Addon>
                 <FormControl
                 type="text"
+                value={inputValue('comment')}
+                onChange={onChange('comment')}
+
                 />
             </InputGroup>
           </FormGroup>
