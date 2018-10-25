@@ -4,12 +4,11 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('street_parking', function(table) {
       table.increments('id');
       table.float('lat_start');
-      table.float('long_start');
+      table.float('lng_start');
       table.float('lat_end');
-      table.float('long_end');
+      table.float('lng_end');
       table.string('hours');
       table.integer('rate');
-      table.string('comments');
     })
   ])
 };
