@@ -60,8 +60,6 @@ class NewParkingInfo  extends Component {
               <InputGroup.Addon>Comments</InputGroup.Addon>
                 <FormControl
                 type="text"
-                onChange={onChange('comments')}
-                value={this.props.polyLine.comments}
                 />
             </InputGroup>
           </FormGroup>
