@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+// import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Home from './components/Home.jsx';
 // import Login from './components/Login.jsx';
 // import Register from './components/Register.jsx';
@@ -14,14 +14,19 @@ class App extends Component {
     }
   }
 
+  // render() {
+  //   return (
+  //     <Router>
+  //       <Switch>
+  //         <Route exact path='/' render={(props) => <Home {...props} username={this.state.username} /> } />
+  //     </Switch>
+  //    </Router>
+
+  //   );
+  // }
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route exact path='/' render={(props) => <Home {...props} username={this.state.username} /> } />
-      </Switch>
-     </Router>
-
+          <Home username={this.state.username}/>
     );
   }
 }

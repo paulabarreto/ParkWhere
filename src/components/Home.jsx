@@ -6,12 +6,11 @@ import NewParkingInfo from './NewParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
 class Home extends Component {
   state = {
-    username: this.props.username,
     infofromserver:[],
     polyline:'',
     isInfoOpen: false,
     isSubmitInfoOpen: false,
-    isEditInfo:false
+    isClearPoly:false
   }
 
   componentDidMount() {
@@ -21,14 +20,17 @@ class Home extends Component {
     })
     .then(res => {
       this.setState(prevState => ({...prevState, infofromserver:res.data}))
-      console.log(res.data)
     })
   }
 
   // handle new parking info sumbmit which it passed to NewParkingInfo component
   _handleInfoSubmit = () => {
+    console.log(this.state.polyline)
     axios.post("http://localhost:8080/add_parking_info_data",{
-      data:{...this.state.parkinginfo},
+      
+      data:{coords:this.state.polyline.getPath().getArray(),
+            hours:this.state.polyline.hours,
+            rate:this.state.polyline.rate},
       withCredentials: true
     })
     .then(res => {console.log(res.data)
@@ -36,6 +38,18 @@ class Home extends Component {
     })
   }
 
+  _handleRatingSubmit = (key,value) => {
+    console.log(this.props.username)
+    this.setPolyWithKey(key,value)
+    console.log('rating',this.state.polyline.rating)
+    axios.post("http://localhost:8080/add_rating",{
+      data:{rating:this.state.polyline.rating,
+            user:this.props.username},
+      withCredentials: true
+    })
+    .then(res => {console.log(res.data)
+    })
+  }
   // set condition base on the input key value and boolean value
   setCond = (key,boolean) => {
     this.setState(prevState => ({...prevState, [key]: boolean}));
@@ -44,11 +58,13 @@ class Home extends Component {
   setPoly = (poly) => {
     this.setState(prevState => ({...prevState, polyline:poly}));
   }
+
   clearPoly = () => {
-    if(this.state.polyline){
-      this.state.polyline.setMap(null)
+    if(this.state.isClearPoly){
+      this.state.polyline.setMap(null); 
     }
   }
+  
   setPolyWithKey = (key,value) => {
     let poly = this.state.polyline;
     poly[key] = value;
@@ -59,7 +75,7 @@ class Home extends Component {
 
     return (
       <div>
-        <Nav username={this.state.username}/>
+        <Nav username={this.props.username}/>
 
         <NewParkingInfo 
         classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'} 
@@ -68,23 +84,21 @@ class Home extends Component {
         onSubmit={this._handleInfoSubmit}
         onChange={this.setPolyWithKey}
         clearPoly={this.clearPoly}
-        checkEditClick={this.state.isEditInfo}
         />
 
         <ParkingInfo 
         classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
-        getInfo={this.state.parkinginfo} 
         onEditClick={this.setCond}
         polyLine={this.state.polyline}
+        onChange={this._handleRatingSubmit}
         />
 
         <div className='map-container'>
           < Map 
           coords={this.state.infofromserver} 
-          onCondChange={this.setCond} 
+          setCond={this.setCond} 
           setPoly={this.setPoly}
           polyLine={this.state.polyline}
-          getInfo={this.state.parkinginfo}
           />
         </div>
       </div>

@@ -61,6 +61,9 @@ app.get("/parking_info", (req, res) => {
   //     console.error(error);
   //   });
 });
+app.post('/add_rating', (req,res)=>{
+  console.log(req.body)
+})
 
 app.post('/add_parking_info_data', (req,res)=>{
   console.log(req.body)

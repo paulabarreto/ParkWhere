@@ -26,7 +26,7 @@ class Map extends Component {
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
     map.addListener('click',()=>{
-      this.props.onCondChange('isInfoOpen',false)
+      this.props.setCond('isInfoOpen',false)
     })
     this.setState({map:map});
     //put all markers from database to the map
@@ -91,17 +91,16 @@ class Map extends Component {
 
         CheckedControlDiv.addEventListener('click', ()=>{
           if (startCoord && endCoord){
-            let c1 = {lat:startCoord.lat(),lng: startCoord.lng()}
-            let c2 = {lat:endCoord.lat(),lng: endCoord.lng()}
-            this.props.onCondChange('isSubmitInfoOpen',true);
+            this.props.setCond('isSubmitInfoOpen',true);
           }
-
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear(); //clear both c
           newMarkers.forEach(marker=>(marker.setMap(null)));
+
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
+          this.props.setCond('isClearPoly',true);
         })
 
         let UncheckedControlDiv = this.newControl(UncheckedControl)
@@ -110,7 +109,9 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
-          this.props.polyLine.setMap(null)
+          if(this.props.polyLine){
+            this.props.polyLine.setMap(null);
+          } 
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
@@ -128,8 +129,7 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              let data = {hours:'', rate:'', id:''};
-              console.log(startCoord.lat(),endCoord.lat(),data)
+              let data = {hours:'', rate:'', id:'', rate:''};
               let newPoly = this.placePoly(startCoord,endCoord,data);
               this.props.setPoly(newPoly);
               newPoly.setMap(map);
@@ -176,8 +176,9 @@ class Map extends Component {
       poly[key] = data[key]
     }
     poly.addListener('click',(e)=>{
-      this.props.onCondChange('isInfoOpen',true);
+      this.props.setCond('isInfoOpen',true);
       this.props.setPoly(poly);
+      this.props.setCond('isClearPoly',false);
     })
     return poly
   }
