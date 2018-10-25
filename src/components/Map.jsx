@@ -33,11 +33,11 @@ class Map extends Component {
     this.props.coords.forEach(coord => {
       let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
       let endCoord = {lat: coord.lat_end, lng: coord.lng_end};
-      let data = {hours:coord.hours,rate:coord.rate,id:coord.id};
+      let data = {hours:coord.hours,rate:coord.rate,id:coord.id, comments: coord.comments};
       let newPoly = this.placePoly(startCoord, endCoord, data);
       newPoly.setMap(map);
     })
-    
+
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map);
   }
@@ -69,7 +69,7 @@ class Map extends Component {
 
     //store the click state of the draw_poly_button
     let checkDrawPolyClick  = true;
-   
+
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
       if (checkDrawPolyClick){
@@ -110,8 +110,13 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
           if(this.props.polyLine){
+<<<<<<< HEAD
             this.props.clearPoly();
           } 
+=======
+            this.props.polyLine.setMap(null);
+          }
+>>>>>>> 1e60fd69279ab0b200203b2e9a28857975796cc9
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;

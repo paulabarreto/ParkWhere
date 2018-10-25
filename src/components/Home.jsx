@@ -30,7 +30,8 @@ class Home extends Component {
 
       data:{coords:this.state.polyline.getPath().getArray(),
             hours:this.state.polyline.hours,
-            rate:this.state.polyline.rate},
+            rate:this.state.polyline.rate,
+            comment: this.state.polyline.comment},
       withCredentials: true
     })
     .then(res => {console.log(res.data)
@@ -71,6 +72,10 @@ class Home extends Component {
     this.setState(prevState => ({...prevState, polyline:poly}));
   }
 
+  addComment = () => {
+    
+  }
+
   render() {
 
     return (
@@ -91,6 +96,7 @@ class Home extends Component {
         onEditClick={this.setCond}
         polyLine={this.state.polyline}
         onChange={this._handleRatingSubmit}
+        addComment={this.addComent}
         />
 
         <div className='map-container'>

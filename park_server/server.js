@@ -40,7 +40,6 @@ app.get("/parking_info", async (req, res) => {
       .then((data) => {
         // console.log(data)
         let result = {};
-        //console.log(data);
         data.forEach(row => {
 
           if (result[row.parking_id]) {
@@ -54,7 +53,6 @@ app.get("/parking_info", async (req, res) => {
             }
           }
         });
-        // console.log(Object.values(result))
         res.send(Object.values(result))
       })
 
@@ -97,20 +95,21 @@ app.get("/parking_info", async (req, res) => {
   //   });
 });
 app.post('/add_rating', (req,res)=>{
-  //console.log(req.body)
+  // console.log(req.body)
 })
 
 app.post('/add_parking_info_data', (req,res)=>{
   const newData = req.body.data;
+  console.log(newData);
   const newParking = {
-    lat_start: newData.startCoord.lat,
-    long_start: newData.startCoord.lng,
-    lat_end: newData.endCoord.lat,
-    long_end: newData.endCoord.lng,
-    hours: newData.hours,
-    rate: newData.rate,
-    comments: newData.comments
-  }
+    lat_start: newData.coords[0].lat,
+    lng_start: newData.coords[0].lng,
+    lat_end: newData.coords[1].lat,
+    long_end: newData.coords[1].lng,
+    hours: newData.coords.hours,
+    rate: newData.coords.rate
+  };
+  
   knex.insert(newParking, "id")
       .into("street_parking")
       .catch(function(error){
