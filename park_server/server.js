@@ -31,20 +31,51 @@ app.post("/login", (req, res) => {
   res.send(req.cookies.name)
 })
 
-app.get("/parking_info", (req, res) => {
+app.get("/parking_info", async (req, res) => {
   // res.cookie('name', 'express'); //Sets name = express
 
-  knex("street_parking").then((data) => {
-    let sendData = data.map(coord => ({
-      lat_start: coord.lat_start, lng_start: coord.long_start,
-      lat_end: coord.lat_end, lng_end: coord.long_end,
-      hours: coord.hours, rate: coord.rate,
-      id:coord.id
-    }))
-    res.send(sendData)
-  });
+  knex.select(["street_parking.*", "comments.*"])
+      .from('street_parking')
+      .innerJoin('comments', 'street_parking.id', 'comments.parking_id')
+      .then((data) => {
+        // console.log(data)
+        let result = {};
+        console.log(data);
+        data.forEach(row => {
+
+          if (result[row.parking_id]) {
+            result[row.parking_id].comments.push(row.comments)
+          } else {
+            result[row.parking_id] = {
+              ...row,
+              comments:[
+                row.comments
+              ]
+            }
+          }
+        });
+        // console.log(Object.values(result))
+        res.send(Object.values(result))
+      })
 
 
+  // const parkings = await knex.from("street_parking")
+  //   //   .then((data) => {
+  //   //   let sendData = data.map(coord => ({
+  //   //     lat_start: coord.lat_start, lng_start: coord.long_start,
+  //   //     lat_end: coord.lat_end, lng_end: coord.long_end,
+  //   //     hours: coord.hours, rate: coord.rate,
+  //   //     id:coord.id
+  //   //   }))
+  //   //   res.send(sendData)
+  //   // });
+  //
+  //   const comments = await knex.from("comments")
+  //
+  //   comments.forEach(comment => )
+  //
+  //   knex(street_parking)
+  //   .join(comments).
 
   //Testing sending data to db
   // const point = {
