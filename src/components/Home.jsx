@@ -99,6 +99,7 @@ class Home extends Component {
           setCond={this.setCond}
           setPoly={this.setPoly}
           polyLine={this.state.polyline}
+          clearPoly={this.clearPoly}
           />
         </div>
       </div>

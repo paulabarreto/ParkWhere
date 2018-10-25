@@ -110,7 +110,7 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
           if(this.props.polyLine){
-            this.props.polyLine.setMap(null);
+            this.props.clearPoly();
           } 
           checkMapClick = false;
           mapClickCount = 3;

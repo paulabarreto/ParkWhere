@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-app.use(cors({origin: "http://localhost:3000", credentials: true}));
+app.use(cors({origin: "http://localhost:3002", credentials: true}));
 app.use('../public', express.static(__dirname + "/public"))
 
 // app.get("/session", (req, res) => {
@@ -40,7 +40,7 @@ app.get("/parking_info", async (req, res) => {
       .then((data) => {
         // console.log(data)
         let result = {};
-        console.log(data);
+        //console.log(data);
         data.forEach(row => {
 
           if (result[row.parking_id]) {
@@ -97,7 +97,7 @@ app.get("/parking_info", async (req, res) => {
   //   });
 });
 app.post('/add_rating', (req,res)=>{
-  console.log(req.body)
+  //console.log(req.body)
 })
 
 app.post('/add_parking_info_data', (req,res)=>{

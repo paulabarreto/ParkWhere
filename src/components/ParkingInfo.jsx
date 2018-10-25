@@ -8,6 +8,7 @@ class ParkingInfo  extends Component {
     this.props.onEditClick('isInfoOpen',false);
     this.props.onEditClick('isSubmitInfoOpen',true);
     this.props.onEditClick('isEditClick',true);
+    this.props.polyLine.setEditable(true);
   }
   render(){
     const onRatingClick = e => (this.props.onChange('rating', e));

@@ -9,12 +9,14 @@ class NewParkingInfo  extends Component {
     const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
 
     const onCancel = () => {
-      this.props.onCondChange('isSubmitInfoOpen',false)
+      this.props.onCondChange('isSubmitInfoOpen',false);
+      this.props.polyLine.setEditable(false);
       this.props.clearPoly();
     }
     const onSubmit = (e) => {
       e.preventDefault();
       this.props.onSubmit();
+      this.props.polyLine.setEditable(false);
       this.props.onCondChange('isSubmitInfoOpen',false);
     }
     const onChange = key => e => {
@@ -61,7 +63,7 @@ class NewParkingInfo  extends Component {
                 <FormControl
                 type="text"
                 onChange={onChange('comments')}
-                value={this.props.getInfo.comments}
+                //value={this.props.getInfo.comments}
                 />
             </InputGroup>
           </FormGroup>
