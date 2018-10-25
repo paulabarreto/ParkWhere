@@ -94,8 +94,6 @@ class Map extends Component {
             let c1 = {lat:startCoord.lat(),lng: startCoord.lng()}
             let c2 = {lat:endCoord.lat(),lng: endCoord.lng()}
             this.props.onCondChange('isSubmitInfoOpen',true);
-            this.props.setInfo('startCoord',c1);
-            this.props.setInfo('endCoord',c2);
           }
 
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
@@ -112,7 +110,7 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
-          this.props.getPoly.setMap(null)
+          this.props.polyLine.setMap(null)
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;

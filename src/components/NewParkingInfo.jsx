@@ -11,19 +11,19 @@ class NewParkingInfo  extends Component {
 
     const onCancel = () => {
       this.props.onCondChange('isSubmitInfoOpen',false)
-      // this.props.clearForm();
+      if(this.props.checkEditClicked){
+        this.props.clearPoly();
+      }
     }
     const onSubmit = (e) => {
       e.preventDefault();
       this.props.onSubmit();
-      onCancel();
+      this.props.onCondChange('isSubmitInfoOpen',false);
     }
     const onChange = key => e => {
       this.props.onChange(key, e.target.value)
     }
-    const onCoordChange = (key,latlng) => e => {
-      this.props.OnCoordChange(key,latlng,e.target.value)
-    }
+
     return  (
       <Well className={this.props.classname}> 
         <form onSubmit={onSubmit}>

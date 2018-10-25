@@ -9,6 +9,7 @@ class ParkingInfo  extends Component {
   onClick = () => {
     this.props.onEditClick('isInfoOpen',false);
     this.props.onEditClick('isSubmitInfoOpen',true);
+    this.props.onEditClick('isEditClick',true);
   }
   render(){
     

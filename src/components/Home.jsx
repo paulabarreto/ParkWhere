@@ -10,7 +10,8 @@ class Home extends Component {
     infofromserver:[],
     polyline:'',
     isInfoOpen: false,
-    isSubmitInfoOpen: false
+    isSubmitInfoOpen: false,
+    isEditInfo:false
   }
 
   componentDidMount() {
@@ -43,46 +44,16 @@ class Home extends Component {
   setPoly = (poly) => {
     this.setState(prevState => ({...prevState, polyline:poly}));
   }
-
+  clearPoly = () => {
+    if(this.state.polyline){
+      this.state.polyline.setMap(null)
+    }
+  }
   setPolyWithKey = (key,value) => {
     let poly = this.state.polyline;
     poly[key] = value;
     this.setState(prevState => ({...prevState, polyline:poly}));
   }
-  // setPrkInfo = (key,value) => {
-  //   let prkinfo = {...this.state.parkinginfo};
-  //   prkinfo[key] = value;
-  //   this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
-  //   //console.log(this.state.parkinginfo)
-  // }
-
-  // update the coordi
-  // setCoordInfo = (key,latlng,value) => {
-  //   let prkinfo = {...this.state.parkinginfo};
-  //   let {startCoord} = this.state.parkinginfo;
-  //   let {endCoord} = this.state.parkinginfo;
-  //   switch (key){
-  //     case 'startCoord':
-  //       startCoord[latlng] = value;
-  //       prkinfo.startCoord = startCoord;
-  //     break;
-  //     case 'endCoord':
-  //       endCoord[latlng] = value;
-  //       prkinfo.endCoord = endCoord;
-  //     break;
-  //   }
-  //   this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
-  //   console.log(this.state.parkinginfo)
-  // }
-  // setOriginPrkInfoState = () => {
-  //   let prkinfo = {
-  //     startCoord:{lat:'',lng:''},
-  //     endCoord:{lat:'',lng:''},
-  //     hours:'',
-  //     rate:'',
-  //     id:''};
-  //   this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
-  // }
 
   render() {
 
@@ -96,6 +67,8 @@ class Home extends Component {
         polyLine={this.state.polyline}
         onSubmit={this._handleInfoSubmit}
         onChange={this.setPolyWithKey}
+        clearPoly={this.clearPoly}
+        checkEditClick={this.state.isEditInfo}
         />
 
         <ParkingInfo 
