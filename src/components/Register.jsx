@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel, Modal, InputGroup, DropdownButton, MenuItem } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Modal} from "react-bootstrap";
 
-import {Redirect} from 'react-router';
+//import {Redirect} from 'react-router';
 import axios from 'axios';
 
 export default class Login extends Component {

@@ -10,8 +10,7 @@ class Map extends Component {
   constructor(props){
     super(props);
     this.state = {
-      curloc: null,
-      poly:''
+      curloc: null
     };
   }
 
@@ -27,8 +26,9 @@ class Map extends Component {
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
     map.addListener('click',()=>{
-      this.props.onInfoHide('isInfoOpen',false)
+      this.props.setCond('isInfoOpen',false)
     })
+    this.setState({map:map});
     //put all markers from database to the map
     this.props.coords.forEach(coord => {
       let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
@@ -37,7 +37,7 @@ class Map extends Component {
       let newPoly = this.placePoly(startCoord, endCoord, data);
       newPoly.setMap(map);
     })
-
+    
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map);
   }
@@ -69,7 +69,7 @@ class Map extends Component {
 
     //store the click state of the draw_poly_button
     let checkDrawPolyClick  = true;
-
+   
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
       if (checkDrawPolyClick){
@@ -91,19 +91,16 @@ class Map extends Component {
 
         CheckedControlDiv.addEventListener('click', ()=>{
           if (startCoord && endCoord){
-            let c1 = {lat:startCoord.lat(),lng: startCoord.lng()}
-            let c2 = {lat:endCoord.lat(),lng: endCoord.lng()}
-            this.props.onInfoShow('isSubmitInfoOpen',true);
-            this.props.setInfo('startCoord',c1);
-            this.props.setInfo('endCoord',c2);
+            this.props.setCond('isSubmitInfoOpen',true);
           }
-
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear(); //clear both c
           newMarkers.forEach(marker=>(marker.setMap(null)));
+
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
+          this.props.setCond('isClearPoly',true);
         })
 
         let UncheckedControlDiv = this.newControl(UncheckedControl)
@@ -112,9 +109,9 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
-          if (this.state.poly){
-            this.state.poly.setMap(null)
-          };
+          if(this.props.polyLine){
+            this.props.polyLine.setMap(null);
+          } 
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
@@ -132,9 +129,12 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              this.setState({poly:this.placePoly(startCoord,endCoord,{hours:'',rate:''})});
-              this.state.poly.setMap(map);
+              let data = {hours:'', rate:'', id:'', rate:''};
+              let newPoly = this.placePoly(startCoord,endCoord,data);
+              this.props.setPoly(newPoly);
+              newPoly.setMap(map);
               mapClickCount++;
+              //console.log(newPoly.getPath().getArray())
             }
           })
         }
@@ -167,6 +167,7 @@ class Map extends Component {
   placePoly = (startCoord,endCoord,data) => {
     let poly = new window.google.maps.Polyline({
       path:[startCoord,endCoord],
+      //editable: true,
       strokeColor: '#000000',
       strokeOpacity: 1.0,
       strokeWeight: 2.5
@@ -175,12 +176,9 @@ class Map extends Component {
       poly[key] = data[key]
     }
     poly.addListener('click',(e)=>{
-      this.props.onInfoShow('isInfoOpen',true);
-      this.props.setInfo('startCoord',startCoord);
-      this.props.setInfo('endCoord',endCoord)
-      for(let key in data){
-        this.props.setInfo(key,data[key])
-      }
+      this.props.setCond('isInfoOpen',true);
+      this.props.setPoly(poly);
+      this.props.setCond('isClearPoly',false);
     })
     return poly
   }

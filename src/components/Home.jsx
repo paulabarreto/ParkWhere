@@ -6,82 +6,100 @@ import NewParkingInfo from './NewParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
 class Home extends Component {
   state = {
-    parkinginfo:{
-      startCoord:{lat:'',lng:''},
-      endCoord:{lat:'',lng:''},
-      hours:'',
-      rate:'',
-      comments: '',
-      parking_id:''},
-    username: this.props.username,
-    infoFromServer:[],
+    infofromserver:[],
+    polyline:'',
     isInfoOpen: false,
-    isSubmitInfoOpen: false
+    isSubmitInfoOpen: false,
+    isClearPoly:false
   }
+
   componentDidMount() {
 
     axios.get("http://localhost:8080/parking_info",{
       withCredentials: true
     })
-      .then(res => {
-        this.setState(prevState => ({...prevState, infoFromServer:res.data}))
-        console.log(res.data)
-      })
+    .then(res => {
+      this.setState(prevState => ({...prevState, infofromserver:res.data}))
+    })
   }
 
+  // handle new parking info sumbmit which it passed to NewParkingInfo component
   _handleInfoSubmit = () => {
+    console.log(this.state.polyline)
     axios.post("http://localhost:8080/add_parking_info_data",{
-      data:{...this.state.parkinginfo},
+
+      data:{coords:this.state.polyline.getPath().getArray(),
+            hours:this.state.polyline.hours,
+            rate:this.state.polyline.rate},
       withCredentials: true
     })
-    .then(res => console(res))
+    .then(res => {console.log(res.data)
+      this.state.polyline.id = res.data.id;
+    })
   }
+
+  _handleRatingSubmit = (key,value) => {
+    console.log(this.props.username)
+    this.setPolyWithKey(key,value)
+    console.log('rating',this.state.polyline.rating)
+    axios.post("http://localhost:8080/add_rating",{
+      data:{rating:this.state.polyline.rating,
+            user:this.props.username},
+      withCredentials: true
+    })
+    .then(res => {console.log(res.data)
+    })
+  }
+  // set condition base on the input key value and boolean value
   setCond = (key,boolean) => {
     this.setState(prevState => ({...prevState, [key]: boolean}));
   }
 
-  setPrkInfo = (key,value) => {
-    let prkinfo = {...this.state.parkinginfo};
-    prkinfo[key] = value;
-    this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
+  setPoly = (poly) => {
+    this.setState(prevState => ({...prevState, polyline:poly}));
   }
 
-  setOriginPrkInfoState = () => {
-    let prkinfo = {
-      startCoord:{lat:'',lng:''},
-      endCoord:{lat:'',lng:''},
-      hours:'',
-      rate:'',
-      comments: '',
-      parking_id:''};
-    this.setState(prevState => ({...prevState, parkinginfo:prkinfo}));
+  clearPoly = () => {
+    if(this.state.isClearPoly){
+      this.state.polyline.setMap(null);
+    }
   }
+
+  setPolyWithKey = (key,value) => {
+    let poly = this.state.polyline;
+    poly[key] = value;
+    this.setState(prevState => ({...prevState, polyline:poly}));
+  }
+
   render() {
 
     return (
       <div>
-        {/* <Nav username={this.state.username}/> */}
+        <Nav username={this.props.username}/>
 
         <NewParkingInfo
         classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'}
-        onInfoShow={this.setCond}
-        onInfoHide={this.setCond}
-        getInfo={this.state.parkinginfo}
+        onCondChange={this.setCond}
+        polyLine={this.state.polyline}
         onSubmit={this._handleInfoSubmit}
-        onChange={this.setPrkInfo}
-        clearForm={this.setOriginPrkInfoState}
+        onChange={this.setPolyWithKey}
+        clearPoly={this.clearPoly}
         />
-          <ParkingInfo
-          classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
-          getInfo={this.state.parkinginfo}
-          onEditClick={this.setCond}
-          />
+
+        <ParkingInfo
+        classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
+        onEditClick={this.setCond}
+        polyLine={this.state.polyline}
+        onChange={this._handleRatingSubmit}
+        />
 
         <div className='map-container'>
-          < Map coords={this.state.infoFromServer}
-          onInfoShow={this.setCond}
-          onInfoHide={this.setCond }
-          setInfo={this.setPrkInfo}/>
+          < Map
+          coords={this.state.infofromserver}
+          setCond={this.setCond}
+          setPoly={this.setPoly}
+          polyLine={this.state.polyline}
+          />
         </div>
       </div>
     );

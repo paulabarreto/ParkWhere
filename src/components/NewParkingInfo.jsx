@@ -1,66 +1,49 @@
 import React, {Component} from 'react';
 import { Well, Button, FormGroup, InputGroup, FormControl }from 'react-bootstrap';
-
+import uuid from 'uuid/v4';
+import Rating from 'react-rating';
 class NewParkingInfo  extends Component {
-  constructor(props) {
-    super(props);
-  }
+
 
   render(){
-    const lat1 = this.props.getInfo.startCoord.lat;
-    const lng1 = this.props.getInfo.startCoord.lng;
-    const lat2 = this.props.getInfo.endCoord.lat;
-    const lng2 = this.props.getInfo.endCoord.lng;
+    const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
+
     const onCancel = () => {
-      this.props.onInfoHide('isSubmitInfoOpen',false)
-      this.props.clearForm()
+      this.props.onCondChange('isSubmitInfoOpen',false)
+      this.props.clearPoly();
     }
     const onSubmit = (e) => {
       e.preventDefault();
       this.props.onSubmit();
-      onCancel();
-      this.props.clearForm()
+      this.props.onCondChange('isSubmitInfoOpen',false);
     }
     const onChange = key => e => {
-      this.props.onChange(key, e.target.value)
+      this.props.onChange(key, e.target.value);
     }
+    const onClick = key => e => (this.props.onChange(key, e));
 
+    const inputValue = (key) => (
+      this.props.polyLine[key] ? this.props.polyLine[key] : ' '
+    )
     return  (
       <Well className={this.props.classname}>
+        <h3>Coodinates</h3>
+          <div>
+            {this.props.polyLine?coordsArr.map(coord=>(
+              <div key={uuid()}>
+                {coord.lat()}, {coord.lng()}
+              </div>
+            )):''}
+          </div>
         <form onSubmit={onSubmit}>
-        Enter Parkin Info
+          Enter Parking Info
           <FormGroup>
-          <InputGroup.Addon>Coodinates</InputGroup.Addon>
-          <InputGroup>
-                <FormControl
-                type="text"
-                onChange={onChange('hours')}
-                value={lat1}
-                />
-                <FormControl
-                type="text"
-                onChange={onChange('hours')}
-                value={lng1}
-                />
-                <br/>
-                <FormControl
-                type="text"
-                onChange={onChange('hours')}
-                value={lat2}
-                />
-                <FormControl
-                type="text"
-                onChange={onChange('hours')}
-                value={lng2}
-                />
-            </InputGroup>
-
             <InputGroup>
               <InputGroup.Addon>Hours</InputGroup.Addon>
                 <FormControl
                 type="text"
                 onChange={onChange('hours')}
-                value={this.props.getInfo.hours}
+                value={inputValue('hours')}
                 />
             </InputGroup>
 
@@ -69,7 +52,7 @@ class NewParkingInfo  extends Component {
                 <FormControl
                 type="text"
                 onChange={onChange('rate')}
-                value={this.props.getInfo.rate}
+                value={inputValue('rate')}
                 />
             </InputGroup>
 
@@ -82,9 +65,19 @@ class NewParkingInfo  extends Component {
                 />
             </InputGroup>
           </FormGroup>
+            Rating:
+              <Rating
+                emptySymbol={<img src="star-empty.png" className="icon" />}
+                fullSymbol={<img src="star-full.png" className="icon" />}
+                onClick={onClick('rating')}
+                placeholderRating={inputValue('rating')}
+                placeholderSymbol={<img src="star-full.png" className="icon" />}
+              />
+            <br/>
           <Button onClick={onCancel}>Cancel</Button>
          <Button type='submit'>Submit</Button>
         </form>
+        <br/>
       </Well>
     )
   }
