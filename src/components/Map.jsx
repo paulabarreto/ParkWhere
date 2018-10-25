@@ -28,6 +28,7 @@ class Map extends Component {
     map.addListener('click',()=>{
       this.props.onCondChange('isInfoOpen',false)
     })
+    this.setState({map:map});
     //put all markers from database to the map
     this.props.coords.forEach(coord => {
       let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
@@ -39,10 +40,6 @@ class Map extends Component {
     
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map);
-    if(this.props.getPoly&&this.props.isPolyPlaced){
-      console.log('lalalalal')
-      this.props.getPoly.setMap(null)
-    }
   }
 
   handleCurrentLocation = (map) => {
@@ -133,9 +130,13 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              this.props.setPoly(this.placePoly(startCoord,endCoord,{hours:'',rate:''}))
-              this.props.getPoly.setMap(map);
+              let data = {hours:'', rate:'', id:''};
+              console.log(startCoord.lat(),endCoord.lat(),data)
+              let newPoly = this.placePoly(startCoord,endCoord,data);
+              this.props.setPoly(newPoly);
+              newPoly.setMap(map);
               mapClickCount++;
+              //console.log(newPoly.getPath().getArray())
             }
           })
         }
@@ -168,20 +169,17 @@ class Map extends Component {
   placePoly = (startCoord,endCoord,data) => {
     let poly = new window.google.maps.Polyline({
       path:[startCoord,endCoord],
+      //editable: true,
       strokeColor: '#000000',
       strokeOpacity: 1.0,
-      strokeWeight: 1.5
+      strokeWeight: 2.5
     });
     for(let key in data){
       poly[key] = data[key]
     }
     poly.addListener('click',(e)=>{
       this.props.onCondChange('isInfoOpen',true);
-      this.props.setInfo('startCoord',startCoord);
-      this.props.setInfo('endCoord',endCoord)
-      for(let key in data){
-        this.props.setInfo(key,data[key])
-      }
+      this.props.setPoly(poly);
     })
     return poly
   }

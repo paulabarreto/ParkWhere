@@ -5,22 +5,22 @@ class ParkingInfo  extends Component {
   constructor(props) {
     super(props);
   }
+
   onClick = () => {
     this.props.onEditClick('isInfoOpen',false);
     this.props.onEditClick('isSubmitInfoOpen',true);
   }
   render(){
-  
-    const lat1 = this.props.getInfo.startCoord.lat;
-    const lng1 = this.props.getInfo.startCoord.lng;
-    const lat2 = this.props.getInfo.endCoord.lat;
-    const lng2 = this.props.getInfo.endCoord.lng;
+    
+    const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
+    
     return  (
       <Well className={this.props.classname}> 
         <h3>Parkin Info</h3>
-        <p>Coordinates: [{lat1},{lng1}],[{lat2},{lng2}]</p> <br/>
-        <p>Hours: {this.props.getInfo.hours}</p> <br/>
-        <p>Rate: {this.props.getInfo.rate}</p> <br/>
+        <p>Coordinates:</p><br/>
+         {this.props.polyLine? coordsArr.map(coord => <p>{coord.lat()},{coord.lng()}</p>):''}
+        <p>Hours: {this.props.polyLine.hours}</p> <br/>
+        <p>Rate: ${this.props.polyLine.rate}/hr </p> <br/>
         <Button bsStyle="primary" onClick={this.onClick}>Edit</Button>
       </Well>
     )

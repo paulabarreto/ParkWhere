@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Home from './components/Home.jsx';
-import Login from './components/Login.jsx';
-import Register from './components/Register.jsx';
+// import Login from './components/Login.jsx';
+// import Register from './components/Register.jsx';
 
 class App extends Component {
 
@@ -13,7 +13,6 @@ class App extends Component {
       show: false
     }
   }
-
 
   render() {
     return (

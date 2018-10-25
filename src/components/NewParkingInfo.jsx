@@ -7,53 +7,42 @@ class NewParkingInfo  extends Component {
   }
 
   render(){
-    const lat1 = this.props.getInfo.startCoord.lat;
-    const lng1 = this.props.getInfo.startCoord.lng;
-    const lat2 = this.props.getInfo.endCoord.lat;
-    const lng2 = this.props.getInfo.endCoord.lng;
+    const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
+
     const onCancel = () => {
       this.props.onCondChange('isSubmitInfoOpen',false)
-      this.props.clearForm();
-      this.props.onCondChange('isPolyPlaced',true);
+      // this.props.clearForm();
     }
     const onSubmit = (e) => {
       e.preventDefault();
       this.props.onSubmit();
       onCancel();
-      this.props.clearForm()
     }
     const onChange = key => e => {
       this.props.onChange(key, e.target.value)
     }
-
+    const onCoordChange = (key,latlng) => e => {
+      this.props.OnCoordChange(key,latlng,e.target.value)
+    }
     return  (
       <Well className={this.props.classname}> 
         <form onSubmit={onSubmit}>
-        Enter Parkin Info
+        Enter Parking Info
           <FormGroup>
             <InputGroup.Addon>Coodinates</InputGroup.Addon>
             <InputGroup>
-            <FormControl 
-            type="text" 
-            onChange={onChange('hours')}
-            value={lat1}
-            />
-            <FormControl 
-            type="text" 
-            onChange={onChange('hours')}
-            value={lng1}
-            />
-            <br/>
-            <FormControl 
-            type="text" 
-            onChange={onChange('hours')}
-            value={lat2}
-            />
-            <FormControl 
-            type="text" 
-            onChange={onChange('hours')}
-            value={lng2}
-            />
+              {this.props.polyLine?coordsArr.map(coord=>(
+                <>
+                  <FormControl 
+                  type="text" 
+                  value={coord.lat()}
+                  />
+                  <FormControl 
+                  type="text" 
+                  value={coord.lng()}
+                  />
+                </>      
+              )):''}
             </InputGroup>
 
             <InputGroup>
@@ -61,7 +50,7 @@ class NewParkingInfo  extends Component {
                 <FormControl 
                 type="text" 
                 onChange={onChange('hours')}
-                value={this.props.getInfo.hours}
+                value={this.props.polyLine.hours}
                 />
             </InputGroup>
 
@@ -70,7 +59,7 @@ class NewParkingInfo  extends Component {
                 <FormControl 
                 type="text" 
                 onChange={onChange('rate')}
-                value={this.props.getInfo.rate}
+                value={this.props.polyLine.rate}
                 />
             </InputGroup>     
           </FormGroup>

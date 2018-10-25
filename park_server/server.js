@@ -64,6 +64,16 @@ app.get("/parking_info", (req, res) => {
 
 app.post('/add_parking_info_data', (req,res)=>{
   console.log(req.body)
+  let sendData = {
+    hours:"Mon-Sun 6pm-6am",
+    id:2018,
+    lat_end:43.64865003023193,
+    lat_start:43.64861897727979,
+    lng_end:-79.37640774013767,
+    lng_start:-79.38434707882175,
+    rate:2018
+  }
+  res.send(sendData)
 })
 
 app.listen(PORT, () => {
