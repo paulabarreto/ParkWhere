@@ -54,7 +54,6 @@ app.get("/parking_info", async (req, res) => {
             }
           }
         });
-        // console.log(Object.values(result))
         res.send(Object.values(result))
       })
 
