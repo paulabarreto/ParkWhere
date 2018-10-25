@@ -61,7 +61,7 @@ class NewParkingInfo  extends Component {
                 <FormControl
                 type="text"
                 onChange={onChange('comments')}
-                value={this.props.getInfo.comments}
+                value={this.props.polyLine.comments}
                 />
             </InputGroup>
           </FormGroup>

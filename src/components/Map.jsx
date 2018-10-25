@@ -33,11 +33,11 @@ class Map extends Component {
     this.props.coords.forEach(coord => {
       let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
       let endCoord = {lat: coord.lat_end, lng: coord.lng_end};
-      let data = {hours:coord.hours,rate:coord.rate,id:coord.id};
+      let data = {hours:coord.hours,rate:coord.rate,id:coord.id, comments: coord.comments};
       let newPoly = this.placePoly(startCoord, endCoord, data);
       newPoly.setMap(map);
     })
-    
+
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map);
   }
@@ -69,7 +69,7 @@ class Map extends Component {
 
     //store the click state of the draw_poly_button
     let checkDrawPolyClick  = true;
-   
+
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
       if (checkDrawPolyClick){
@@ -111,7 +111,7 @@ class Map extends Component {
           newMarkers.forEach(marker=>(marker.setMap(null)));
           if(this.props.polyLine){
             this.props.polyLine.setMap(null);
-          } 
+          }
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;

@@ -13,6 +13,7 @@ class ParkingInfo  extends Component {
     const onRatingClick = e => (this.props.onChange('rating', e));
 
     const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
+    const comments = this.props.polyLine? this.props.polyLine.comments : '';
 
     return  (
       <Well className={this.props.classname}>
@@ -30,7 +31,8 @@ class ParkingInfo  extends Component {
           onClick={onRatingClick}
           placeholderSymbol={<img src="star-full.png" className="icon" />}
         />
-        <br/>
+        <p>:</p><br/>
+         {this.props.polyLine? comments.map(comment => <p key={uuid()}>{comment}</p>):''}        <br/>
       </Well>
     )
   }
