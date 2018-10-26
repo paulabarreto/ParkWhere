@@ -5,9 +5,10 @@ import Rating from 'react-rating';
 class ParkingInfo  extends Component {
   
   KeyPress = e => {
-    if (e.key === 'Enter'){
+    if (e.key === 'Enter' ){
       this.props.onCommentSubmit();
       e.target.value = '';
+      this.props.onClick('isShowInputBox',false);
     }
   }
   
@@ -19,13 +20,13 @@ class ParkingInfo  extends Component {
     this.props.polyline.setDraggable(true);
   }
   onCommentClick = () => {
-    this.props.onClick('isShowInputBox',true)
+    this.props.onClick('isShowInputBox',true);
   }
   onChange = key => e => {
     this.props.onChange(key, e.target.value);
   }
   inputValue = (key) => (
-    this.props.polyline[key] ? this.props.polyline[key] : ' '
+    this.props.dynline[key] ? this.props.dynline[key] : ''
   )
   onRatingClick = e => (this.props.onRatingSubmit('rating', e));
 

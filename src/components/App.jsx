@@ -40,9 +40,7 @@ class App extends Component {
       data:{coords:this.state.polyline.getPath().getArray(),
             id: this.state.polyline.id,
             hours:this.state.polyline.hours,
-            rate:this.state.polyline.rate,
-            rating:this.state.polyline.rating,
-            comment: this.state.polyline.comment},
+            rate:this.state.polyline.rate},
       withCredentials: true
     })
     .then(res => {
@@ -53,6 +51,10 @@ class App extends Component {
   }
 
   _handleCommentSubmit = () => {
+    let poly = this.state.polyline;
+    poly.comments.push(this.state.dynline.comment)
+    console.log(poly.comments)
+    this.setState(prevState => ({...prevState, polyline:poly}));
     axios.post("http://localhost:8080/add_comment",{
       data:{comment:this.state.polyline.comment,
             parking_id:this.state.polyline.id},
@@ -64,7 +66,6 @@ class App extends Component {
 
   _handleRatingSubmit = (key,value) => {
     this.setPolyWithKey(key,value)
-    console.log('rating',this.state.polyline.rating)
     axios.post("http://localhost:8080/add_rating",{
       data:{rating:this.state.polyline.rating,
             parking_id:this.state.polyline.id},
@@ -84,7 +85,7 @@ class App extends Component {
       rate:'',
       hours:'',
       rating:'',
-      comments:'',
+      comment:'',
       parking_id:'',
       coords:[]
     };
@@ -93,7 +94,7 @@ class App extends Component {
       dynline['rate'] = poly.rate;
       dynline['rating'] = poly.rating;
       dynline['hours'] = poly.hours;
-      dynline['comments'] = poly.comments;
+      dynline['comment'] = '';
       dynline['parking_id'] = poly.parking_id;
       dynline['coords'] = poly.getPath().getArray();
     }
@@ -111,6 +112,7 @@ class App extends Component {
   setMap = (map) => {
     this.setState(prevState => ({...prevState, map:map}));
   }
+
   setPolyWithKey = (key,value) => {
     let dynline = this.state.dynline;
     dynline[key] = value;
@@ -154,6 +156,7 @@ class App extends Component {
         classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
         onClick={this.setCond}
         polyline={this.state.polyline}
+        dynline={this.state.dynline}
         onRatingSubmit={this._handleRatingSubmit}
         onChange={this.setPolyWithKey}
         showInputBox={this.state.isShowInputBox}

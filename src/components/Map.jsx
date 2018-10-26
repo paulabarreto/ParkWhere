@@ -155,6 +155,14 @@ class Map extends Component {
               this.props.setPoly(newPoly);
               newPoly.setMap(map);
               mapClickCount++;
+              newMarkers.forEach(marker=>{
+                window.setTimeout(() => {
+                  marker.setAnimation(window.google.maps.Animation.BOUNCE)
+                  window.setTimeout(() => {
+                    marker.setAnimation(null)
+                  },5000)
+                },800)
+              })
             }
           })
         }
@@ -181,6 +189,7 @@ class Map extends Component {
     // marker.addListener('click', e => {
     //   this.createInfoWindow(e, map)
     // })
+
     return marker
   }
 
