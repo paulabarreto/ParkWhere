@@ -51,7 +51,7 @@ class Map extends Component {
           let data = {
             hours:coord.hours,
             rate:coord.rate,
-            id:coord.id, 
+            id:coord.parking_id, 
             comments: coord.comments,
             address: results[0].formatted_address};
           let newPoly = this.placePoly(startCoord, endCoord, data);

@@ -8,7 +8,8 @@ class App extends Component {
   state = {
     map:'',
     infofromserver:[],
-    polyline:'',
+    polyline:'',    // update static line when change on dynamic line confirm
+    dynline:'',    // dynamic line to store change
     lines:[],
     isInfoOpen: false,
     isSubmitInfoOpen: false,
@@ -28,9 +29,14 @@ class App extends Component {
 
   // handle new parking info sumbmit which it passed to NewParkingInfo component
   _handleInfoSubmit = () => {
-    console.log(this.state.polyline)
-    axios.post("http://localhost:8080/add_parking_info_data",{
 
+    let poly = this.state.polyline;
+    poly.rating = this.state.dynline.rating;
+    poly.hours = this.state.dynline.hours;
+    poly.setPath(this.state.dynline.coords);
+    this.setState(prevState => ({...prevState, polyline:poly}));
+
+    axios.post("http://localhost:8080/add_parking_info_data",{
       data:{coords:this.state.polyline.getPath().getArray(),
             hours:this.state.polyline.hours,
             rate:this.state.polyline.rate,
@@ -72,7 +78,27 @@ class App extends Component {
   }
 
   setPoly = (poly) => {
+    let dynline = {
+      address:'',
+      rate:'',
+      hours:'',
+      rating:'',
+      comments:'',
+      parking_id:'',
+      coords:[]
+    };
+    if(poly!==undefined){
+      dynline['address'] = poly.address;
+      dynline['rate'] = poly.rate;
+      dynline['rating'] = poly.rating;
+      dynline['hours'] = poly.hours;
+      dynline['comments'] = poly.comments;
+      dynline['parking_id'] = poly.parking_id;
+      dynline['coords'] = poly.getPath().getArray();
+    }
+
     this.setState(prevState => ({...prevState, polyline:poly}));
+    this.setState(prevState => ({...prevState, dynline:dynline}));
   }
 
   clearPoly = () => {
@@ -80,13 +106,14 @@ class App extends Component {
       this.state.polyline.setMap(null);
     }
   }
+
   setMap = (map) => {
     this.setState(prevState => ({...prevState, map:map}));
   }
   setPolyWithKey = (key,value) => {
-    let poly = this.state.polyline;
-    poly[key] = value;
-    this.setState(prevState => ({...prevState, polyline:poly}));
+    let dynline = this.state.dynline;
+    dynline[key] = value;
+    this.setState(prevState => ({...prevState, dynline:dynline}));
   }
 
   addLine = (newline) => {
@@ -104,8 +131,8 @@ class App extends Component {
       line.setMap(this.state.map)
     })
   }
-  render() {
 
+  render() {
     return (
       <div>
         <button onClick={this.hideLines}> hide lines </button>
@@ -115,7 +142,8 @@ class App extends Component {
         <NewParkingInfo
         classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'}
         onCondChange={this.setCond}
-        polyLine={this.state.polyline}
+        dynline={this.state.dynline}
+        polyline={this.state.polyline}
         onSubmit={this._handleInfoSubmit}
         onChange={this.setPolyWithKey}
         clearPoly={this.clearPoly}
@@ -124,7 +152,7 @@ class App extends Component {
         <ParkingInfo
         classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
         onClick={this.setCond}
-        polyLine={this.state.polyline}
+        polyline={this.state.polyline}
         onRatingSubmit={this._handleRatingSubmit}
         onChange={this.setPolyWithKey}
         showInputBox={this.state.isShowInputBox}
@@ -136,7 +164,6 @@ class App extends Component {
           coords={this.state.infofromserver}
           setCond={this.setCond}
           setPoly={this.setPoly}
-          polyLine={this.state.polyline}
           clearPoly={this.clearPoly}
           addLine={this.addLine}
           setMap={this.setMap}
