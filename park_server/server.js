@@ -6,12 +6,9 @@ const express = require("express");
 const app = express();
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
-const knexPostgis = require('knex-postgis');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
-const st = knexPostgis(knex);
 
 
 app.use(bodyParser.json());

@@ -72,7 +72,7 @@ class NewParkingInfo  extends Component {
                 emptySymbol={<img src="star-empty.png" className="icon" alt="empty star"/>}
                 fullSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
                 onClick={onClick('rating')}
-                placeholderRating={inputValue('rating')}
+                placeholderRating={Number.isInteger(inputValue('rating')) ? inputValue('rating') : 0 }
                 placeholderSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
               />
             <br/>
