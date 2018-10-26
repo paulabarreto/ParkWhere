@@ -111,7 +111,7 @@ class Map extends Component {
           newMarkers.forEach(marker=>(marker.setMap(null)));
           if(this.props.polyLine){
             this.props.clearPoly();
-          } 
+          }
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
@@ -168,7 +168,7 @@ class Map extends Component {
     let poly = new window.google.maps.Polyline({
       path:[startCoord,endCoord],
       //editable: true,
-      strokeColor: '#000000',
+      strokeColor: '#0000FF',
       strokeOpacity: 1.0,
       strokeWeight: 2.5
     });
