@@ -38,11 +38,12 @@ app.get("/parking_info", async (req, res) => {
         // console.log(data)
         let result = {};
         data.forEach(row => {
+
           row.lat_start = parseFloat(row.lat_start);
           row.lng_start = parseFloat(row.lng_start);
           row.lat_end = parseFloat(row.lat_end);
           row.lng_end = parseFloat(row.lng_end);
-          console.log(row);
+
           if (result[row.parking_id]) {
             result[row.parking_id].comments.push(row.comments)
           } else {
@@ -83,7 +84,23 @@ app.post('/add_rating', (req,res)=>{
 })
 
 app.post('/add_comment', (req,res)=>{
-   // console.log(req.body)
+  const newComment = {
+    comments: req.body.data.comment,
+    parking_id: req.body.data.parking_id,
+  };
+  knex('comments').where({
+    parking_id: req.body.data.parking_id,
+  }).insert(newComment, "id")
+      .into("comments")
+      .catch(function(error){
+        console.error(error)
+      }).then(function() {
+        return knex.select('*')
+        .from('comments')
+      }).then(function(rows) {
+        console.log(rows);
+        // res.send(rows);
+      })
 })
 
 app.post('/add_parking_info_data', (req,res)=>{
