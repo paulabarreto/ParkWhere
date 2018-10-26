@@ -31,11 +31,10 @@ app.post("/login", (req, res) => {
 app.get("/parking_info", async (req, res) => {
   // res.cookie('name', 'express'); //Sets name = express
 
-  knex.select(["street_parking.*", "comments.*"])
+  knex.select(["street_parking.*", "comments.comments"])
       .from('street_parking')
-      .innerJoin('comments', 'street_parking.id', 'comments.parking_id')
+      .fullOuterJoin('comments', 'street_parking.id', 'comments.parking_id')
       .then((data) => {
-        // console.log(data)
         let result = {};
         data.forEach(row => {
 
@@ -44,10 +43,10 @@ app.get("/parking_info", async (req, res) => {
           row.lat_end = parseFloat(row.lat_end);
           row.lng_end = parseFloat(row.lng_end);
 
-          if (result[row.parking_id]) {
-            result[row.parking_id].comments.push(row.comments)
+          if (result[row.id]) {
+            result[row.id].comments.push(row.comments)
           } else {
-            result[row.parking_id] = {
+            result[row.id] = {
               ...row,
               comments:[
                 row.comments
@@ -55,6 +54,7 @@ app.get("/parking_info", async (req, res) => {
             }
           }
         });
+        console.log(Object.values(result));
         res.send(Object.values(result))
       })
 });
