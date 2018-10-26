@@ -6,12 +6,9 @@ const express = require("express");
 const app = express();
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
-const knexPostgis = require('knex-postgis');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
-const st = knexPostgis(knex);
 
 
 app.use(bodyParser.json());
@@ -100,12 +97,12 @@ app.post('/add_rating', (req,res)=>{
 })
 
 app.post('/add_comment', (req,res)=>{
-   console.log(req.body)
+  //  console.log(req.body)
 })
 
 app.post('/add_parking_info_data', (req,res)=>{
   const newData = req.body.data;
-  console.log(newData);
+  // console.log(newData);
   const newParking = {
     lat_start: newData.coords[0].lat,
     lng_start: newData.coords[0].lng,

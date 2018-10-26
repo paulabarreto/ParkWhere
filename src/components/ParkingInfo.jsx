@@ -28,17 +28,16 @@ class ParkingInfo  extends Component {
   onRatingClick = e => (this.props.onRatingSubmit('rating', e));
 
   render(){
-    const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
+    // const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
     const commentsArr = this.props.polyLine.comments? this.props.polyLine.comments : [];
 
     return  (
       <Well className={this.props.classname}>
-        <h3>Parking Info</h3>
-        <p>Coordinates:</p><br/>
-         {this.props.polyLine? coordsArr.map(coord => <p key={uuid()}>{coord.lat()},{coord.lng()}</p>):''}
-        <p>Hours: {this.props.polyLine.hours}</p> <br/>
+        <h3>Parking Info <button type="button" className="btn btn-outline-info" onClick={this.onClick}>Edit</button></h3> 
+        <p>Nearby Address:</p>
+        <p>{this.props.polyLine.address}</p><br/>
+        <p>Hours: {this.props.polyLine.hours}</p>
         <p>Rate: ${this.props.polyLine.rate}/hr </p>
-        <Button bsStyle="primary" onClick={this.onClick}>Edit</Button><br/>
         Rating:
         <Rating
           emptySymbol={<img src="star-empty.png" className="icon" alt="empty star"/>}

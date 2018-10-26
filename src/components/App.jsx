@@ -4,10 +4,12 @@ import Map from './Map.jsx';
 import axios from 'axios';
 import NewParkingInfo from './NewParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
-class Home extends Component {
+class App extends Component {
   state = {
+    map:'',
     infofromserver:[],
     polyline:'',
+    lines:[],
     isInfoOpen: false,
     isSubmitInfoOpen: false,
     isClearPoly:false,
@@ -78,19 +80,38 @@ class Home extends Component {
       this.state.polyline.setMap(null);
     }
   }
-
+  setMap = (map) => {
+    this.setState(prevState => ({...prevState, map:map}));
+  }
   setPolyWithKey = (key,value) => {
     let poly = this.state.polyline;
     poly[key] = value;
     this.setState(prevState => ({...prevState, polyline:poly}));
   }
 
+  addLine = (newline) => {
+    this.setState(prevState => ({lines: [...prevState.lines, newline]}))
+  }
+
+  hideLines = () => {
+    this.state.lines.forEach(line=>{
+      // line.setVisible(false)
+      line.setMap(null)
+    })
+  }
+  newLines = () => {
+    this.state.lines.forEach(line=>{
+      line.setMap(this.state.map)
+    })
+  }
   render() {
 
     return (
       <div>
+        <button onClick={this.hideLines}> hide lines </button>
+        <button onClick={this.newLines}> show lines </button>
         <Nav username={this.props.username}/>
-
+        
         <NewParkingInfo
         classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'}
         onCondChange={this.setCond}
@@ -117,6 +138,8 @@ class Home extends Component {
           setPoly={this.setPoly}
           polyLine={this.state.polyline}
           clearPoly={this.clearPoly}
+          addLine={this.addLine}
+          setMap={this.setMap}
           />
         </div>
       </div>
@@ -124,4 +147,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default App;

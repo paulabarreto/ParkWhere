@@ -10,14 +10,16 @@ class Map extends Component {
   constructor(props){
     super(props);
     this.state = {
-      curloc: null
+      curloc: null,
+      address:'',
+      map:''
     };
   }
 
   //create google map on the window
   loadMap = () => {
     let mapOption = {
-      center:{lat:43.6529, lng: -79.3849},
+      center:{lat:43.6529, lng: -79.3849}, // toronto
       zoom: 15,
       mapTypeControl: false,
       draggableCursor: 'default',
@@ -25,21 +27,42 @@ class Map extends Component {
       styles: mapstyle
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
+    const geocoder = new window.google.maps.Geocoder();
     map.addListener('click',()=>{
       this.props.setCond('isInfoOpen',false)
     })
-    this.setState({map:map});
-    //put all markers from database to the map
+    this.setState(prevState => ({...prevState, map: map}));
+    this.props.setMap(map)
+    this.handleCurrentLocation(map);
+    this.handleDrawPoly(map);
+    this.loadData(geocoder);
+  }
+
+  loadData = (geocoder) => {
     this.props.coords.forEach(coord => {
       let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
       let endCoord = {lat: coord.lat_end, lng: coord.lng_end};
-      let data = {hours:coord.hours,rate:coord.rate,id:coord.id, comments: coord.comments};
-      let newPoly = this.placePoly(startCoord, endCoord, data);
-      newPoly.setMap(map);
+      let midCoord = {
+        lat:(startCoord.lat + endCoord.lat)/2,
+        lng:(startCoord.lng + endCoord.lng)/2
+      }
+      geocoder.geocode({ 'location': midCoord }, (results, status) => {
+        if (status === window.google.maps.GeocoderStatus.OK) {
+          let data = {
+            hours:coord.hours,
+            rate:coord.rate,
+            id:coord.id, 
+            comments: coord.comments,
+            address: results[0].formatted_address};
+          let newPoly = this.placePoly(startCoord, endCoord, data);
+          newPoly.setMap(this.state.map);
+          this.props.addLine(newPoly);
+        }
+        else{
+          console.log('Status Error:',status)
+        }
+      })
     })
-
-    this.handleCurrentLocation(map);
-    this.handleDrawPoly(map);
   }
 
   handleCurrentLocation = (map) => {
@@ -72,7 +95,7 @@ class Map extends Component {
 
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
-      this.props.setCond('isClearPoly',true);
+      
       if (checkDrawPolyClick){
         //disable the click state once it has been click
         checkDrawPolyClick = false;
@@ -97,7 +120,6 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear(); //clear both c
           newMarkers.forEach(marker=>(marker.setMap(null)));
-
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
@@ -109,9 +131,7 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
-          if(this.props.polyLine){
-            this.props.clearPoly();
-          } 
+          this.props.clearPoly();
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
@@ -126,6 +146,7 @@ class Map extends Component {
               startCoord = e.latLng;
               mapClickCount++;
             }else if (mapClickCount === 2){
+              this.props.setCond('isClearPoly',true);
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
@@ -134,7 +155,6 @@ class Map extends Component {
               this.props.setPoly(newPoly);
               newPoly.setMap(map);
               mapClickCount++;
-              //console.log(newPoly.getPath().getArray())
             }
           })
         }
@@ -221,10 +241,11 @@ class Map extends Component {
             curloc.setAnimation(null)
           },2000)
         },800)
-        this.setState({curloc: curloc})
+        this.setState(prevState => ({...prevState, curloc: curloc}));
       })
     }
   }
+
 
   componentDidMount() {
     if (!window.google) {
