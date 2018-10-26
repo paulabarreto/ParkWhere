@@ -128,10 +128,13 @@ app.post('/add_parking_info_data', (req,res)=>{
     lat_end: newData.coords[1].lat,
     lng_end: newData.coords[1].lng,
     hours: newData.hours,
-    rate: newData.rate
+    rate: newData.rate,
+    rating: newData.rating
   };
   if(!req.body.data.id) {
+    knex.raw('SELECT setval(\'street_parking_id_seq\', (SELECT MAX(id) from "street_parking"));')
     knex.insert(newParking, "id")
+
         .into("street_parking")
         .catch(function(error){
           console.error(error)
@@ -139,7 +142,7 @@ app.post('/add_parking_info_data', (req,res)=>{
           return knex.select('*')
           .from('street_parking')
         }).then(function(rows) {
-          // console.log(rows);
+          res.send(rows);
         })
   } else {
     knex('street_parking').where({
@@ -147,11 +150,15 @@ app.post('/add_parking_info_data', (req,res)=>{
     }).update({
       hours: newData.hours,
       rate: newData.rate
+    }).catch(function(error){
+      console.error(error)
+    }).then(function() {
+      return knex.select('*')
+      .from('street_parking')
     }).then(function(rows) {
-      // console.log(rows);
+      res.send(rows);
     })
   }
-
 });
 
 app.listen(PORT, () => {
