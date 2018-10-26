@@ -38,7 +38,11 @@ app.get("/parking_info", async (req, res) => {
         // console.log(data)
         let result = {};
         data.forEach(row => {
-
+          row.lat_start = parseFloat(row.lat_start);
+          row.lng_start = parseFloat(row.lng_start);
+          row.lat_end = parseFloat(row.lat_end);
+          row.lng_end = parseFloat(row.lng_end);
+          console.log(row);
           if (result[row.parking_id]) {
             result[row.parking_id].comments.push(row.comments)
           } else {
@@ -52,44 +56,6 @@ app.get("/parking_info", async (req, res) => {
         });
         res.send(Object.values(result))
       })
-
-
-  // const parkings = await knex.from("street_parking")
-  //   //   .then((data) => {
-  //   //   let sendData = data.map(coord => ({
-  //   //     lat_start: coord.lat_start, lng_start: coord.long_start,
-  //   //     lat_end: coord.lat_end, lng_end: coord.long_end,
-  //   //     hours: coord.hours, rate: coord.rate,
-  //   //     id:coord.id
-  //   //   }))
-  //   //   res.send(sendData)
-  //   // });
-  //
-  //   const comments = await knex.from("comments")
-  //
-  //   comments.forEach(comment => )
-  //
-  //   knex(street_parking)
-  //   .join(comments).
-
-  //Testing sending data to db
-  // const point = {
-  //   latitude: 43.646407,
-  //   longitude: -79.396781
-  // };
-  // knex.insert(point, 'id')
-  //   .into('street_parking')
-  //   .catch(function(error) {
-  //     console.error(error);
-  //   }).then(function() {
-  //     return knex.select('*')
-  //     .from('street_parking')
-  //   }).then(function(rows) {
-  //     console.log(rows);
-  //   })
-  //   .catch(function(error) {
-  //     console.error(error);
-  //   });
 });
 app.post('/add_rating', (req,res)=>{
   const info = req.body.data;
