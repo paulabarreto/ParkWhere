@@ -20,6 +20,7 @@ class ParkingInfo  extends Component {
     this.props.polyline.setDraggable(true);
   }
   onCommentClick = () => {
+    this.props.onChange('comment', '');
     this.props.onClick('isShowInputBox',true);
   }
   onChange = key => e => {
@@ -32,7 +33,7 @@ class ParkingInfo  extends Component {
 
   render(){
     // const coordsArr = this.props.polyline? this.props.polyline.getPath().getArray() : '';
-    const commentsArr = this.props.polyline.comments? this.props.polyline.comments : [];
+    const commentsArr = this.props.polyline.comments? this.props.polyline.comments.reverse() : [];
 
     return  (
       <Well className={this.props.classname}>

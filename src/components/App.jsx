@@ -44,9 +44,10 @@ class App extends Component {
       withCredentials: true
     })
     .then(res => {
-      this.setPolyWithKey('id',res.data.id)
-      this.setPolyWithKey('comments',res.data.comments)
-      this.setPolyWithKey('rating',res.data.rating)
+      // this.setPolyWithKey('id',res.data.id)
+      // this.setPolyWithKey('comments',res.data.comments)
+      // this.setPolyWithKey('rating',res.data.rating)
+      console.log('data from new info submit',res.data)
     })
   }
 
@@ -56,11 +57,11 @@ class App extends Component {
     console.log(poly.comments)
     this.setState(prevState => ({...prevState, polyline:poly}));
     axios.post("http://localhost:8080/add_comment",{
-      data:{comment:this.state.polyline.comment,
+      data:{comment:this.state.dynline.comment,
             parking_id:this.state.polyline.id},
       withCredentials: true
     })
-    .then(res => {console.log(res.data)
+    .then(res => {console.log('data from comment submit',res.data)
     })
   }
 
@@ -71,7 +72,7 @@ class App extends Component {
             parking_id:this.state.polyline.id},
       withCredentials: true
     })
-    .then(res => {console.log(res.data)
+    .then(res => {console.log('data from rating submit',res.data)
     })
   }
   // set condition base on the input key value and boolean value
@@ -129,7 +130,7 @@ class App extends Component {
       line.setMap(null)
     })
   }
-  newLines = () => {
+  showLines = () => {
     this.state.lines.forEach(line=>{
       line.setMap(this.state.map)
     })
@@ -139,7 +140,7 @@ class App extends Component {
     return (
       <div>
         <button onClick={this.hideLines}> hide lines </button>
-        <button onClick={this.newLines}> show lines </button>
+        <button onClick={this.showLines}> show lines </button>
         <Nav username={this.props.username}/>
 
         <NewParkingInfo

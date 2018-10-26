@@ -51,10 +51,25 @@ class Map extends Component {
           let data = {
             hours:coord.hours,
             rate:coord.rate,
+            rating:coord.rating,
             id: coord.parking_id,
             comments: coord.comments,
             address: results[0].formatted_address};
           let newPoly = this.placePoly(startCoord, endCoord, data);
+          switch(true){
+            case (coord.rate === 5):
+            newPoly.setOptions({strokeColor:'red'})
+            break;
+            case (coord.rate === 4):
+            newPoly.setOptions({strokeColor:'purple'})
+            break;
+            case (coord.rate === 3):
+            newPoly.setOptions({strokeColor:'yellow'})
+            break;
+            case (coord.rate === 2):
+            newPoly.setOptions({strokeColor:'green'})
+            break;
+          }
           newPoly.setMap(this.state.map);
           this.props.addLine(newPoly);
         }
@@ -161,7 +176,7 @@ class Map extends Component {
                   window.setTimeout(() => {
                     marker.setAnimation(null)
                   },5000)
-                },800)
+                },500)
               })
             }
           })
@@ -208,7 +223,6 @@ class Map extends Component {
       this.props.setCond('isInfoOpen',true);
       this.props.setPoly(poly);
       this.props.setCond('isClearPoly',false);
-      console.log(this.props.polyLine)
     })
     return poly
   }
