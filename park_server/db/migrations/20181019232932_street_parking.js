@@ -9,6 +9,7 @@ exports.up = function(knex, Promise) {
       table.float('lng_end');
       table.string('hours');
       table.integer('rate');
+      table.integer('rating');
     })
   ])
 };

@@ -51,7 +51,7 @@ class Map extends Component {
           let data = {
             hours:coord.hours,
             rate:coord.rate,
-            id:coord.parking_id, 
+            id: coord.parking_id,
             comments: coord.comments,
             address: results[0].formatted_address};
           let newPoly = this.placePoly(startCoord, endCoord, data);
@@ -95,7 +95,7 @@ class Map extends Component {
 
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
-      
+
       if (checkDrawPolyClick){
         //disable the click state once it has been click
         checkDrawPolyClick = false;
@@ -188,7 +188,7 @@ class Map extends Component {
     let poly = new window.google.maps.Polyline({
       path:[startCoord,endCoord],
       //editable: true,
-      strokeColor: '#000000',
+      strokeColor: '#0000FF',
       strokeOpacity: 1.0,
       strokeWeight: 2.5
     });
@@ -199,6 +199,7 @@ class Map extends Component {
       this.props.setCond('isInfoOpen',true);
       this.props.setPoly(poly);
       this.props.setCond('isClearPoly',false);
+      console.log(this.props.polyLine)
     })
     return poly
   }
