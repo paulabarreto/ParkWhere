@@ -53,6 +53,7 @@ app.get("/parking_info", async (req, res) => {
             }
           }
         });
+        console.log(data)
         res.send(Object.values(result))
       })
 
@@ -98,6 +99,10 @@ app.post('/add_rating', (req,res)=>{
   // console.log(req.body)
 })
 
+app.post('/add_comment', (req,res)=>{
+   console.log(req.body)
+})
+
 app.post('/add_parking_info_data', (req,res)=>{
   const newData = req.body.data;
   console.log(newData);
@@ -107,7 +112,8 @@ app.post('/add_parking_info_data', (req,res)=>{
     lat_end: newData.coords[1].lat,
     long_end: newData.coords[1].lng,
     hours: newData.coords.hours,
-    rate: newData.coords.rate
+    rate: newData.coords.rate,
+    comment:newData
   };
   
   knex.insert(newParking, "id")
@@ -125,3 +131,15 @@ app.post('/add_parking_info_data', (req,res)=>{
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
+
+
+/*
+update current parking info
+with the new rating,calculate the avg rating, put it in the database
+modify the comments array so that looks like
+comments: {comment_id:1,text:'lalallala'}
+
+new parking info
+construct data from req and put in database, respone as the entire parking info array
+
+*/

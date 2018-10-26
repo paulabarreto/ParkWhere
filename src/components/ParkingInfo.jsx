@@ -1,23 +1,33 @@
 import React, {Component} from 'react';
-import { Well, Button } from 'react-bootstrap';
+import { Well, Button, FormControl } from 'react-bootstrap';
 import uuid from 'uuid/v4';
 import Rating from 'react-rating';
 class ParkingInfo  extends Component {
-
+  
+  KeyPress = e => {
+    if (e.key === 'Enter'){
+      this.props.onCommentSubmit();
+      e.target.value = '';
+    }
+  }
   onClick = () => {
-    this.props.onEditClick('isInfoOpen',false);
-    this.props.onEditClick('isSubmitInfoOpen',true);
-    this.props.onEditClick('isEditClick',true);
+    this.props.onClick('isInfoOpen',false);
+    this.props.onClick('isSubmitInfoOpen',true);
+    this.props.onClick('isEditClick',true);
     this.props.polyLine.setEditable(true);
   }
-
-  addComent = () => {
-    this.props.onEditClick('isInfoOpen',true);
-    this.props.addComent = true;
+  onCommentClick = () => {
+    this.props.onClick('isShowInputBox',true)
   }
-  render(){
-    const onRatingClick = e => (this.props.onChange('rating', e));
+  onChange = key => e => {
+    this.props.onChange(key, e.target.value);
+  }
+  inputValue = (key) => (
+    this.props.polyLine[key] ? this.props.polyLine[key] : ' '
+  )
+  onRatingClick = e => (this.props.onRatingSubmit('rating', e));
 
+  render(){
     const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
     const commentsArr = this.props.polyLine.comments? this.props.polyLine.comments : [];
 
@@ -31,17 +41,25 @@ class ParkingInfo  extends Component {
         <Button bsStyle="primary" onClick={this.onClick}>Edit</Button><br/>
         Rating:
         <Rating
-          emptySymbol={<img src="star-empty.png" className="icon" />}
-          fullSymbol={<img src="star-full.png" className="icon" />}
+          emptySymbol={<img src="star-empty.png" className="icon" alt="empty star"/>}
+          fullSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
           initialRating={this.props.polyLine.rating}
-          onClick={onRatingClick}
-          placeholderSymbol={<img src="star-full.png" className="icon" />}
+          onClick={this.onRatingClick}
+          placeholderSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
         />
       <br/><br/>
       <p>Comments:</p>
          {this.props.polyLine.comments? commentsArr.map(comment => <p key={uuid()}>{comment}</p>):''}
          <br/>
-         <Button bsStyle="primary" onClick={this.props.addComent}>Add a Comment</Button>
+         <Button bsStyle="primary" onClick={this.onCommentClick}>Add a Comment</Button>
+         <FormControl
+          className={this.props.showInputBox ? 'add-comment':'add-comment-hide'}
+          type="text"
+          placeholder="Type a comment and hit ENTER"
+          onChange={this.onChange('comment')}
+          value={this.inputValue('comment')}
+          onKeyPress={this.KeyPress}
+          /> 
       </Well>
     )
   }
