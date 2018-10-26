@@ -7,15 +7,16 @@ class NewParkingInfo  extends Component {
 
   render(){
     const coordsArr = this.props.polyLine? this.props.polyLine.getPath().getArray() : '';
-    const commentsArr = this.props.polyLine.comments? this.props.polyLine.comments : [];
 
     const onCancel = () => {
-      this.props.onCondChange('isSubmitInfoOpen',false)
+      this.props.onCondChange('isSubmitInfoOpen',false);
+      this.props.polyLine.setEditable(false);
       this.props.clearPoly();
     }
     const onSubmit = (e) => {
       e.preventDefault();
       this.props.onSubmit();
+      this.props.polyLine.setEditable(false);
       this.props.onCondChange('isSubmitInfoOpen',false);
     }
     const onChange = key => e => {
@@ -63,17 +64,16 @@ class NewParkingInfo  extends Component {
                 type="text"
                 value={inputValue('comment')}
                 onChange={onChange('comment')}
-
-                />
+                /> 
             </InputGroup>
           </FormGroup>
             Rating:
               <Rating
-                emptySymbol={<img src="star-empty.png" className="icon" />}
-                fullSymbol={<img src="star-full.png" className="icon" />}
+                emptySymbol={<img src="star-empty.png" className="icon" alt="empty star"/>}
+                fullSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
                 onClick={onClick('rating')}
                 placeholderRating={inputValue('rating')}
-                placeholderSymbol={<img src="star-full.png" className="icon" />}
+                placeholderSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
               />
             <br/>
           <Button onClick={onCancel}>Cancel</Button>

@@ -10,7 +10,8 @@ class Home extends Component {
     polyline:'',
     isInfoOpen: false,
     isSubmitInfoOpen: false,
-    isClearPoly:false
+    isClearPoly:false,
+    isShowInputBox:false
   }
 
   componentDidMount() {
@@ -30,22 +31,33 @@ class Home extends Component {
       data:{coords:this.state.polyline.getPath().getArray(),
             hours:this.state.polyline.hours,
             rate:this.state.polyline.rate,
-            id: this.state.polyline.id,
+            rating:this.state.polyline.rating,
             comment: this.state.polyline.comment},
       withCredentials: true
     })
     .then(res => {console.log(res.data)
-      this.state.polyline.id = res.data.id;
+      this.setPolyWithKey('id',res.data.id)
+      this.setPolyWithKey('comments',res.data.comments)
+      this.setPolyWithKey('rating',res.data.rating)
+    })
+  }
+
+  _handleCommentSubmit = () => {
+    axios.post("http://localhost:8080/add_comment",{
+      data:{comment:this.state.polyline.comment,
+            parking_id:this.state.polyline.id},
+      withCredentials: true
+    })
+    .then(res => {console.log(res.data)
     })
   }
 
   _handleRatingSubmit = (key,value) => {
-    console.log(this.props.username)
     this.setPolyWithKey(key,value)
     console.log('rating',this.state.polyline.rating)
     axios.post("http://localhost:8080/add_rating",{
       data:{rating:this.state.polyline.rating,
-            user:this.props.username},
+            parking_id:this.state.polyline.id},
       withCredentials: true
     })
     .then(res => {console.log(res.data)
@@ -89,9 +101,12 @@ class Home extends Component {
 
         <ParkingInfo
         classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
-        onEditClick={this.setCond}
+        onClick={this.setCond}
         polyLine={this.state.polyline}
-        onChange={this._handleRatingSubmit}
+        onRatingSubmit={this._handleRatingSubmit}
+        onChange={this.setPolyWithKey}
+        showInputBox={this.state.isShowInputBox}
+        onCommentSubmit={this._handleCommentSubmit}
         />
 
         <div className='map-container'>
@@ -100,6 +115,7 @@ class Home extends Component {
           setCond={this.setCond}
           setPoly={this.setPoly}
           polyLine={this.state.polyline}
+          clearPoly={this.clearPoly}
           />
         </div>
       </div>

@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-app.use(cors({origin: "http://localhost:3000", credentials: true}));
+app.use(cors({origin: "http://localhost:3002", credentials: true}));
 app.use('../public', express.static(__dirname + "/public"))
 
 // app.get("/session", (req, res) => {
@@ -53,6 +53,7 @@ app.get("/parking_info", async (req, res) => {
             }
           }
         });
+        console.log(data)
         res.send(Object.values(result))
       })
 
@@ -96,7 +97,11 @@ app.get("/parking_info", async (req, res) => {
 });
 app.post('/add_rating', (req,res)=>{
   console.log(req.body.data.rating)
-  
+
+})
+
+app.post('/add_comment', (req,res)=>{
+   console.log(req.body)
 })
 
 app.post('/add_parking_info_data', (req,res)=>{
@@ -136,3 +141,15 @@ app.post('/add_parking_info_data', (req,res)=>{
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
+
+
+/*
+update current parking info
+with the new rating,calculate the avg rating, put it in the database
+modify the comments array so that looks like
+comments: {comment_id:1,text:'lalallala'}
+
+new parking info
+construct data from req and put in database, respone as the entire parking info array
+
+*/

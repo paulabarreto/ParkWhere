@@ -72,6 +72,7 @@ class Map extends Component {
 
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
+      this.props.setCond('isClearPoly',true);
       if (checkDrawPolyClick){
         //disable the click state once it has been click
         checkDrawPolyClick = false;
@@ -100,7 +101,6 @@ class Map extends Component {
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
-          this.props.setCond('isClearPoly',true);
         })
 
         let UncheckedControlDiv = this.newControl(UncheckedControl)
@@ -110,8 +110,8 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
           if(this.props.polyLine){
-            this.props.polyLine.setMap(null);
-          }
+            this.props.clearPoly();
+          } 
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
@@ -129,7 +129,7 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              let data = {hours:'', rate:'', id:'', rate:''};
+              let data = {hours:'', rate:'', id:'', rating:'',comment:''};
               let newPoly = this.placePoly(startCoord,endCoord,data);
               this.props.setPoly(newPoly);
               newPoly.setMap(map);
