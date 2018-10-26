@@ -25,12 +25,12 @@ class Home extends Component {
 
   // handle new parking info sumbmit which it passed to NewParkingInfo component
   _handleInfoSubmit = () => {
-    console.log(this.state.polyline)
     axios.post("http://localhost:8080/add_parking_info_data",{
 
       data:{coords:this.state.polyline.getPath().getArray(),
             hours:this.state.polyline.hours,
             rate:this.state.polyline.rate,
+            id: this.state.polyline.id,
             comment: this.state.polyline.comment},
       withCredentials: true
     })
@@ -72,10 +72,6 @@ class Home extends Component {
     this.setState(prevState => ({...prevState, polyline:poly}));
   }
 
-  addComment = () => {
-    
-  }
-
   render() {
 
     return (
@@ -96,7 +92,6 @@ class Home extends Component {
         onEditClick={this.setCond}
         polyLine={this.state.polyline}
         onChange={this._handleRatingSubmit}
-        addComment={this.addComent}
         />
 
         <div className='map-container'>

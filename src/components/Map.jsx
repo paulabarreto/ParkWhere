@@ -33,7 +33,7 @@ class Map extends Component {
     this.props.coords.forEach(coord => {
       let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
       let endCoord = {lat: coord.lat_end, lng: coord.lng_end};
-      let data = {hours:coord.hours,rate:coord.rate,id:coord.id, comments: coord.comments};
+      let data = {hours:coord.hours,rate:coord.rate,id:coord.parking_id, comments: coord.comments};
       let newPoly = this.placePoly(startCoord, endCoord, data);
       newPoly.setMap(map);
     })
@@ -179,6 +179,7 @@ class Map extends Component {
       this.props.setCond('isInfoOpen',true);
       this.props.setPoly(poly);
       this.props.setCond('isClearPoly',false);
+      console.log(this.props.polyLine)
     })
     return poly
   }

@@ -95,31 +95,42 @@ app.get("/parking_info", async (req, res) => {
   //   });
 });
 app.post('/add_rating', (req,res)=>{
-  // console.log(req.body)
+  console.log(req.body.data.rating)
+  
 })
 
 app.post('/add_parking_info_data', (req,res)=>{
   const newData = req.body.data;
-  console.log(newData);
   const newParking = {
     lat_start: newData.coords[0].lat,
     lng_start: newData.coords[0].lng,
     lat_end: newData.coords[1].lat,
-    long_end: newData.coords[1].lng,
-    hours: newData.coords.hours,
-    rate: newData.coords.rate
+    lng_end: newData.coords[1].lng,
+    hours: newData.hours,
+    rate: newData.rate
   };
-  
-  knex.insert(newParking, "id")
-      .into("street_parking")
-      .catch(function(error){
-        console.error(error)
-      }).then(function() {
-        return knex.select('*')
-        .from('street_parking')
-      }).then(function(rows) {
-        console.log(rows);
-      })
+  if(!req.body.data.id) {
+    knex.insert(newParking, "id")
+        .into("street_parking")
+        .catch(function(error){
+          console.error(error)
+        }).then(function() {
+          return knex.select('*')
+          .from('street_parking')
+        }).then(function(rows) {
+          // console.log(rows);
+        })
+  } else {
+    knex('street_parking').where({
+      id: req.body.data.id,
+    }).update({
+      hours: newData.hours,
+      rate: newData.rate
+    }).then(function(rows) {
+      // console.log(rows);
+    })
+  }
+
 });
 
 app.listen(PORT, () => {
