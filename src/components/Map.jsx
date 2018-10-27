@@ -11,7 +11,7 @@ import Rate5Control from './mapcontrols/Rate5Control';
 import Rate4Control from './mapcontrols/Rate4Control';
 import Rate3Control from './mapcontrols/Rate3Control';
 import Rate2Control from './mapcontrols/Rate2Control';
-import StreetParkingRate from './mapcontrols/StreetParkingRate'
+import StreetParkingRate from './mapcontrols/StreetParkingRate';
 
 class Map extends Component {
   constructor(props){
@@ -40,7 +40,7 @@ class Map extends Component {
       this.props.setCond('isInfoOpen',false)
     })
     this.setState(prevState => ({...prevState, map: map}));
-    this.props.setMap(map)
+    this.props.setApiOjb(map,geocoder);
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map,geocoder);
     this.LegendDiv(map);
@@ -158,8 +158,30 @@ class Map extends Component {
 
   handleDrawPoly = (map,geocoder) => {
     //create a div container for button to enable poly drawing
-    let drawPolyDiv = this.newControl(DrawPolyControl)
+    let drawPolyDiv = this.newControl(DrawPolyControl);
+    // add checked button to confirm draw poly line
+    let CheckedControlDiv = this.newControl(CheckedControl);
+    let UncheckedControlDiv = this.newControl(UncheckedControl);
+    CheckedControlDiv.addEventListener('mouseover', ()=>{
+      CheckedControlDiv.style.backgroundImage = "url('confirm-color.png')";
+    })
+    CheckedControlDiv.addEventListener('mouseleave', ()=>{
+      CheckedControlDiv.style.backgroundImage = "url('confirm.png')"
+    })
+    UncheckedControlDiv.addEventListener('mouseover', ()=>{
+      UncheckedControlDiv.style.backgroundImage = "url('cancel-color.png')";
+    })
+    UncheckedControlDiv.addEventListener('mouseleave', ()=>{
+      UncheckedControlDiv.style.backgroundImage = "url('cancel.png')"
+    })
+
     map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(drawPolyDiv);
+    drawPolyDiv.addEventListener('mouseover', ()=>{
+      drawPolyDiv.style.backgroundImage = "url('add-circular-button.png')";
+    })
+    drawPolyDiv.addEventListener('mouseleave', ()=>{
+      drawPolyDiv.style.backgroundImage = "url('add-circular-button-small.png')"
+    })
 
     //store the click state of the draw_poly_button
     let checkDrawPolyClick  = true;
@@ -180,10 +202,8 @@ class Map extends Component {
         let NotificationControlDiv = this.newControl(NotificationControl);
         map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(NotificationControlDiv);
 
-        // add checked button to confirm draw poly line
-        let CheckedControlDiv = this.newControl(CheckedControl)
         map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(CheckedControlDiv);
-
+        
         CheckedControlDiv.addEventListener('click', ()=>{
           if (startCoord && endCoord){
             this.props.setCond('isSubmitInfoOpen',true);
@@ -196,7 +216,6 @@ class Map extends Component {
           checkDrawPolyClick = true;
         })
 
-        let UncheckedControlDiv = this.newControl(UncheckedControl)
         map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(UncheckedControlDiv);
         UncheckedControlDiv.addEventListener('click',() =>{
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
@@ -221,31 +240,29 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
+              
+              let data = {hours:'', rate:'', id:'', rating:0,comment:'',address:''};
+              let newPoly = this.placePoly(startCoord,endCoord,data);
+              this.props.setPoly(newPoly);
+              newPoly.setMap(map);
               mapClickCount++;
-
-              let midCoord = {
-                lat:(startCoord.lat() + endCoord.lat())/2,
-                lng:(startCoord.lng() + endCoord.lng())/2
-              }    
-
               newMarkers.forEach(marker=>{
                 window.setTimeout(() => {
                   marker.setAnimation(window.google.maps.Animation.BOUNCE)
                   window.setTimeout(() => {
                     marker.setAnimation(null)
                   },5000)
-                },500)
-              })
-              
-            geocoder.geocode({ 'location': midCoord }, (results, status) => {
-              if (status === window.google.maps.GeocoderStatus.OK) {
-                let data = {hours:'', rate:'', id:'', rating:'',
-                            comment:'',address:results[0].formatted_address};
-                let newPoly = this.placePoly(startCoord,endCoord,data);
-                this.props.setPoly(newPoly);
-                newPoly.setMap(map);
-              }}
-              )
+                },1000)
+              });
+              let midCoord = {
+                lat:(startCoord.lat() + endCoord.lat())/2,
+                lng:(startCoord.lng() + endCoord.lng())/2
+              }
+              geocoder.geocode({ 'location': midCoord }, (results, status) => {
+                if (status === window.google.maps.GeocoderStatus.OK) {
+                  let address = results[0].formatted_address;
+                  newPoly.address = address;
+                }})
             }
           })
         }
@@ -269,23 +286,35 @@ class Map extends Component {
     Rate2ControlDiv.addEventListener('click',()=>{this.props.onHourRateClick(2)});
 
     map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(LegendExpendControlDiv);
-    map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(StreetParkingRateDiv);
+    // map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(StreetParkingRateDiv);
     LegendExpendControlDiv.addEventListener('click',() =>{
       if(this.state.legendExpendClick){
-        map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear(); 
+       // window.setTimeout(()=>{},400)
+        map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear();
         map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push( LegendCollapseControlDiv);
-        map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate5ControlDiv);
-        map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate4ControlDiv);
-        map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate3ControlDiv);
-        map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate2ControlDiv);
+        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate5ControlDiv);},100) 
+        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate4ControlDiv);},150) 
+        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate3ControlDiv);},200) 
+        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate2ControlDiv);},250) 
+
+        // map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate4ControlDiv);
+        // map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate3ControlDiv);
+        // map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate2ControlDiv);
         this.setState(prevState => ({...prevState, legendExpendClick: false}));
       }
     })
+    LegendExpendControlDiv.addEventListener('mouseover', ()=>{
+      LegendExpendControlDiv.style.backgroundImage = "url('menu-hover.png')";
+    });
+    LegendExpendControlDiv.addEventListener('mouseleave', ()=>{
+      LegendExpendControlDiv.style.backgroundImage = "url('menu.png')";
+    });
+
     LegendCollapseControlDiv.addEventListener('click',()=>{
       map.controls[window.google.maps.ControlPosition.RIGHT_TOP].clear(); 
       map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear(); 
       map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(LegendExpendControlDiv);
-      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(StreetParkingRateDiv);
+      // map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(StreetParkingRateDiv);
       this.setState(prevState => ({...prevState, legendExpendClick: true}));
       this.props.showPolyline();
     })
@@ -329,11 +358,12 @@ class Map extends Component {
       this.props.setPoly(poly);
       this.props.setCond('isClearPoly',false);
     })
-    poly.addListener('mouseover',()=>{
-      poly.setOptions({strokeOpacity: 1, strokeWeight: 6})
+
+    poly.addListener('mouseover', ()=>{
+      poly.setOptions({strokeWeight:7,strokeOpacity: 1});
     })
-    poly.addListener('mouseout',()=>{
-      poly.setOptions({strokeOpacity: 0.5, strokeWeight: 3})
+    poly.addListener('mouseout', ()=>{
+      poly.setOptions({strokeWeight:3,strokeOpacity: 0.5});
     })
     return poly
   }
@@ -381,13 +411,12 @@ class Map extends Component {
     }
   }
 
-
   componentDidMount() {
     if (!window.google) {
-      var s = document.createElement('script');
+      let s = document.createElement('script');
       s.type = 'text/javascript';
-      s.src = 'https://maps.google.com/maps/api/js?key=AIzaSyBy4S2fVXGUqZOTXl_QIFicfPb56BWbVGo';
-      var x = document.getElementsByTagName('script')[0];
+      s.src = 'https://maps.google.com/maps/api/js?key=AIzaSyBy4S2fVXGUqZOTXl_QIFicfPb56BWbVGo&libraries=places';
+      let x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
       s.addEventListener('load', () => {
         this.loadMap();
@@ -403,4 +432,4 @@ class Map extends Component {
     );
   }
 }
-export default Map
+export default Map;

@@ -4,7 +4,7 @@ const DrawPolyControl = (controlDiv) => {
   // controlDiv.style.border = '2px solid #fff';
   controlDiv.style.borderRadius = '3px';
   controlDiv.style.cursor = 'pointer';
-  controlDiv.style.backgroundImage = "url('plus.png')";
+  controlDiv.style.backgroundImage = "url('add-circular-button-small.png')";
   controlDiv.style.backgroundSize = 'cover';
   controlDiv.style.backgroundRepeat = 'no-repeat';
   controlDiv.style.marginLeft = '20px';

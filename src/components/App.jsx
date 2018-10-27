@@ -120,8 +120,8 @@ class App extends Component {
     }
   }
 
-  setMap = (map) => {
-    this.setState(prevState => ({...prevState, map:map}));
+  setApiOjb = (map,geocoder) => {
+    this.setState(prevState => ({...prevState, map:map, geocoder:geocoder}));
   }
 
   setPolyWithKey = (key,value) => {
@@ -140,42 +140,55 @@ class App extends Component {
     })
   }
 
+  handleSearchPlace = (address) => {
+    this.state.geocoder.geocode({ 'address': address }, (results, status) => {
+      if (status === window.google.maps.GeocoderStatus.OK) {
+        this.state.map.setCenter(results[0].geometry.location);
+      }
+    })
+  }
   render() {
+
     return (
       <div>
-        <Nav username={this.props.username}/>
-
-        <NewParkingInfo
-        classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'}
-        onCondChange={this.setCond}
-        dynline={this.state.dynline}
-        polyline={this.state.polyline}
-        onSubmit={this._handleInfoSubmit}
-        onChange={this.setPolyWithKey}
-        clearPoly={this.clearPoly}
+        <Nav 
+          handleSearchPlace={this.handleSearchPlace}
         />
 
-        <ParkingInfo
-        classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
-        onClick={this.setCond}
-        polyline={this.state.polyline}
-        dynline={this.state.dynline}
-        onRatingSubmit={this._handleRatingSubmit}
-        onChange={this.setPolyWithKey}
-        showInputBox={this.state.isShowInputBox}
-        onCommentSubmit={this._handleCommentSubmit}
-        />
+        {this.state.isSubmitInfoOpen ? (          
+          <NewParkingInfo
+            classname={'parking-info'}
+            onCondChange={this.setCond}
+            dynline={this.state.dynline}
+            polyline={this.state.polyline}
+            onSubmit={this._handleInfoSubmit}
+            onChange={this.setPolyWithKey}
+            clearPoly={this.clearPoly}
+          />) : ''}
+
+        {this.state.isInfoOpen ?(
+          <ParkingInfo
+            classname={'parking-info'}
+            onClick={this.setCond}
+            polyline={this.state.polyline}
+            dynline={this.state.dynline}
+            onRatingSubmit={this._handleRatingSubmit}
+            onChange={this.setPolyWithKey}
+            showInputBox={this.state.isShowInputBox}
+            onCommentSubmit={this._handleCommentSubmit}
+          />
+          ) : ''}
 
         <div className='map-container'>
           < Map
-          coords={this.state.infofromserver}
-          setCond={this.setCond}
-          setPoly={this.setPoly}
-          clearPoly={this.clearPoly}
-          addLine={this.addLine}
-          setMap={this.setMap}
-          onHourRateClick={this._handleParkingFilter}
-          showPolyline={this.showLines}
+            coords={this.state.infofromserver}
+            setCond={this.setCond}
+            setPoly={this.setPoly}
+            clearPoly={this.clearPoly}
+            addLine={this.addLine}
+            setApiOjb ={this.setApiOjb }
+            onHourRateClick={this._handleParkingFilter}
+            showPolyline={this.showLines}
           />
         </div>
       </div>

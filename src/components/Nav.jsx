@@ -10,6 +10,7 @@ class NavBar extends Component {
 
     this.state = {
       username: "",
+      search:''
     }
   }
 
@@ -17,6 +18,31 @@ class NavBar extends Component {
     this.setState({username: username})
   }
 
+  // geolocate = () => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(function(position) {
+  //       var geolocation = {
+  //         lat: position.coords.latitude,
+  //         lng: position.coords.longitude
+  //       };
+  //       var circle = new this.google.maps.Circle({
+  //         center: geolocation,
+  //         radius: position.coords.accuracy
+  //       });
+  //       autocomplete.setBounds(circle.getBounds());
+  //     });
+  //   }
+  // }
+  onSearchChange = (e) => {
+    this.setState({search: e.target.value})
+  }
+  onKeyPress = e => {
+    if (e.key === 'Enter' ){
+      this.props.handleSearchPlace(e.target.value)
+      e.target.value = '';
+    }
+  }
+  
   render() {
 
     let login = "";
@@ -42,15 +68,22 @@ class NavBar extends Component {
 
     return (
       <Navbar>
-        <Navbar.Header>
           <Navbar.Brand>
             ParkWhere
           </Navbar.Brand>
+          <NavItem className='glyphicon glyphicon-search'/>
+          <div className='search' >
+            <input type="text" 
+              placeholder="Search"
+              value={this.state.search}
+              onChange={this.onSearchChange}
+              onKeyPress={this.onKeyPress}
+            />
+            <button>Search</button>
+          </div>
           <Nav>
             {login}  {register}
           </Nav>
-        </Navbar.Header>
-
       </Navbar>
     );
   }

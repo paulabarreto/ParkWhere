@@ -1,7 +1,7 @@
 const CheckedControl = (controlDiv) => {
   controlDiv.style.borderRadius = '3px';
   controlDiv.style.cursor = 'pointer';
-  controlDiv.style.backgroundImage = "url('checked.png')";
+  controlDiv.style.backgroundImage = "url('confirm.png')";
   controlDiv.style.backgroundSize = 'cover';
   controlDiv.style.backgroundRepeat = 'no-repeat';
   controlDiv.style.marginLeft = '20px';
