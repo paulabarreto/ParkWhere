@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-app.use(cors({origin: "http://localhost:3000", credentials: true}));
+app.use(cors({origin: "http://parkwhere.dev:3000", credentials: true}));
 app.use('../public', express.static(__dirname + "/public"))
 
 // app.get("/session", (req, res) => {
@@ -24,8 +24,19 @@ app.use('../public', express.static(__dirname + "/public"))
 // })
 
 app.post("/login", (req, res) => {
-  res.cookie('name', req.body.username);
-  res.send(req.cookies.name)
+  // console.log(req.body.username)
+  knex("users").where({
+    name: req.body.username
+  }).then((data) => {
+    // console.log("data", data)
+    res.cookie('name', data[0].name);
+    res.send('');
+  })
+})
+
+app.post("/logout", (req, res) => {
+  console.log("remove cookie")
+  res.clearCookie("name");
 })
 
 app.get("/parking_info", async (req, res) => {
@@ -54,7 +65,6 @@ app.get("/parking_info", async (req, res) => {
             }
           }
         });
-        console.log(Object.values(result));
         res.send(Object.values(result))
       })
 });
@@ -98,7 +108,7 @@ app.post('/add_comment', (req,res)=>{
         return knex.select('*')
         .from('comments')
       }).then(function(rows) {
-        console.log(rows);
+        // console.log(rows);
         // res.send(rows);
       })
 })

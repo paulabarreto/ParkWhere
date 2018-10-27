@@ -14,7 +14,8 @@ exports.seed = function(knex, Promise) {
         {id: 7, lat_start: "43.639265", lng_start: "-79.443618", lat_end: "43.639320", lng_end: "-79.443238", hours: "Fri-Sun 6pm-8am", rate: 2, rating: 5},
         {id: 8, lat_start: "43.678238", lng_start: "-79.439784", lat_end: "43.678105", lng_end: "-79.440362", hours: "Fri-Sun 6pm-8am", rate: 3, rating: 5},
         {id: 9, lat_start: "43.679893", lng_start: "-79.390590", lat_end: "43.680025", lng_end: "-79.389947", hours: "Fri-Sun 6pm-8am", rate: 3, rating: 3},
-        {id: 10, lat_start: "43.663393", lng_start: "-79.400780", lat_end: "43.663291", lng_end: "-79.401205", hours: "Fri-Sun 6pm-8am", rate: 4, rating: 3}
+        {id: 10, lat_start: "43.663105", lng_start: "-79.401740", lat_end: "43.663439", lng_end: "-79.400167", hours: "Fri-Sun 6pm-8am", rate: 4, rating: 3}
       ]);
     });
+
 };

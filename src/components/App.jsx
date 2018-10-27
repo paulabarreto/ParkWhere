@@ -2,19 +2,28 @@ import React, { Component } from 'react';
 import Nav from './Nav.jsx';
 import Map from './Map.jsx';
 import axios from 'axios';
-import NewParkingInfo from './NewParkingInfo.jsx'
-import ParkingInfo from './ParkingInfo.jsx'
+import NewParkingInfo from './NewParkingInfo.jsx';
+import ParkingInfo from './ParkingInfo.jsx';
+
+
 class App extends Component {
-  state = {
-    map:'',
-    infofromserver:[],
-    polyline:'',
-    lines:[],
-    isInfoOpen: false,
-    isSubmitInfoOpen: false,
-    isClearPoly:false,
-    isShowInputBox:false
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      map:'',
+      infofromserver:[],
+      polyline:'',
+      lines:[],
+      isInfoOpen: false,
+      isSubmitInfoOpen: false,
+      isClearPoly:false,
+      isShowInputBox:false,
+    };
   }
+
+
 
   componentDidMount() {
 
@@ -106,11 +115,14 @@ class App extends Component {
   }
   render() {
 
+    const { name } = this.state;
+
     return (
       <div>
         <button onClick={this.hideLines}> hide lines </button>
         <button onClick={this.newLines}> show lines </button>
-        <Nav username={this.props.username}/>
+
+        <Nav />
 
         <NewParkingInfo
         classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'}
@@ -141,6 +153,7 @@ class App extends Component {
           addLine={this.addLine}
           setMap={this.setMap}
           />
+
         </div>
       </div>
     );
