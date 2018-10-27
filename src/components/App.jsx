@@ -143,7 +143,25 @@ class App extends Component {
   handleSearchPlace = (address) => {
     this.state.geocoder.geocode({ 'address': address }, (results, status) => {
       if (status === window.google.maps.GeocoderStatus.OK) {
-        this.state.map.setCenter(results[0].geometry.location);
+        let queryloc = results[0].geometry.location;
+        this.state.map.setCenter(queryloc);
+        let querymarker = new window.google.maps.Marker({
+          clickable: false,
+          icon:  {url:'mylocation.png',
+                  scaledSize: new window.google.maps.Size(40, 40),
+                  origin: new window.google.maps.Point(0, 0),
+                  anchor: new window.google.maps.Point(0, 0)},
+          shadow: null,
+          zIndex: 999,
+          map: this.state.map,
+          animation: window.google.maps.Animation.DROP,
+          position:queryloc
+        });
+        this.state.map.addListener('zoom_changed', () => { 
+          querymarker.setMap(null);
+      }); 
+      }else{
+        console.log('Status Error', status)
       }
     })
   }

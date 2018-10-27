@@ -142,6 +142,12 @@ class Map extends Component {
     let currentLocationDiv = this.newControl(CurrentLocationControl);
     //push the div into google map as a new map control
     map.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(currentLocationDiv);
+    currentLocationDiv.addEventListener('mouseover', ()=>{
+      currentLocationDiv.style.backgroundImage = "url('gps-fixed.png')";
+    });
+    currentLocationDiv.addEventListener('mouseleave', ()=>{
+      currentLocationDiv.style.backgroundImage = "url('gps-location.png')";
+    });
 
     //add eventlistener for the current location button to get the pin point to current location
     currentLocationDiv.addEventListener('click', () => {
@@ -218,6 +224,7 @@ class Map extends Component {
 
         map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(UncheckedControlDiv);
         UncheckedControlDiv.addEventListener('click',() =>{
+          UncheckedControlDiv.style.backgroundImage = "url('cancel.png')";
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
@@ -311,6 +318,7 @@ class Map extends Component {
     });
 
     LegendCollapseControlDiv.addEventListener('click',()=>{
+      
       map.controls[window.google.maps.ControlPosition.RIGHT_TOP].clear(); 
       map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear(); 
       map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(LegendExpendControlDiv);
@@ -391,7 +399,7 @@ class Map extends Component {
         let curloc = new window.google.maps.Marker({
           clickable: false,
           icon:  {url:'mylocation.png',
-                  scaledSize: new window.google.maps.Size(30, 30),
+                  scaledSize: new window.google.maps.Size(40, 40),
                   origin: new window.google.maps.Point(0, 0),
                   anchor: new window.google.maps.Point(0, 0)},
           shadow: null,
