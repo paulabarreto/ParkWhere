@@ -4,10 +4,10 @@ const CheckedControl = (controlDiv) => {
   controlDiv.style.backgroundImage = "url('checked.png')";
   controlDiv.style.backgroundSize = 'cover';
   controlDiv.style.backgroundRepeat = 'no-repeat';
-  controlDiv.style.marginLeft = '10px';
+  controlDiv.style.marginLeft = '20px';
   controlDiv.style.marginTop = '10px';
-  controlDiv.style.height = '30px';
-  controlDiv.style.width = '30px';
+  controlDiv.style.height = '50px';
+  controlDiv.style.width = '50px';
 }
 
 export default CheckedControl;

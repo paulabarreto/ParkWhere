@@ -4,7 +4,13 @@ import CurrentLocationControl from './mapcontrols/CurrentLocationControl';
 import DrawPolyControl from './mapcontrols/DrawPolyControl';
 import NotificationControl from  './mapcontrols/NotificationControl';
 import CheckedControl from './mapcontrols/CheckedControl';
-import UncheckedControl from  './mapcontrols/UncheckedControl';
+import UncheckedControl from  './mapcontrols/UncheckedControl'; 
+import LegendCollapseControl from  './mapcontrols/LegendCollapseControl'; 
+import LegendExpendControl from './mapcontrols/LegendExpendControl';
+import Rate5Control from './mapcontrols/Rate5Control';
+import Rate4Control from './mapcontrols/Rate4Control';
+import Rate3Control from './mapcontrols/Rate3Control';
+import Rate2Control from './mapcontrols/Rate2Control';
 
 class Map extends Component {
   constructor(props){
@@ -12,7 +18,8 @@ class Map extends Component {
     this.state = {
       curloc: null,
       address:'',
-      map:''
+      map:'',
+      legendExpendClick:true
     };
   }
 
@@ -35,11 +42,19 @@ class Map extends Component {
     this.props.setMap(map)
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map);
+    this.LegendDiv(map);
     this.loadData(geocoder);
   }
 
   loadData = (geocoder) => {
-    this.props.coords.forEach(coord => {
+    
+    let coords = this.props.coords;
+    let runFetch = ()=>{
+      if (coords.length ===0){
+        return
+      }
+      console.log(coords)
+      let coord = coords.pop();
       let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
       let endCoord = {lat: coord.lat_end, lng: coord.lng_end};
       let midCoord = {
@@ -64,7 +79,7 @@ class Map extends Component {
             newPoly.setOptions({strokeColor:'purple'})
             break;
             case (coord.rate === 3):
-            newPoly.setOptions({strokeColor:'yellow'})
+            newPoly.setOptions({strokeColor:'blue'})
             break;
             case (coord.rate === 2):
             newPoly.setOptions({strokeColor:'green'})
@@ -77,7 +92,11 @@ class Map extends Component {
           console.log('Status Error:',status)
         }
       })
-    })
+      setTimeout(() => {
+        runFetch();
+      }, 1500);
+    };
+    runFetch();
   }
 
   handleCurrentLocation = (map) => {
@@ -185,6 +204,32 @@ class Map extends Component {
     })
   }
 
+  LegendDiv = (map) => {
+    let LegendExpendControlDiv = this.newControl(LegendExpendControl);
+    let LegendCollapseControlDiv = this.newControl( LegendCollapseControl);
+    let Rate5ControlDiv = this.newControl(Rate5Control);
+    let Rate4ControlDiv = this.newControl(Rate4Control);
+    let Rate3ControlDiv = this.newControl(Rate3Control);
+    let Rate2ControlDiv = this.newControl(Rate2Control);
+    map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(LegendExpendControlDiv);
+    LegendExpendControlDiv.addEventListener('click',() =>{
+      if(this.state.legendExpendClick){
+        map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear(); 
+        map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push( LegendCollapseControlDiv);
+        map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate5ControlDiv);
+        map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate4ControlDiv);
+        map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate3ControlDiv);
+        map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate2ControlDiv);
+        this.setState(prevState => ({...prevState, legendExpendClick: false}));
+      }
+    })
+    LegendCollapseControlDiv.addEventListener('click',()=>{
+      map.controls[window.google.maps.ControlPosition.RIGHT_TOP].clear(); 
+      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear(); 
+      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(LegendExpendControlDiv);
+      this.setState(prevState => ({...prevState, legendExpendClick: true}));
+    })
+  }
   newControl = (Control) =>{
     let ControlDiv = document.createElement('div');
     Control(ControlDiv);
