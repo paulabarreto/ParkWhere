@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Well, Button, FormGroup, InputGroup, FormControl }from 'react-bootstrap';
 import uuid from 'uuid/v4';
-import Rating from 'react-rating';
+// import Rating from 'react-rating';
 class NewParkingInfo  extends Component {
 
   render(){

@@ -75,6 +75,16 @@ class App extends Component {
     .then(res => {console.log('data from rating submit',res.data)
     })
   }
+
+  _handleParkingFilter = (index) => {
+    this.state.lines.forEach( line => {
+      if (line.rate === index) {
+        line.setVisible(true);
+      }else{
+        line.setVisible(false) 
+      }
+    })
+  }
   // set condition base on the input key value and boolean value
   setCond = (key,boolean) => {
     this.setState(prevState => ({...prevState, [key]: boolean}));
@@ -124,23 +134,15 @@ class App extends Component {
     this.setState(prevState => ({lines: [...prevState.lines, newline]}))
   }
 
-  hideLines = () => {
-    this.state.lines.forEach(line=>{
-      // line.setVisible(false)
-      line.setMap(null)
-    })
-  }
   showLines = () => {
     this.state.lines.forEach(line=>{
-      line.setMap(this.state.map)
+      line.setVisible(true)
     })
   }
 
   render() {
     return (
       <div>
-        <button onClick={this.hideLines}> hide lines </button>
-        <button onClick={this.showLines}> show lines </button>
         <Nav username={this.props.username}/>
 
         <NewParkingInfo
@@ -172,6 +174,8 @@ class App extends Component {
           clearPoly={this.clearPoly}
           addLine={this.addLine}
           setMap={this.setMap}
+          onHourRateClick={this._handleParkingFilter}
+          showPolyline={this.showLines}
           />
         </div>
       </div>

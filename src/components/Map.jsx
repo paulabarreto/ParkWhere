@@ -11,6 +11,7 @@ import Rate5Control from './mapcontrols/Rate5Control';
 import Rate4Control from './mapcontrols/Rate4Control';
 import Rate3Control from './mapcontrols/Rate3Control';
 import Rate2Control from './mapcontrols/Rate2Control';
+import StreetParkingRate from './mapcontrols/StreetParkingRate'
 
 class Map extends Component {
   constructor(props){
@@ -35,9 +36,9 @@ class Map extends Component {
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
     const geocoder = new window.google.maps.Geocoder();
-    map.addListener('click',()=>{
-      this.props.setCond('isInfoOpen',false)
-    })
+    // map.addListener('click',()=>{
+    //   this.props.setCond('isInfoOpen',false)
+    // })
     this.setState(prevState => ({...prevState, map: map}));
     this.props.setMap(map)
     this.handleCurrentLocation(map);
@@ -46,58 +47,94 @@ class Map extends Component {
     this.loadData(geocoder);
   }
 
-  loadData = (geocoder) => {
+  // loadData = (geocoder) => {
     
-    let coords = this.props.coords;
-    let runFetch = ()=>{
-      if (coords.length ===0){
-        return
-      }
-      console.log(coords)
-      let coord = coords.pop();
+  //   let coords = this.props.coords;
+  //   let runFetch = ()=>{
+  //     if (coords.length ===0){
+  //       return
+  //     }
+  //     console.log(coords)
+  //     let coord = coords.pop();
+  //     let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
+  //     let endCoord = {lat: coord.lat_end, lng: coord.lng_end};
+  //     let midCoord = {
+  //       lat:(startCoord.lat + endCoord.lat)/2,
+  //       lng:(startCoord.lng + endCoord.lng)/2
+  //     }
+  //     geocoder.geocode({ 'location': midCoord }, (results, status) => {
+  //       if (status === window.google.maps.GeocoderStatus.OK) {
+  //         let data = {
+  //           hours:coord.hours,
+  //           rate:coord.rate,
+  //           rating:coord.rating,
+  //           id: coord.parking_id,
+  //           comments: coord.comments,
+  //           address: results[0].formatted_address};
+  //         let newPoly = this.placePoly(startCoord, endCoord, data);
+  //         switch(true){
+  //           case (coord.rate === 5):
+  //           newPoly.setOptions({strokeColor:'red'})
+  //           break;
+  //           case (coord.rate === 4):
+  //           newPoly.setOptions({strokeColor:'purple'})
+  //           break;
+  //           case (coord.rate === 3):
+  //           newPoly.setOptions({strokeColor:'blue'})
+  //           break;
+  //           case (coord.rate === 2):
+  //           newPoly.setOptions({strokeColor:'green'})
+  //           break;
+  //         }
+  //         newPoly.setMap(this.state.map);
+  //         this.props.addLine(newPoly);
+  //       }
+  //       else{
+  //         console.log('Status Error:',status)
+  //       }
+  //     })
+  //     setTimeout(() => {
+  //       runFetch();
+  //     }, 1500);
+  //   };
+  //   runFetch();
+  // }
+  loadData = () => {
+    this.props.coords.forEach(coord=>{    
       let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
       let endCoord = {lat: coord.lat_end, lng: coord.lng_end};
-      let midCoord = {
-        lat:(startCoord.lat + endCoord.lat)/2,
-        lng:(startCoord.lng + endCoord.lng)/2
+      let data = {
+        hours:coord.hours,
+        rate:coord.rate,
+        rating:coord.rating,
+        id: coord.parking_id,
+        comments: coord.comments,
+        address: ''
       }
-      geocoder.geocode({ 'location': midCoord }, (results, status) => {
-        if (status === window.google.maps.GeocoderStatus.OK) {
-          let data = {
-            hours:coord.hours,
-            rate:coord.rate,
-            rating:coord.rating,
-            id: coord.parking_id,
-            comments: coord.comments,
-            address: results[0].formatted_address};
-          let newPoly = this.placePoly(startCoord, endCoord, data);
-          switch(true){
-            case (coord.rate === 5):
+      
+      let newPoly = this.placePoly(startCoord, endCoord, data);
+        switch(true){
+          case (coord.rate === 5):
             newPoly.setOptions({strokeColor:'red'})
             break;
-            case (coord.rate === 4):
+          case (coord.rate === 4):
             newPoly.setOptions({strokeColor:'purple'})
             break;
-            case (coord.rate === 3):
+         case (coord.rate === 3):
             newPoly.setOptions({strokeColor:'blue'})
             break;
-            case (coord.rate === 2):
-            newPoly.setOptions({strokeColor:'green'})
+          case (coord.rate === 2):
+          newPoly.setOptions({strokeColor:'green'})
             break;
-          }
-          newPoly.setMap(this.state.map);
-          this.props.addLine(newPoly);
+          default:
+            newPoly.setOptions({strokeColor:'black'})
+            break;
         }
-        else{
-          console.log('Status Error:',status)
-        }
-      })
-      setTimeout(() => {
-        runFetch();
-      }, 1500);
-    };
-    runFetch();
-  }
+      newPoly.setMap(this.state.map);
+      this.props.addLine(newPoly);
+    })
+}
+
 
   handleCurrentLocation = (map) => {
 
@@ -207,11 +244,20 @@ class Map extends Component {
   LegendDiv = (map) => {
     let LegendExpendControlDiv = this.newControl(LegendExpendControl);
     let LegendCollapseControlDiv = this.newControl( LegendCollapseControl);
+    let StreetParkingRateDiv = this.newControl(StreetParkingRate);
     let Rate5ControlDiv = this.newControl(Rate5Control);
+
     let Rate4ControlDiv = this.newControl(Rate4Control);
     let Rate3ControlDiv = this.newControl(Rate3Control);
     let Rate2ControlDiv = this.newControl(Rate2Control);
+
+    Rate5ControlDiv.addEventListener('click',()=>{this.props.onHourRateClick(5)});
+    Rate4ControlDiv.addEventListener('click',()=>{this.props.onHourRateClick(4)});
+    Rate3ControlDiv.addEventListener('click',()=>{this.props.onHourRateClick(3)});
+    Rate2ControlDiv.addEventListener('click',()=>{this.props.onHourRateClick(2)});
+
     map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(LegendExpendControlDiv);
+    map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(StreetParkingRateDiv);
     LegendExpendControlDiv.addEventListener('click',() =>{
       if(this.state.legendExpendClick){
         map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear(); 
@@ -227,7 +273,9 @@ class Map extends Component {
       map.controls[window.google.maps.ControlPosition.RIGHT_TOP].clear(); 
       map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear(); 
       map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(LegendExpendControlDiv);
+      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(StreetParkingRateDiv);
       this.setState(prevState => ({...prevState, legendExpendClick: true}));
+      this.props.showPolyline();
     })
   }
   newControl = (Control) =>{
