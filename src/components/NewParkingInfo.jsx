@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import { Well, Button, FormGroup, InputGroup, FormControl }from 'react-bootstrap';
-import uuid from 'uuid/v4';
 // import Rating from 'react-rating';
 class NewParkingInfo  extends Component {
 
   render(){
-    const coordsArr = this.props.dynline? this.props.dynline.coords : '';
 
     const onCancel = () => {
       this.props.onCondChange('isSubmitInfoOpen',false);
@@ -30,14 +28,8 @@ class NewParkingInfo  extends Component {
     )
     return  (
       <Well className={this.props.classname}>
-        <h3>Coodinates</h3>
-          <div>
-            {this.props.dynline?coordsArr.map(coord=>(
-              <div key={uuid()}>
-                {coord.lat()}, {coord.lng()}
-              </div>
-            )):''}
-          </div>
+        <p>Nearby Address:</p>
+        <p>{this.props.polyline.address}</p><br/>
         <form onSubmit={onSubmit}>
           Enter Parking Info
           <FormGroup>

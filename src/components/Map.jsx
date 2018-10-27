@@ -11,7 +11,7 @@ import Rate5Control from './mapcontrols/Rate5Control';
 import Rate4Control from './mapcontrols/Rate4Control';
 import Rate3Control from './mapcontrols/Rate3Control';
 import Rate2Control from './mapcontrols/Rate2Control';
-import StreetParkingRate from './mapcontrols/StreetParkingRate'
+import StreetParkingRate from './mapcontrols/StreetParkingRate';
 
 class Map extends Component {
   constructor(props){
@@ -36,13 +36,13 @@ class Map extends Component {
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
     const geocoder = new window.google.maps.Geocoder();
-    // map.addListener('click',()=>{
-    //   this.props.setCond('isInfoOpen',false)
-    // })
+    map.addListener('click',()=>{
+      this.props.setCond('isInfoOpen',false)
+    })
     this.setState(prevState => ({...prevState, map: map}));
     this.props.setMap(map)
     this.handleCurrentLocation(map);
-    this.handleDrawPoly(map);
+    this.handleDrawPoly(map,geocoder);
     this.LegendDiv(map);
     this.loadData(geocoder);
   }
@@ -156,7 +156,7 @@ class Map extends Component {
     });
   }
 
-  handleDrawPoly = (map) => {
+  handleDrawPoly = (map,geocoder) => {
     //create a div container for button to enable poly drawing
     let drawPolyDiv = this.newControl(DrawPolyControl)
     map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(drawPolyDiv);
@@ -221,7 +221,8 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              let data = {hours:'', rate:'', id:'', rating:'',comment:''};
+              
+              let data = {hours:'', rate:'', id:'', rating:0,comment:'',address:''};
               let newPoly = this.placePoly(startCoord,endCoord,data);
               this.props.setPoly(newPoly);
               newPoly.setMap(map);
@@ -233,7 +234,16 @@ class Map extends Component {
                     marker.setAnimation(null)
                   },5000)
                 },500)
-              })
+              });
+              let midCoord = {
+                lat:(startCoord.lat() + endCoord.lat())/2,
+                lng:(startCoord.lng() + endCoord.lng())/2
+              }
+              geocoder.geocode({ 'location': midCoord }, (results, status) => {
+                if (status === window.google.maps.GeocoderStatus.OK) {
+                  let address = results[0].formatted_address;
+                  newPoly.address = address;
+                }})
             }
           })
         }
@@ -306,8 +316,8 @@ class Map extends Component {
       path:[startCoord,endCoord],
       //editable: true,
       strokeColor: '#0000FF',
-      strokeOpacity: 1.0,
-      strokeWeight: 2.5
+      strokeOpacity: 0.5,
+      strokeWeight: 3
     });
     for(let key in data){
       poly[key] = data[key]
@@ -316,6 +326,13 @@ class Map extends Component {
       this.props.setCond('isInfoOpen',true);
       this.props.setPoly(poly);
       this.props.setCond('isClearPoly',false);
+    })
+
+    poly.addListener('mouseover', ()=>{
+      poly.setOptions({strokeWeight:7,strokeOpacity: 1});
+    })
+    poly.addListener('mouseout', ()=>{
+      poly.setOptions({strokeWeight:3,strokeOpacity: 0.5});
     })
     return poly
   }

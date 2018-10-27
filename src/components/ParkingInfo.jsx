@@ -46,7 +46,7 @@ class ParkingInfo  extends Component {
         <Rating
           emptySymbol={<img src="star-empty.png" className="icon" alt="empty star"/>}
           fullSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
-          initialRating={this.props.polyline.rating}
+          initialRating={this.props.polyline.rating !== undefined? this.props.polyline.rating:0}
           onClick={this.onRatingClick}
           placeholderSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
         />
