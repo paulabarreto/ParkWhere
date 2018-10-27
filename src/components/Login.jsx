@@ -39,7 +39,7 @@ export default class Login extends Component {
   }
 
   handleSubmit = event => {
-    event.preventDefault();
+    // event.preventDefault();
     this.props.login(this.state.name);
     this.setState({show: false});
     axios({

@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import { Well, Button, FormGroup, InputGroup, FormControl }from 'react-bootstrap';
+import uuid from 'uuid/v4';
 // import Rating from 'react-rating';
 class NewParkingInfo  extends Component {
 
   render(){
+    // const coordsArr = this.props.dynline? this.props.dynline.coords : '';
 
     const onCancel = () => {
       this.props.onCondChange('isSubmitInfoOpen',false);
@@ -21,7 +23,6 @@ class NewParkingInfo  extends Component {
     const onChange = key => e => {
       this.props.onChange(key, e.target.value);
     }
-    //const onClick = key => e => (this.props.onChange(key, e));
 
     const inputValue = (key) => (
       this.props.dynline[key] ? this.props.dynline[key] : ''

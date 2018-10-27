@@ -8,7 +8,6 @@ const StreetParkingRate = (controlDiv) => {
   controlDiv.textContent = 'Street Parking Rate $';
   controlDiv.style.fontSize = '1.5em';
   controlDiv.style.color = 'green';
-  controlDiv.style.fontWeight = 'bold';
   
 }
 

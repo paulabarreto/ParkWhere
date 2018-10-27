@@ -11,7 +11,7 @@ import Rate5Control from './mapcontrols/Rate5Control';
 import Rate4Control from './mapcontrols/Rate4Control';
 import Rate3Control from './mapcontrols/Rate3Control';
 import Rate2Control from './mapcontrols/Rate2Control';
-import StreetParkingRate from './mapcontrols/StreetParkingRate';
+import StreetParkingRate from './mapcontrols/StreetParkingRate'
 
 class Map extends Component {
   constructor(props){
@@ -221,12 +221,13 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              
-              let data = {hours:'', rate:'', id:'', rating:0,comment:'',address:''};
-              let newPoly = this.placePoly(startCoord,endCoord,data);
-              this.props.setPoly(newPoly);
-              newPoly.setMap(map);
               mapClickCount++;
+
+              let midCoord = {
+                lat:(startCoord.lat() + endCoord.lat())/2,
+                lng:(startCoord.lng() + endCoord.lng())/2
+              }    
+
               newMarkers.forEach(marker=>{
                 window.setTimeout(() => {
                   marker.setAnimation(window.google.maps.Animation.BOUNCE)
@@ -234,16 +235,17 @@ class Map extends Component {
                     marker.setAnimation(null)
                   },5000)
                 },500)
-              });
-              let midCoord = {
-                lat:(startCoord.lat() + endCoord.lat())/2,
-                lng:(startCoord.lng() + endCoord.lng())/2
-              }
-              geocoder.geocode({ 'location': midCoord }, (results, status) => {
-                if (status === window.google.maps.GeocoderStatus.OK) {
-                  let address = results[0].formatted_address;
-                  newPoly.address = address;
-                }})
+              })
+              
+            geocoder.geocode({ 'location': midCoord }, (results, status) => {
+              if (status === window.google.maps.GeocoderStatus.OK) {
+                let data = {hours:'', rate:'', id:'', rating:'',
+                            comment:'',address:results[0].formatted_address};
+                let newPoly = this.placePoly(startCoord,endCoord,data);
+                this.props.setPoly(newPoly);
+                newPoly.setMap(map);
+              }}
+              )
             }
           })
         }
@@ -327,12 +329,11 @@ class Map extends Component {
       this.props.setPoly(poly);
       this.props.setCond('isClearPoly',false);
     })
-
-    poly.addListener('mouseover', ()=>{
-      poly.setOptions({strokeWeight:7,strokeOpacity: 1});
+    poly.addListener('mouseover',()=>{
+      poly.setOptions({strokeOpacity: 1, strokeWeight: 6})
     })
-    poly.addListener('mouseout', ()=>{
-      poly.setOptions({strokeWeight:3,strokeOpacity: 0.5});
+    poly.addListener('mouseout',()=>{
+      poly.setOptions({strokeOpacity: 0.5, strokeWeight: 3})
     })
     return poly
   }
