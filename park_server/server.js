@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-app.use(cors({origin: "http://localhost:3000", credentials: true}));
+app.use(cors({origin: "http://localhost:3002", credentials: true}));
 app.use('../public', express.static(__dirname + "/public"))
 
 // app.get("/session", (req, res) => {
