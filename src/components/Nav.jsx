@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
+import { Input, Button, Icon, Select, DatePicker} from 'antd';
+import 'antd/dist/antd.css';
 
 class NavBar extends Component {
 
@@ -10,7 +12,8 @@ class NavBar extends Component {
 
     this.state = {
       username: "",
-      search:''
+      dateObject:'',
+      searchValue:''
     }
   }
 
@@ -18,31 +21,29 @@ class NavBar extends Component {
     this.setState({username: username})
   }
 
-  // geolocate = () => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(function(position) {
-  //       var geolocation = {
-  //         lat: position.coords.latitude,
-  //         lng: position.coords.longitude
-  //       };
-  //       var circle = new this.google.maps.Circle({
-  //         center: geolocation,
-  //         radius: position.coords.accuracy
-  //       });
-  //       autocomplete.setBounds(circle.getBounds());
-  //     });
-  //   }
-  // }
-  onSearchChange = (e) => {
-    this.setState({search: e.target.value})
+  onChange = (field, value) => {
+    this.setState({
+      [field]: value,
+    });
   }
-  onKeyPress = e => {
-    if (e.key === 'Enter' ){
-      this.props.handleSearchPlace(e.target.value)
-      e.target.value = '';
-    }
+
+  onDateChange = (date) => {
+    this.onChange('dateObject',date)
   }
-  
+
+  onInputChange = (input) => {
+    this.onChange('searchValue', input.target.value);
+  }
+
+  onSearchClick = () => {
+    this.props.handleSearch(this.state.searchValue,this.state.dateObject)
+  }
+
+  emitEmpty = () => {
+    this.searchInput.focus();
+    this.setState({ searchValue: '' });
+  }
+
   render() {
 
     let login = "";
@@ -66,20 +67,29 @@ class NavBar extends Component {
       );
     }
 
+    const suffix = this.state.searchValue ? <Icon type="close" onClick={this.emitEmpty} /> : null;
     return (
       <Navbar>
           <Navbar.Brand>
             ParkWhere
           </Navbar.Brand>
-          <NavItem className='glyphicon glyphicon-search'/>
+          <Icon type="search" theme="outlined" />
           <div className='search' >
-            <input type="text" 
-              placeholder="Search"
-              value={this.state.search}
-              onChange={this.onSearchChange}
-              onKeyPress={this.onKeyPress}
+            <Input
+              placeholder="address"
+              style={{ width: 200 }}
+              suffix={suffix}
+              value={this.state.searchValue}
+              onChange={this.onInputChange}
+              ref={node => this.searchInput = node}
             />
-            <button>Search</button>
+            <DatePicker
+              showTime
+              format="YYYY-MM-DD h:mm:ss a"
+              placeholder="Select date and time"
+              onChange={this.onDateChange}
+            />
+            <Button onClick={this.onSearchClick}>Search</Button>
           </div>
           <Nav>
             {login}  {register}

@@ -140,7 +140,10 @@ class App extends Component {
     })
   }
 
-  handleSearchPlace = (address) => {
+  handleSearch = (address,dateOjbect) =>{
+
+  }
+  handlePlaceSearch = (address) => {
     this.state.geocoder.geocode({ 'address': address }, (results, status) => {
       if (status === window.google.maps.GeocoderStatus.OK) {
         let queryloc = results[0].geometry.location;
@@ -165,12 +168,16 @@ class App extends Component {
       }
     })
   }
+
+  handleDateSearch = (dateOjbect) => {
+
+  }
   render() {
 
     return (
       <div>
         <Nav 
-          handleSearchPlace={this.handleSearchPlace}
+          handleSearch={this.handleSearch}
         />
 
         {this.state.isSubmitInfoOpen ? (          

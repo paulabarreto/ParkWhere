@@ -214,6 +214,7 @@ class Map extends Component {
           if (startCoord && endCoord){
             this.props.setCond('isSubmitInfoOpen',true);
           }
+          CheckedControlDiv.style.backgroundImage = "url('confirm.png')";
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear(); // clear notification
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear(); //clear both c
           newMarkers.forEach(marker=>(marker.setMap(null)));
@@ -354,8 +355,8 @@ class Map extends Component {
     let poly = new window.google.maps.Polyline({
       path:[startCoord,endCoord],
       //editable: true,
-      strokeColor: '#0000FF',
-      strokeOpacity: 0.5,
+      strokeColor: '#336699',
+      strokeOpacity: 0.7,
       strokeWeight: 3
     });
     for(let key in data){
@@ -371,7 +372,7 @@ class Map extends Component {
       poly.setOptions({strokeWeight:7,strokeOpacity: 1});
     })
     poly.addListener('mouseout', ()=>{
-      poly.setOptions({strokeWeight:3,strokeOpacity: 0.5});
+      poly.setOptions({strokeWeight:3,strokeOpacity: 0.7});
     })
     return poly
   }
