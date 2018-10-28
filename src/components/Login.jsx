@@ -43,9 +43,9 @@ export default class Login extends Component {
     axios({
       method: 'post',
       url: 'http://localhost:8080/login',
+      withCredentials: true,
       data: {
         username: this.state.name,
-        withCredentials: true
       }
     }).then(res => {
       console.log("login axios res", res);

@@ -6,7 +6,6 @@ import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import axios from 'axios';
 
-
 class NavBar extends Component {
 
   static propTypes = {
@@ -35,6 +34,7 @@ class NavBar extends Component {
 
   handleLogin(name) {
     this.setState({name: name });
+
   }
 
   handleLogout() {
@@ -57,13 +57,13 @@ class NavBar extends Component {
     let login = "";
     let register = "";
 
-    // if({name}){
-    //   login = (
-    //     <NavItem>
-    //       {this.state.name} | <button onClick={this.handleLogout.bind(this)}>Logout</button>
-    //     </NavItem>
-    //   );
-    // }else {
+    if({name}){
+      login = (
+        <NavItem>
+          {this.state.name} | <button onClick={this.handleLogout.bind(this)}>Logout</button>
+        </NavItem>
+      );
+    }else {
       login = (
         <NavItem>
           <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
@@ -76,7 +76,7 @@ class NavBar extends Component {
           <Register login={this.handleLogin}/>
         </NavItem>
       );
-    // }
+    }
 
     return (
       <Navbar>

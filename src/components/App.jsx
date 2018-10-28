@@ -4,7 +4,7 @@ import Map from './Map.jsx';
 import axios from 'axios';
 import NewParkingInfo from './NewParkingInfo.jsx';
 import ParkingInfo from './ParkingInfo.jsx';
-
+import HomePage from './HomePage.jsx';
 
 class App extends Component {
 
@@ -118,44 +118,45 @@ class App extends Component {
     const { name } = this.state;
 
     return (
-      <div>
-        <button onClick={this.hideLines}> hide lines </button>
-        <button onClick={this.newLines}> show lines </button>
+        <div>
+          <button onClick={this.hideLines}> hide lines </button>
+          <button onClick={this.newLines}> show lines </button>
 
-        <Nav />
+          <Nav />
 
-        <NewParkingInfo
-        classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'}
-        onCondChange={this.setCond}
-        polyLine={this.state.polyline}
-        onSubmit={this._handleInfoSubmit}
-        onChange={this.setPolyWithKey}
-        clearPoly={this.clearPoly}
-        />
+          <HomePage />
 
-        <ParkingInfo
-        classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
-        onClick={this.setCond}
-        polyLine={this.state.polyline}
-        onRatingSubmit={this._handleRatingSubmit}
-        onChange={this.setPolyWithKey}
-        showInputBox={this.state.isShowInputBox}
-        onCommentSubmit={this._handleCommentSubmit}
-        />
-
-        <div className='map-container'>
-          < Map
-          coords={this.state.infofromserver}
-          setCond={this.setCond}
-          setPoly={this.setPoly}
+          <NewParkingInfo
+          classname={this.state.isSubmitInfoOpen ? 'parking-info': 'parking-info-hide'}
+          onCondChange={this.setCond}
           polyLine={this.state.polyline}
+          onSubmit={this._handleInfoSubmit}
+          onChange={this.setPolyWithKey}
           clearPoly={this.clearPoly}
-          addLine={this.addLine}
-          setMap={this.setMap}
           />
 
+          <ParkingInfo
+          classname={this.state.isInfoOpen ? 'parking-info': 'parking-info-hide'}
+          onClick={this.setCond}
+          polyLine={this.state.polyline}
+          onRatingSubmit={this._handleRatingSubmit}
+          onChange={this.setPolyWithKey}
+          showInputBox={this.state.isShowInputBox}
+          onCommentSubmit={this._handleCommentSubmit}
+          />
+
+          <div className='map-container'>
+            < Map
+            coords={this.state.infofromserver}
+            setCond={this.setCond}
+            setPoly={this.setPoly}
+            polyLine={this.state.polyline}
+            clearPoly={this.clearPoly}
+            addLine={this.addLine}
+            setMap={this.setMap}
+            />
+          </div>
         </div>
-      </div>
     );
   }
 }
