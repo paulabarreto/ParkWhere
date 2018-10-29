@@ -48,25 +48,25 @@ class NavBar extends Component {
 
     if(this.state.name !== ""){
       login = (
-        <div className="Login">
+        <div>
           <div>
             {this.state.name}
           </div>
-          <div onClick={this.handleLogout}>
+          <Button onClick={this.handleLogout}>
             Logout
-          </div>
+          </Button>
         </div>
       );
     }else {
       login = (
-        <div className="Login">
+        <Button>
           <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
-        </div>
+        </Button>
       );
       register = (
-        <div className="Login">
+        <Button>
           <Register login={this.handleLogin}/>
-        </div>
+        </Button>
       );
     }
     return (
@@ -74,9 +74,9 @@ class NavBar extends Component {
           <Navbar.Brand>
             ParkWhere
           </Navbar.Brand>
-          <Nav>
-            {login} <br/> {register}
-          </Nav>
+          <div className="login">
+            {login} {register}
+          </div>
       </Navbar>
     );
   }

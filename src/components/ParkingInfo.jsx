@@ -5,13 +5,13 @@ import Rating from 'react-rating';
 
 class ParkingInfo  extends Component {
 
-  KeyPress = e => {
-    if (e.key === 'Enter' ){
-      this.props.onCommentSubmit();
-      e.target.value = '';
-      this.props.onClick('isShowInputBox',false);
-    }
-  }
+ KeyPress = e => {
+   if (e.key === 'Enter' ){
+     this.props.onCommentSubmit();
+     e.target.value = '';
+     this.props.onClick('isShowInputBox',false);
+   }
+ }
 
   onClick = () => {
     this.props.onClick('isInfoOpen',false);
