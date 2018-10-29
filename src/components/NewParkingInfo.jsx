@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Well, FormGroup, InputGroup, FormControl }from 'react-bootstrap';
+import { Well }from 'react-bootstrap';
 import { Select, TimePicker, Slider, Icon, Button} from 'antd';
 import moment from 'moment';
 import 'antd/dist/antd.css';
@@ -7,16 +7,30 @@ import 'antd/dist/antd.css';
 const Option = Select.Option;
 
 class NewParkingInfo  extends Component {
-  state = {
-    forms:{info1:{date:'', from:'', to:''}},
-    formNum:1
-  }
+  
+  constructor(props){
+    super(props)
 
+    let arrLen = this.props.dynline.hours.length;
+    this.state = {
+      forms:{info1:{date:'',startT:'',endT:''}},
+      formNum: arrLen !==0 ? arrLen : 1
+    }
+
+    if (arrLen !== 0){
+      let {forms} = this.state;
+      for(let i = 0; i <  arrLen; i++){
+          forms['info'+ (i + 1)] = {...this.props.dynline.hours[i]};
+      }
+      this.setState(prevstate=>({...prevstate, forms:forms}));
+    }
+  }
+  
   addFormNum = () => {
     let num = this.state.formNum + 1;
-    let info = {...this.state.forms}
-    info['info'+num] =  {date:'', from:'', to:''};
-    this.setState(prevstate=>({...prevstate, forms:info, formNum:num}));
+    let forms = {...this.state.forms}
+    forms['info'+num] =  {date:'', startT:'', endT:''};
+    this.setState(prevstate=>({...prevstate, forms:forms, formNum:num}));
   }
 
   removeFormNum = () => {
@@ -36,9 +50,9 @@ class NewParkingInfo  extends Component {
   }
 
   onTimeSelect = (index,key) => value => {
-    let info = {...this.state.forms};
-    info['info'+index][key] = value? value.format('h:mm a') : '';
-    this.setState(prevstate=>({...prevstate, forms:info}));
+    let forms = {...this.state.forms};
+    forms['info'+index][key] = value? value.format('h:mm a') : '';
+    this.setState(prevstate=>({...prevstate, forms:forms}));
   }
 
   render(){
@@ -56,16 +70,15 @@ class NewParkingInfo  extends Component {
 
     const onSubmit = (e) => {
       e.preventDefault();
-      //this.props.onSubmit();
+      let infoArr = []
+      for(let key in this.state.forms){
+        infoArr.push(this.state.forms[key])
+      }
+
+      this.props.onSubmit(infoArr);
       this.props.polyline.setEditable(false);
       this.props.polyline.setDraggable(false);
       this.props.onCondChange('isSubmitInfoOpen',false);
-
-      let datearr = []
-      for(let key in this.state.forms){
-        datearr.push(`${this.state.forms[key].date} ${this.state.forms[key].from} to ${this.state.forms[key].to}`)
-        console.log(datearr)
-      }
     }
     const onChange = key => e => {
       this.props.onChange(key, e.target.value);
@@ -80,41 +93,53 @@ class NewParkingInfo  extends Component {
       dolllarDiv.push(<Icon type="dollar" style={{color:'#EEBA4C', fontSize:30}}/>)
     }
 
-    const formSelectDiv = (idx) => (
-      <div>
-        <Select
-        defaultValue="Select date"
-        style={{ width: 120}}
-        onChange={this.onDateSelect(idx)}
-        >
-          <Option value="Mon-Fri">Mon-Fri</Option>
-          <Option value="Saturday">Saturday</Option>
-          <Option value="Sunday" >Sunday</Option>
-        </Select>
-        <TimePicker
-          className='start-time'
-          placeholder='from'
-          style={{ width: 100}}
-          use12Hours
-          format="h:mm a"
-          minuteStep={10}
-          defaultOpenValue={moment('08:00', 'h:mm a')}
-          onChange={this.onTimeSelect(idx,'from')}
-        />
-        {' '} ~ {' '}
-        <TimePicker
-          className='end-time'
-          placeholder='to'
-          style={{ width: 100}}
-          use12Hours
-          format="h:mm a"
-          minuteStep={10}
-          defaultOpenValue={moment('00:00', 'h:mm p')}
-          onChange={this.onTimeSelect(idx,'to')}
-        />
-      </div>
-    )
-
+    const formSelectDiv = (idx) => {
+      let date = this.state.forms['info'+idx].date;
+      let startTime = this.state.forms['info'+idx].startT;
+      let startTimeNum = startTime.split(' ')[0];
+      let startTimeAPM = startTime.split(' ')[1]
+      let endTime = this.state.forms['info'+idx].endT;
+      let endTimeNum = endTime.split(' ')[0];
+      let endTimeAPM = endTime.split(' ')[1]
+      console.log(startTime,endTime)
+      return(
+        <div>
+          <Select 
+          defaultValue= {date ? date : "Select date" }
+          style={{ width: 120}} 
+          onChange={this.onDateSelect(idx)}
+          >
+            <Option value="Mon-Fri">Mon-Fri</Option>
+            <Option value="Saturday">Saturday</Option>
+            <Option value="Sunday" >Sunday</Option>
+          </Select>
+          <TimePicker
+            className='start-time'
+            placeholder='from' 
+            style={{ width: 100}}
+            use12Hours 
+            format="h:mm a" 
+            minuteStep={10}
+            defaultOpenValue={ moment('08:00', 'h:mm a')}
+            //value={ startTime ? moment(startTime, 'HH:mm') : null}
+            onChange={this.onTimeSelect(idx,'startT')}
+          />
+            ~
+          <TimePicker
+            className='end-time' 
+            placeholder='to'
+            style={{ width: 100}} 
+            use12Hours
+            format="h:mm a" 
+            minuteStep={10}
+            defaultOpenValue={moment('3:00', 'h:mm p')}
+            //value={ endTime ? moment(endTime,"HH:mm") : null}
+            onChange={this.onTimeSelect(idx,'endT')}
+          />        
+        </div>
+      )
+    }
+    
     const formSelectArr = [];
     for(let i = 0; i < this.state.formNum; i++){
       formSelectArr.push(formSelectDiv(i+1));
@@ -122,19 +147,8 @@ class NewParkingInfo  extends Component {
     return  (
       <Well className={this.props.classname}>
         <p>Nearby Address:</p>
-        <p>{this.props.polyline? this.props.polyline.address:''}</p><br/>
-        <form onSubmit={onSubmit}>
+        <p>{this.props.polyline.address}</p><br/>
           Enter Parking Info
-          <FormGroup>
-            <InputGroup>
-              <InputGroup.Addon>Hours</InputGroup.Addon>
-                <FormControl
-                type="text"
-                onChange={onChange('hours')}
-                value={inputValue('hours')}
-                />
-            </InputGroup>
-          </FormGroup>
             {formSelectArr.map(form=>(form))}
             <Button icon="plus" onClick={this.addFormNum}/>
             {this.state.formNum>1? <Button icon="minus" onClick={this.removeFormNum}/> : ''}
@@ -151,7 +165,6 @@ class NewParkingInfo  extends Component {
             <br/><br/>
           <Button onClick={onCancel}>Cancel</Button>
           <Button type='submit' onClick={onSubmit}>Submit</Button>
-        </form>
         <br/>
       </Well>
     )

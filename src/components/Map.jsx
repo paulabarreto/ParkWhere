@@ -249,7 +249,7 @@ class Map extends Component {
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
               
-              let data = {hours:'', rate:'', id:'', rating:0,comment:'',address:''};
+              let data = {hours:[], rate:'', id:'', rating:0,comment:'',address:''};
               let newPoly = this.placePoly(startCoord,endCoord,data);
               this.props.setPoly(newPoly);
               newPoly.setMap(map);
