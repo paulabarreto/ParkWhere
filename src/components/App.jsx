@@ -180,15 +180,11 @@ class App extends Component {
 
     return (
       <div>
-<<<<<<< HEAD
-        <Nav 
+        <Nav
           handleSearch={this.handleSearch}
         />
-=======
-        <Nav/>
 
         <HomePage handleSearchPlace={this.handleSearchPlace}/>
->>>>>>> feature/jwt
 
         {this.state.isSubmitInfoOpen ? (
           <NewParkingInfo
