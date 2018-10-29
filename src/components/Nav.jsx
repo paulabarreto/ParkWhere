@@ -26,34 +26,50 @@ class NavBar extends Component {
     }
   }
 
-  handleLogin = username => {
-    this.setState({username: username})
+  handleLogin = name => {
+    this.setState({name: name})
+    const { cookies } = this.props;
+    cookies.set('name', name, { path: '/' });
+  }
+
+  handleLogout = () => {
+    this.props.cookies.remove("name");
+    this.setState({name: ""});
+
+  }
+
+  handleNameChange(name) {
+
   }
 
 
   render() {
-    const { name } = this.state;
+    const { name } = this.state.name;
 
     let login = "";
     let register = "";
 
-    if({name}){
+    if(this.state.name !== ""){
       login = (
         <div className="Login">
-          {this.state.name} | Logout
+          <div>
+            {this.state.name}
+          </div>
+          <div onClick={this.handleLogout}>
+            Logout
+          </div>
         </div>
       );
     }else {
       login = (
-        <NavItem>
+        <div className="Login">
           <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
-            {this.state.name && <h1>Hello {this.state.name}!</h1>}
-        </NavItem>
+        </div>
       );
       register = (
-        <NavItem>
+        <div className="Login">
           <Register login={this.handleLogin}/>
-        </NavItem>
+        </div>
       );
     }
     return (
@@ -62,7 +78,7 @@ class NavBar extends Component {
             ParkWhere
           </Navbar.Brand>
           <Nav>
-            {login}  {register}
+            {login} <br/> {register}
           </Nav>
       </Navbar>
     );
