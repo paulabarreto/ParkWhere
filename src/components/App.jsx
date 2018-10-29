@@ -5,8 +5,8 @@ import axios from 'axios';
 import NewParkingInfo from './NewParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
 import HomePage from './HomePage';
+import moment from 'moment';
 import Search from './Search.jsx';
-import moment from 'moment'
 
 class App extends Component {
   state = {
@@ -101,10 +101,10 @@ class App extends Component {
   }
 
   setPoly = (poly) => {
+
     let dynline;
-    
     if(poly!==undefined){
-      dynline = {...poly}
+      dynline = {...poly};
       dynline['coords'] = poly.getPath().getArray();
     }
     this.setState(prevState => ({...prevState, polyline:poly}));
@@ -139,7 +139,10 @@ class App extends Component {
 
   handleSearch = (address,dateOjbect) =>{
     this.handleDateSearch(dateOjbect);
+<<<<<<< HEAD
     this.handlePlaceSearch(address);
+=======
+>>>>>>> dd8bd010f8dbd8c68099105e095a7684df537e7b
   }
   handlePlaceSearch = (address) => {
     this.state.geocoder.geocode({ 'address': address }, (results, status) => {
@@ -213,7 +216,7 @@ class App extends Component {
         <Nav
           handleSearch={this.handleSearch}
         />
-
+      
         <HomePage handleSearchPlace={this.handleSearchPlace}/>
 
         {this.state.isSubmitInfoOpen ? (
