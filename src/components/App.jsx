@@ -5,8 +5,12 @@ import axios from 'axios';
 import NewParkingInfo from './NewParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
 import HomePage from './HomePage';
+<<<<<<< HEAD
 import moment from 'moment';
 
+=======
+import Search from './Search.jsx';
+>>>>>>> 3bdab26b66676bbd1415eed19bf20d1acb2215e1
 
 class App extends Component {
   state = {
@@ -101,8 +105,20 @@ class App extends Component {
   }
 
   setPoly = (poly) => {
+<<<<<<< HEAD
     let dynline;
     
+=======
+    let dynline = {
+      address:'',
+      rate:'',
+      hours:'',
+      rating:'',
+      comment:'',
+      parking_id:'',
+      coords:[]
+    };
+>>>>>>> 3bdab26b66676bbd1415eed19bf20d1acb2215e1
     if(poly!==undefined){
       dynline = {...poly}
       dynline['coords'] = poly.getPath().getArray();
@@ -204,7 +220,6 @@ class App extends Component {
       }
     })
   }
-
   render() {
 
     return (
@@ -239,17 +254,23 @@ class App extends Component {
           />
           ) : ''}
 
-        <div className='map-container'>
-          < Map
-            coords={this.state.infofromserver}
-            setCond={this.setCond}
-            setPoly={this.setPoly}
-            clearPoly={this.clearPoly}
-            addLine={this.addLine}
-            setApiOjb ={this.setApiOjb }
-            onHourRateClick={this._handleParkingFilter}
-            showPolyline={this.showLines}
-          />
+        <div className="map-search-container">
+          <div className="search">
+            <Search />
+          </div>
+
+          <div className='map-container'>
+            < Map
+              coords={this.state.infofromserver}
+              setCond={this.setCond}
+              setPoly={this.setPoly}
+              clearPoly={this.clearPoly}
+              addLine={this.addLine}
+              setApiOjb ={this.setApiOjb }
+              onHourRateClick={this._handleParkingFilter}
+              showPolyline={this.showLines}
+            />
+          </div>
         </div>
       </div>
     );

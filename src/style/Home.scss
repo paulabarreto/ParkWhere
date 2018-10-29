@@ -24,7 +24,7 @@
     display: inline-block;
     width: 30%;
     height: 10%;
-    top: 90%;
+    top: 90vh;
     left: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
@@ -34,7 +34,7 @@
   .btn-search {
     display: inline-block;
     position: absolute;
-    top: 85%;
+    top: 85vh;
     line-height: 200%;
     left: 65%;
     height: 10%;
@@ -66,5 +66,30 @@
     .description-text-second {
       float: right;
     }
+  }
+}
+
+.map-search-container {
+  display: flex;
+
+  .search {
+    flex: 1;
+  }
+  .map-container{
+    flex: 1;
+    position: absolute;
+    right: 0;
+    width: 70%;
+    display: inline-block;
+  }
+}
+
+.search-container {
+  padding: 20px;
+
+  .logos {
+    height: 70px;
+    width: 70px;
+    padding: 5px;
   }
 }
