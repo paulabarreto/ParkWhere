@@ -31,7 +31,7 @@ class HomePage extends Component {
         <Jumbotron className="jumboImg">
           <img src={parkwhere} alt="" className="img"/>
             <Input
-            hint="Search address"
+            placeholder="Search addres"
             type="text"
             containerClass="active-cyan active-cyan-2 mt-0 mb-3"
             className="searchBar"
@@ -45,7 +45,9 @@ class HomePage extends Component {
           <img src={parkwhere_description} alt="" className="description-img"/>
           <div className="description-text">
             Before parking, get information on street parking spots near your destination.
+            <br/>
             <div className="description-text-second">
+              <br/>
               And add yourself some useful information for other drivers!
             </div>
 

@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Spicy+Rice');
-
+@import url('https://fonts.googleapis.com/css?family=Bitter:700');
 
 .info-map-container{
   display:block;
@@ -36,6 +35,7 @@
     display: inline-block;
     position: absolute;
     top: 85%;
+    line-height: 200%;
     left: 65%;
     height: 10%;
     opacity: 1;
@@ -44,8 +44,9 @@
 
 .container {
   display: flex;
-  margin: 0 !important;
   padding: 0;
+  margin-bottom: 30px;
+  width: 100%;
 
   .description-img {
     display: flex;
@@ -54,10 +55,10 @@
 
   .description-text {
     flex: 1;
-    font-size: 2.25em;
+    font-size: 2em;
     padding: 0;
     width: auto;
-    font-family: 'Spicy Rice', cursive;
+    font-family: 'Bitter', serif;
     margin-right: 0;
     width: 100%;
     margin-left: 30px;
