@@ -101,6 +101,7 @@ class NewParkingInfo  extends Component {
       let endTime = this.state.forms['info'+idx].endT;
       let endTimeNum = endTime.split(' ')[0];
       let endTimeAPM = endTime.split(' ')[1]
+      console.log(startTime,endTime)
       return(
         <div>
           <Select 
@@ -115,11 +116,12 @@ class NewParkingInfo  extends Component {
           <TimePicker
             className='start-time'
             placeholder='from' 
-            style={{ width: 100}} 
-            format="HH:mm " 
+            style={{ width: 100}}
+            use12Hours 
+            format="h:mm a" 
             minuteStep={10}
-            defaultOpenValue={ moment('08:00', 'HH:mm')}
-            value={ startTime ? moment(startTime, 'HH:mm') : null}
+            defaultOpenValue={ moment('08:00', 'h:mm a')}
+            //value={ startTime ? moment(startTime, 'HH:mm') : null}
             onChange={this.onTimeSelect(idx,'startT')}
           />
             ~
@@ -127,10 +129,11 @@ class NewParkingInfo  extends Component {
             className='end-time' 
             placeholder='to'
             style={{ width: 100}} 
-            format="HH:mm" 
+            use12Hours
+            format="h:mm a" 
             minuteStep={10}
-            defaultOpenValue={moment('3:00')}
-            value={ endTime ? moment(endTime,"HH:mm") : null}
+            defaultOpenValue={moment('3:00', 'h:mm p')}
+            //value={ endTime ? moment(endTime,"HH:mm") : null}
             onChange={this.onTimeSelect(idx,'endT')}
           />        
         </div>

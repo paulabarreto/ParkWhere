@@ -144,6 +144,7 @@ class App extends Component {
   handleSearch = (address,dateOjbect) =>{
 
   }
+
   handlePlaceSearch = (address) => {
     this.state.geocoder.geocode({ 'address': address }, (results, status) => {
       if (status === window.google.maps.GeocoderStatus.OK) {
@@ -173,6 +174,7 @@ class App extends Component {
   handleDateSearch = (dateOjbect) => {
 
   }
+  
   render() {
 
     return (
