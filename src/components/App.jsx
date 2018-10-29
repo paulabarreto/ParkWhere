@@ -7,6 +7,7 @@ import ParkingInfo from './ParkingInfo.jsx'
 import HomePage from './HomePage';
 import moment from 'moment';
 import Search from './Search.jsx';
+import Footer from './Footer.jsx';
 
 class App extends Component {
   state = {
@@ -279,6 +280,7 @@ class App extends Component {
             />
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
