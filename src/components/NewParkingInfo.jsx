@@ -7,7 +7,7 @@ import 'antd/dist/antd.css';
 const Option = Select.Option;
 
 class NewParkingInfo  extends Component {
-  
+
   constructor(props){
     super(props)
 
@@ -25,7 +25,7 @@ class NewParkingInfo  extends Component {
       this.setState(prevstate=>({...prevstate, forms:forms}));
     }
   }
-  
+
   addFormNum = () => {
     let num = this.state.formNum + 1;
     let forms = {...this.state.forms}
@@ -104,9 +104,9 @@ class NewParkingInfo  extends Component {
       console.log(startTime,endTime)
       return(
         <div>
-          <Select 
+          <Select
           defaultValue= {date ? date : "Select date" }
-          style={{ width: 120}} 
+          style={{ width: 120}}
           onChange={this.onDateSelect(idx)}
           >
             <Option value="Mon-Fri">Mon-Fri</Option>
@@ -115,10 +115,10 @@ class NewParkingInfo  extends Component {
           </Select>
           <TimePicker
             className='start-time'
-            placeholder='from' 
+            placeholder='from'
             style={{ width: 100}}
-            use12Hours 
-            format="h:mm a" 
+            use12Hours
+            format="h:mm a"
             minuteStep={10}
             defaultOpenValue={ moment('08:00', 'h:mm a')}
             //value={ startTime ? moment(startTime, 'HH:mm') : null}
@@ -126,20 +126,20 @@ class NewParkingInfo  extends Component {
           />
             ~
           <TimePicker
-            className='end-time' 
+            className='end-time'
             placeholder='to'
-            style={{ width: 100}} 
+            style={{ width: 100}}
             use12Hours
-            format="h:mm a" 
+            format="h:mm a"
             minuteStep={10}
             defaultOpenValue={moment('3:00', 'h:mm p')}
             //value={ endTime ? moment(endTime,"HH:mm") : null}
             onChange={this.onTimeSelect(idx,'endT')}
-          />        
+          />
         </div>
       )
     }
-    
+
     const formSelectArr = [];
     for(let i = 0; i < this.state.formNum; i++){
       formSelectArr.push(formSelectDiv(i+1));

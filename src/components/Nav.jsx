@@ -30,28 +30,6 @@ class NavBar extends Component {
     this.setState({username: username})
   }
 
-  onChange = (field, value) => {
-    this.setState({
-      [field]: value,
-    });
-  }
-
-  onDateChange = (date) => {
-    this.onChange('dateObject',date)
-  }
-
-  onInputChange = (input) => {
-    this.onChange('searchValue', input.target.value);
-  }
-
-  onSearchClick = () => {
-    this.props.handleSearch(this.state.searchValue,this.state.dateObject)
-  }
-
-  emitEmpty = () => {
-    this.searchInput.focus();
-    this.setState({ searchValue: '' });
-  }
 
   render() {
     const { name } = this.state;
@@ -61,16 +39,16 @@ class NavBar extends Component {
 
     if({name}){
       login = (
-        <NavItem>
-        </NavItem>
+        <div className="Login">
+          {this.state.name} | Logout
+        </div>
       );
     }else {
       login = (
         <NavItem>
           <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
             {this.state.name && <h1>Hello {this.state.name}!</h1>}
-
-      </NavItem>
+        </NavItem>
       );
       register = (
         <NavItem>
@@ -78,31 +56,11 @@ class NavBar extends Component {
         </NavItem>
       );
     }
-
-    const suffix = this.state.searchValue ? <Icon type="close" onClick={this.emitEmpty} /> : null;
     return (
       <Navbar>
           <Navbar.Brand>
             ParkWhere
           </Navbar.Brand>
-          <Icon type="search" theme="outlined" />
-          <div className='search' >
-            <Input
-              placeholder="address"
-              style={{ width: 200 }}
-              suffix={suffix}
-              value={this.state.searchValue}
-              onChange={this.onInputChange}
-              ref={node => this.searchInput = node}
-            />
-            <DatePicker
-              showTime
-              format="YYYY-MM-DD h:mm:ss a"
-              placeholder="Select date and time"
-              onChange={this.onDateChange}
-            />
-            <Button onClick={this.onSearchClick}>Search</Button>
-          </div>
           <Nav>
             {login}  {register}
           </Nav>

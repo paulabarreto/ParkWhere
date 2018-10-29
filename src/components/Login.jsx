@@ -49,8 +49,6 @@ export default class Login extends Component {
       }
     }).then(res => {
       console.log("login axios res", res);
-      const obj = JSON.parse(res.config.data);
-      this.props.login(obj.username);
     })
   }
 
