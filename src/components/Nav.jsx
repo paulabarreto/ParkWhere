@@ -4,7 +4,6 @@ import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
-import axios from 'axios';
 
 class NavBar extends Component {
 
@@ -41,15 +40,8 @@ class NavBar extends Component {
   //     });
   //   }
   // }
-  onSearchChange = (e) => {
-    this.setState({search: e.target.value})
-  }
-  onKeyPress = e => {
-    if (e.key === 'Enter' ){
-      this.props.handleSearchPlace(e.target.value)
-      e.target.value = '';
-    }
-  }
+
+
 
   render() {
     const { name } = this.state;
@@ -60,7 +52,6 @@ class NavBar extends Component {
     if({name}){
       login = (
         <NavItem>
-          {this.state.name} | <button onClick={this.handleLogout.bind(this)}>Logout</button>
         </NavItem>
       );
     }else {
@@ -83,16 +74,6 @@ class NavBar extends Component {
           <Navbar.Brand>
             ParkWhere
           </Navbar.Brand>
-          <NavItem className='glyphicon glyphicon-search'/>
-          <div className='search' >
-            <input type="text"
-              placeholder="Search"
-              value={this.state.search}
-              onChange={this.onSearchChange}
-              onKeyPress={this.onKeyPress}
-            />
-            <button>Search</button>
-          </div>
           <Nav>
             {login}  {register}
           </Nav>

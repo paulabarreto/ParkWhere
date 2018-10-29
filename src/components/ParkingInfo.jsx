@@ -3,7 +3,7 @@ import { Well, Button, FormControl } from 'react-bootstrap';
 import uuid from 'uuid/v4';
 import Rating from 'react-rating';
 class ParkingInfo  extends Component {
-  
+
   KeyPress = e => {
     if (e.key === 'Enter' ){
       this.props.onCommentSubmit();
@@ -11,7 +11,7 @@ class ParkingInfo  extends Component {
       this.props.onClick('isShowInputBox',false);
     }
   }
-  
+
   onClick = () => {
     this.props.onClick('isInfoOpen',false);
     this.props.onClick('isSubmitInfoOpen',true);
@@ -37,9 +37,9 @@ class ParkingInfo  extends Component {
 
     return  (
       <Well className={this.props.classname}>
-        <h3>Parking Info <button type="button" className="btn btn-outline-info" onClick={this.onClick}>Edit</button></h3> 
+        <h3>Parking Info <button type="button" className="btn btn-outline-info" onClick={this.onClick}>Edit</button></h3>
         <p>Nearby Address:</p>
-        <p>{this.props.polyline.address}</p><br/>
+        <p>{this.props.polyline? this.props.polyline.address:''}</p><br/>
         <p>Hours: {this.props.polyline.hours}</p>
         <p>Rate: ${this.props.polyline.rate}/hr </p>
         Rating:
@@ -62,7 +62,7 @@ class ParkingInfo  extends Component {
           onChange={this.onChange('comment')}
           value={this.inputValue('comment')}
           onKeyPress={this.KeyPress}
-          /> 
+          />
       </Well>
     )
   }

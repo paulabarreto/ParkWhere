@@ -22,14 +22,14 @@ class NewParkingInfo  extends Component {
       this.props.onChange(key, e.target.value);
     }
     //const onClick = key => e => (this.props.onChange(key, e));
-
     const inputValue = (key) => (
       this.props.dynline[key] ? this.props.dynline[key] : ''
     )
+
     return  (
       <Well className={this.props.classname}>
         <p>Nearby Address:</p>
-        <p>{this.props.polyline.address}</p><br/>
+        <p>{this.props.polyline? this.props.polyline.address:''}</p><br/>
         <form onSubmit={onSubmit}>
           Enter Parking Info
           <FormGroup>
