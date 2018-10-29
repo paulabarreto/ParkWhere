@@ -139,6 +139,7 @@ class App extends Component {
 
   handleSearch = (address,dateOjbect) =>{
     this.handleDateSearch(dateOjbect);
+    this.handlePlaceSearch(address);
   }
   handlePlaceSearch = (address) => {
     this.state.geocoder.geocode({ 'address': address }, (results, status) => {
@@ -241,7 +242,7 @@ class App extends Component {
 
         <div className="map-search-container">
           <div className="search">
-            <Search />
+            <Search handleSearch={this.handleSearch}/>
           </div>
 
           <div className='map-container'>
