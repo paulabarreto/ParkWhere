@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { Navbar, Nav} from 'react-bootstrap';
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
-import { Input, Button, Icon, DatePicker} from 'antd';
 import 'antd/dist/antd.css';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
@@ -20,8 +19,6 @@ class NavBar extends Component {
 
     this.state = {
       username: "",
-      dateObject:'',
-      searchValue:'',
       name: cookies.get('name') || ''
     }
   }

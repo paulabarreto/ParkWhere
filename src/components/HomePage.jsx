@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Jumbotron, Button, InputGroup } from "react-bootstrap";
-import { Input, FormInline, Container, Row, Col, Fa  } from "mdbreact";
+import { Input } from "mdbreact";
 import parkwhere_description from '../parkwhere_explained.jpg';
 import parkwhere from '../parkwhere_edited.jpg';
 

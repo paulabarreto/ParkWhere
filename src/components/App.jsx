@@ -139,69 +139,87 @@ class App extends Component {
 
   handleSearch = (address,dateOjbect) =>{
     this.handleDateSearch(dateOjbect);
-<<<<<<< HEAD
     this.handlePlaceSearch(address);
-=======
->>>>>>> dd8bd010f8dbd8c68099105e095a7684df537e7b
   }
+
   handlePlaceSearch = (address) => {
-    this.state.geocoder.geocode({ 'address': address }, (results, status) => {
-      if (status === window.google.maps.GeocoderStatus.OK) {
-        let queryloc = results[0].geometry.location;
-        this.state.map.setCenter(queryloc);
-        let querymarker = new window.google.maps.Marker({
-          clickable: false,
-          icon:  {url:'mylocation.png',
-                  scaledSize: new window.google.maps.Size(40, 40),
-                  origin: new window.google.maps.Point(0, 0),
-                  anchor: new window.google.maps.Point(0, 0)},
-          shadow: null,
-          zIndex: 999,
-          map: this.state.map,
-          animation: window.google.maps.Animation.DROP,
-          position:queryloc
+    if (address){
+      this.state.geocoder.geocode({ 'address': address }, (results, status) => {
+        if (status === window.google.maps.GeocoderStatus.OK) {
+          let queryloc = results[0].geometry.location;
+          this.state.map.setCenter(queryloc);
+          let querymarker = new window.google.maps.Marker({
+            clickable: false,
+            icon:  {url:'mylocation.png',
+                    scaledSize: new window.google.maps.Size(40, 40),
+                    origin: new window.google.maps.Point(0, 0),
+                    anchor: new window.google.maps.Point(0, 0)},
+            shadow: null,
+            zIndex: 999,
+            map: this.state.map,
+            animation: window.google.maps.Animation.DROP,
+            position:queryloc
+          });
+          this.state.map.addListener('zoom_changed', () => {
+            querymarker.setMap(null);
         });
-        this.state.map.addListener('zoom_changed', () => {
-          querymarker.setMap(null);
-      });
-      }else{
-        console.log('Status Error', status)
-      }
-    })
+        }else{
+          console.log('Status Error', status)
+        }
+      })
+    }
   }
 
   handleDateSearch = (dateOjbect) => {
     let searchTime = dateOjbect ? dateOjbect.format('HH:mm') : '';
     let searchTimeNum = Number(searchTime.split(':')[0]) + Number(searchTime.split(':')[1])/60;
     let searchDate = dateOjbect ? dateOjbect.format('dddd') : '';
-    console.log(searchTimeNum)
     // console.log(moment(this.state.polyline.hours[0].endT,'h:mm a').format('HH:mm'))
     this.state.lines.forEach(line=>{
       if (line.hours) {
         line.hours.forEach(hour=>{
           let parkingStartTime = Number(moment(hour.startT,'h:mm a').format('HH:mm').split(':')[0])+Number(moment(hour.startT,'h:mm a').format('HH:mm').split(':')[1])/60;
           let parkingEndTime = Number(moment(hour.endT,'h:mm a').format('HH:mm').split(':')[0])+Number(moment(hour.endT,'h:mm a').format('HH:mm').split(':')[1])/60;
-          if (hour.date === searchDate){
+          if (hour.date === 'Saturday' && searchDate === 'Saturday'){
+            console.log("hour.date",hour.date,"searchDate",searchDate)
             if (parkingStartTime > parkingEndTime){
-              if(parkingStartTime < searchTimeNum || searchTimeNum < parkingEndTime ){
-                line.setVisible('false');
+              if(parkingStartTime > searchTimeNum && searchTimeNum > parkingEndTime ){
+                line.setVisible(false);
+                console.log('Saturday night',searchTimeNum)
               }
             }else if (parkingStartTime < parkingEndTime){
-              if(parkingStartTime < searchTimeNum && searchTimeNum < parkingEndTime ){
-                line.setVisible('false');
+              if(parkingStartTime > searchTimeNum || searchTimeNum > parkingEndTime ){
+                line.setVisible(false);
+                console.log('Saturday day',searchTimeNum)
               }
             }
-          }else if (hour.date === 'Mon-Fri' && searchDate !== 'Saturday' && searchDate !== 'Sunday'){
-          if (hour.date === searchDate){
+          }
+          else if (hour.date === 'Sunday' && searchDate === 'Sunday'){
+            console.log("hour.date",hour.date,"searchDate",searchDate)
             if (parkingStartTime > parkingEndTime){
-              if(parkingStartTime < searchTimeNum || searchTimeNum < parkingEndTime ){
-                line.setVisible('false');
+              if(parkingStartTime > searchTimeNum && searchTimeNum > parkingEndTime ){
+                line.setVisible(false);
+                console.log('Sunday night',searchTimeNum)
               }
             }else if (parkingStartTime < parkingEndTime){
-              if(parkingStartTime < searchTimeNum && searchTimeNum < parkingEndTime ){
-                line.setVisible('false');
+              if(parkingStartTime > searchTimeNum || searchTimeNum > parkingEndTime ){
+                line.setVisible(false);
+                console.log('Sunday day',searchTimeNum)
               }
             }
+          }
+          else if (hour.date === 'Mon-Fri' && searchDate !== 'Saturday' && searchDate !== 'Sunday'){
+            console.log("hour.date",hour.date,"searchDate",searchDate)
+            if (parkingStartTime > parkingEndTime){
+              if(parkingStartTime > searchTimeNum && searchTimeNum > parkingEndTime ){
+                line.setVisible(false);
+                console.log('weekday night',parkingStartTime,searchTimeNum,parkingEndTime)
+              }
+            }else if (parkingStartTime < parkingEndTime){
+              if(parkingStartTime > searchTimeNum || searchTimeNum > parkingEndTime ){
+                line.setVisible(false);
+                console.log('weekday day',searchTimeNum)
+              }
             }
           }
         }) 

@@ -12,7 +12,8 @@ class Search extends Component {
     super(props);
 
     this.state = {
-
+      dateObject:'',
+      searchValue:'',
     }
   }
 
@@ -38,8 +39,7 @@ class Search extends Component {
     this.searchInput.focus();
     this.setState({ searchValue: '' });
   }
-
-
+  
   render() {
     const suffix = this.state.searchValue ? <Icon type="close" onClick={this.emitEmpty} /> : null;
     return (
