@@ -93,3 +93,21 @@
     padding: 5px;
   }
 }
+
+.footer {
+  border-top: 1px solid #F5F5F5;
+  background-color: #F5F5F5;
+	box-sizing: border-box;
+	width: 100%;
+	text-align: center;
+  font-family: 'Bitter', serif;
+  color: grey !important;
+	padding: 45px;
+	margin-top: 200px;
+  h3 {
+    color: grey;
+  }
+  h4 {
+    color: grey;
+  }
+}
