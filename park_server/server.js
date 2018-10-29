@@ -52,7 +52,7 @@ app.get("/parking_info", async (req, res) => {
           row.lng_start = parseFloat(row.lng_start);
           row.lat_end = parseFloat(row.lat_end);
           row.lng_end = parseFloat(row.lng_end);
-
+          row.hours = JSON.parse(row.hours);
           if (result[row.id]) {
             result[row.id].comments.push(row.comments)
           } else {
@@ -67,8 +67,10 @@ app.get("/parking_info", async (req, res) => {
         res.send(Object.values(result))
       })
 });
+
 app.post('/add_rating', (req,res)=>{
   const info = req.body.data;
+  console.log(req.body.data);
   knex('street_parking').where({
     id: info.parking_id
   }).then((data) => {
@@ -89,7 +91,6 @@ app.post('/add_rating', (req,res)=>{
       .then((data) => {
         res.send(data)
       });
-
 })
 
 app.post('/add_comment', (req,res)=>{
@@ -123,6 +124,7 @@ app.post('/add_parking_info_data', (req,res)=>{
     rate: newData.rate,
     rating: newData.rating
   };
+  console.log(newParking)
   if(!req.body.data.id) {
     knex.raw('SELECT setval(\'street_parking_id_seq\', (SELECT MAX(id) from "street_parking"));')
     knex.insert(newParking, "id")
