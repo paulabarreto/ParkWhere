@@ -31,7 +31,6 @@ class ParkingInfo  extends Component {
     this.props.dynline[key] ? this.props.dynline[key] : ''
   )
   onRatingClick = e => (this.props.onRatingSubmit('rating', e));
-
   render(){
     // const coordsArr = this.props.polyline? this.props.polyline.getPath().getArray() : '';
     const commentsArr = this.props.polyline.comments? this.props.polyline.comments.reverse() : [];
@@ -41,7 +40,11 @@ class ParkingInfo  extends Component {
         <h3>Parking Info <button type="button" className="btn btn-outline-info" onClick={this.onClick}>Edit</button></h3> 
         <p>Nearby Address:</p>
         <p>{this.props.polyline.address}</p><br/>
-        <p>Hours: {this.props.polyline.hours}</p>
+        <p>Hours: </p>
+        { this.props.polyline.hours.length !== 0 ? this.props.polyline.hours.map(hour=>(
+            <p> {hour.date} {hour.from} to {hour.to} </p>
+          )) : ''
+        }
         <p>Rate: ${this.props.polyline.rate}/hr </p>
         Rating:
         <Rating

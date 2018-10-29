@@ -28,11 +28,12 @@ class App extends Component {
   }
 
   // handle new parking info sumbmit which it passed to NewParkingInfo component
-  _handleInfoSubmit = () => {
-
+  _handleInfoSubmit = (info) => {
+    this.setPolyWithKey('hours',info)
     let poly = this.state.polyline;
     poly.rating = this.state.dynline.rating;
     poly.hours = this.state.dynline.hours;
+    poly.rate = this.state.dynline.rate;
     poly.setPath(this.state.dynline.coords);
     this.setState(prevState => ({...prevState, polyline:poly}));
 
@@ -94,7 +95,7 @@ class App extends Component {
     let dynline = {
       address:'',
       rate:'',
-      hours:'',
+      hours:[],
       rating:'',
       comment:'',
       parking_id:'',
