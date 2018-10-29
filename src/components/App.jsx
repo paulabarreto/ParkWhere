@@ -33,12 +33,11 @@ class App extends Component {
   }
 
   // handle new parking info sumbmit which it passed to NewParkingInfo component
-  _handleInfoSubmit = (info) => {
-    this.setPolyWithKey('hours',info)
+  _handleInfoSubmit = () => {
+
     let poly = this.state.polyline;
     poly.rating = this.state.dynline.rating;
     poly.hours = this.state.dynline.hours;
-    poly.rate = this.state.dynline.rate;
     poly.setPath(this.state.dynline.coords);
     this.setState(prevState => ({...prevState, polyline:poly}));
 
@@ -141,7 +140,6 @@ class App extends Component {
   handleSearch = (address,dateOjbect) =>{
 
   }
-
   handlePlaceSearch = (address) => {
     this.state.geocoder.geocode({ 'address': address }, (results, status) => {
       if (status === window.google.maps.GeocoderStatus.OK) {
@@ -171,13 +169,14 @@ class App extends Component {
   handleDateSearch = (dateOjbect) => {
 
   }
-  
   render() {
 
     return (
       <div>
-        <Nav handleSearch={this.handleSearch}/>
-
+        <Nav
+          handleSearch={this.handleSearch}
+        />
+      
         <HomePage handleSearchPlace={this.handleSearchPlace}/>
 
         {this.state.isSubmitInfoOpen ? (
