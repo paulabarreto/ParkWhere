@@ -1,3 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Bitter:700');
+
 .info-map-container{
   display:block;
+}
+
+.jumboImg {
+  padding: 0;
+  min-height: 100%;
+
+  .img {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 450px;
+    opacity: 0.8;
+  }
+
+  .searchBar {
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    width: 30%;
+    height: 10%;
+    top: 90%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+
+  .btn-search {
+    display: inline-block;
+    position: absolute;
+    top: 85%;
+    line-height: 200%;
+    left: 65%;
+    height: 10%;
+    opacity: 1;
+  }
+}
+
+.container {
+  display: flex;
+  padding: 0;
+  margin-bottom: 30px;
+  width: 100%;
+
+  .description-img {
+    display: flex;
+    height: 350px;
+  }
+
+  .description-text {
+    flex: 1;
+    font-size: 2em;
+    padding: 0;
+    width: auto;
+    font-family: 'Bitter', serif;
+    margin-right: 0;
+    width: 100%;
+    margin-left: 30px;
+
+    .description-text-second {
+      float: right;
+    }
+  }
 }

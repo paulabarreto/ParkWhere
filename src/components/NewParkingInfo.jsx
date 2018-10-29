@@ -82,9 +82,9 @@ class NewParkingInfo  extends Component {
 
     const formSelectDiv = (idx) => (
       <div>
-        <Select 
-        defaultValue="Select date" 
-        style={{ width: 120}} 
+        <Select
+        defaultValue="Select date"
+        style={{ width: 120}}
         onChange={this.onDateSelect(idx)}
         >
           <Option value="Mon-Fri">Mon-Fri</Option>
@@ -93,25 +93,25 @@ class NewParkingInfo  extends Component {
         </Select>
         <TimePicker
           className='start-time'
-          placeholder='from' 
-          style={{ width: 100}} 
-          use12Hours 
-          format="h:mm a" 
+          placeholder='from'
+          style={{ width: 100}}
+          use12Hours
+          format="h:mm a"
           minuteStep={10}
           defaultOpenValue={moment('08:00', 'h:mm a')}
           onChange={this.onTimeSelect(idx,'from')}
         />
         {' '} ~ {' '}
         <TimePicker
-          className='end-time' 
+          className='end-time'
           placeholder='to'
-          style={{ width: 100}} 
-          use12Hours 
-          format="h:mm a" 
+          style={{ width: 100}}
+          use12Hours
+          format="h:mm a"
           minuteStep={10}
           defaultOpenValue={moment('00:00', 'h:mm p')}
           onChange={this.onTimeSelect(idx,'to')}
-        />        
+        />
       </div>
     )
 
@@ -122,7 +122,7 @@ class NewParkingInfo  extends Component {
     return  (
       <Well className={this.props.classname}>
         <p>Nearby Address:</p>
-        <p>{this.props.polyline.address}</p><br/>
+        <p>{this.props.polyline? this.props.polyline.address:''}</p><br/>
         <form onSubmit={onSubmit}>
           Enter Parking Info
           <FormGroup>
@@ -137,18 +137,18 @@ class NewParkingInfo  extends Component {
           </FormGroup>
             {formSelectArr.map(form=>(form))}
             <Button icon="plus" onClick={this.addFormNum}/>
-            {this.state.formNum>1? <Button icon="minus" onClick={this.removeFormNum}/> : ''}         
+            {this.state.formNum>1? <Button icon="minus" onClick={this.removeFormNum}/> : ''}
             <br/><br/>
             <div className="slider-wrapper">
             {rate === 0 ? <Icon type="dollar" style={{color:'rgba(0, 0, 0, .45)', fontSize:30}}/> : dolllarDiv.map(element =>(<span>{element}</span>))}
-              <Slider 
+              <Slider
                 marks={marks}
-                max={5} 
-                onChange={this.onRateChange('rate')} 
-                value={inputValue('rate')} 
+                max={5}
+                onChange={this.onRateChange('rate')}
+                value={inputValue('rate')}
               />
             </div>
-            <br/><br/>                 
+            <br/><br/>
           <Button onClick={onCancel}>Cancel</Button>
           <Button type='submit' onClick={onSubmit}>Submit</Button>
         </form>

@@ -4,6 +4,10 @@ import Map from './Map.jsx';
 import axios from 'axios';
 import NewParkingInfo from './NewParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
+import HomePage from './HomePage';
+
+
+
 class App extends Component {
   state = {
     map:'',
@@ -81,7 +85,7 @@ class App extends Component {
       if (line.rate === index) {
         line.setVisible(true);
       }else{
-        line.setVisible(false) 
+        line.setVisible(false)
       }
     })
   }
@@ -160,9 +164,9 @@ class App extends Component {
           animation: window.google.maps.Animation.DROP,
           position:queryloc
         });
-        this.state.map.addListener('zoom_changed', () => { 
+        this.state.map.addListener('zoom_changed', () => {
           querymarker.setMap(null);
-      }); 
+      });
       }else{
         console.log('Status Error', status)
       }
@@ -176,11 +180,17 @@ class App extends Component {
 
     return (
       <div>
+<<<<<<< HEAD
         <Nav 
           handleSearch={this.handleSearch}
         />
+=======
+        <Nav/>
 
-        {this.state.isSubmitInfoOpen ? (          
+        <HomePage handleSearchPlace={this.handleSearchPlace}/>
+>>>>>>> feature/jwt
+
+        {this.state.isSubmitInfoOpen ? (
           <NewParkingInfo
             classname={'parking-info'}
             onCondChange={this.setCond}

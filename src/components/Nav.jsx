@@ -4,16 +4,25 @@ import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import { Input, Button, Icon, Select, DatePicker} from 'antd';
 import 'antd/dist/antd.css';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
 class NavBar extends Component {
+
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
 
   constructor(props) {
     super(props);
 
+    const { cookies } = props;
+
     this.state = {
       username: "",
       dateObject:'',
-      searchValue:''
+      searchValue:'',
+      name: cookies.get('name') || ''
     }
   }
 
@@ -45,23 +54,26 @@ class NavBar extends Component {
   }
 
   render() {
+    const { name } = this.state;
 
     let login = "";
     let register = "";
-    if(this.state.username){
+
+    if({name}){
       login = (
-        <NavItem eventKey={1} href="/">
-          {this.state.username} | Logout
+        <NavItem>
         </NavItem>
       );
     }else {
       login = (
-        <NavItem eventKey={1}>
-          <Login login={this.handleLogin}/>
-        </NavItem>
+        <NavItem>
+          <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
+            {this.state.name && <h1>Hello {this.state.name}!</h1>}
+
+      </NavItem>
       );
       register = (
-        <NavItem eventKey={1}>
+        <NavItem>
           <Register login={this.handleLogin}/>
         </NavItem>
       );
@@ -99,4 +111,4 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+export default withCookies(NavBar);
