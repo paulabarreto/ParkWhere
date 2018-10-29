@@ -80,9 +80,6 @@ class NewParkingInfo  extends Component {
       this.props.polyline.setDraggable(false);
       this.props.onCondChange('isSubmitInfoOpen',false);
     }
-    const onChange = key => e => {
-      this.props.onChange(key, e.target.value);
-    }
 
     const inputValue = (key) => (
       this.props.dynline[key] ? this.props.dynline[key] : ''
@@ -96,12 +93,8 @@ class NewParkingInfo  extends Component {
     const formSelectDiv = (idx) => {
       let date = this.state.forms['info'+idx].date;
       let startTime = this.state.forms['info'+idx].startT;
-      let startTimeNum = startTime.split(' ')[0];
-      let startTimeAPM = startTime.split(' ')[1]
       let endTime = this.state.forms['info'+idx].endT;
-      let endTimeNum = endTime.split(' ')[0];
-      let endTimeAPM = endTime.split(' ')[1]
-      console.log(startTime,endTime)
+    
       return(
         <div>
           <Select 
@@ -121,7 +114,7 @@ class NewParkingInfo  extends Component {
             format="h:mm a" 
             minuteStep={10}
             defaultOpenValue={ moment('08:00', 'h:mm a')}
-            //value={ startTime ? moment(startTime, 'HH:mm') : null}
+            value={ startTime ? moment(startTime, 'h:mm a') : null}
             onChange={this.onTimeSelect(idx,'startT')}
           />
             ~
@@ -133,7 +126,7 @@ class NewParkingInfo  extends Component {
             format="h:mm a" 
             minuteStep={10}
             defaultOpenValue={moment('3:00', 'h:mm p')}
-            //value={ endTime ? moment(endTime,"HH:mm") : null}
+            value={ endTime ? moment(endTime,"h:mm a") : null}
             onChange={this.onTimeSelect(idx,'endT')}
           />        
         </div>

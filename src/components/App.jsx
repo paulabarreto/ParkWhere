@@ -27,6 +27,7 @@ class App extends Component {
       withCredentials: true
     })
     .then(res => {
+      //data.hours = data.hours.length !== 0 ? data.hours = JSON.parse(res.data.hours) : [];
       this.setState(prevState => ({...prevState, infofromserver:res.data}))
     })
   }
@@ -44,8 +45,9 @@ class App extends Component {
     axios.post("http://localhost:8080/add_parking_info_data",{
       data:{coords:this.state.polyline.getPath().getArray(),
             id: this.state.polyline.id,
-            hours:this.state.polyline.hours,
-            rate:this.state.polyline.rate},
+            hours:JSON.stringify(this.state.polyline.hours),
+            rate:this.state.polyline.rate,
+            rating:''},
       withCredentials: true
     })
     .then(res => {
@@ -71,7 +73,11 @@ class App extends Component {
   }
 
   _handleRatingSubmit = (key,value) => {
-    this.setPolyWithKey(key,value)
+    let {dynline} = this.state;
+    let {rating} = dynline;
+    rating = Math.round((rating + value)/2);
+    this.setPolyWithKey(key,rating);
+    this.setState(prevState => ({...prevState, polyline:dynline}));
     axios.post("http://localhost:8080/add_rating",{
       data:{rating:this.state.polyline.rating,
             parking_id:this.state.polyline.id},
@@ -96,25 +102,12 @@ class App extends Component {
   }
 
   setPoly = (poly) => {
-    let dynline = {
-      address:'',
-      rate:'',
-      hours:[],
-      rating:'',
-      comment:'',
-      parking_id:'',
-      coords:[]
-    };
+    let dynline;
+    
     if(poly!==undefined){
-      dynline['address'] = poly.address;
-      dynline['rate'] = poly.rate;
-      dynline['rating'] = poly.rating;
-      dynline['hours'] = poly.hours;
-      dynline['comment'] = '';
-      dynline['parking_id'] = poly.parking_id;
+      dynline = {...poly}
       dynline['coords'] = poly.getPath().getArray();
     }
-
     this.setState(prevState => ({...prevState, polyline:poly}));
     this.setState(prevState => ({...prevState, dynline:dynline}));
   }
@@ -130,7 +123,7 @@ class App extends Component {
   }
 
   setPolyWithKey = (key,value) => {
-    let dynline = this.state.dynline;
+    let {dynline} = this.state;
     dynline[key] = value;
     this.setState(prevState => ({...prevState, dynline:dynline}));
   }

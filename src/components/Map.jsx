@@ -111,7 +111,7 @@ class Map extends Component {
         comments: coord.comments,
         address: ''
       }
-      
+     
       let newPoly = this.placePoly(startCoord, endCoord, data);
         switch(true){
           case (coord.rate === 5):

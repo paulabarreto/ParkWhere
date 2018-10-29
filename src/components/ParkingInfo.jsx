@@ -20,6 +20,7 @@ class ParkingInfo  extends Component {
     this.props.polyline.setEditable(true);
     this.props.polyline.setDraggable(true);
   }
+
   onCommentClick = () => {
     this.props.onChange('comment', '');
     this.props.onClick('isShowInputBox',true);
@@ -31,18 +32,17 @@ class ParkingInfo  extends Component {
     this.props.dynline[key] ? this.props.dynline[key] : ''
   )
   onRatingClick = e => (this.props.onRatingSubmit('rating', e));
+
   render(){
     // const coordsArr = this.props.polyline? this.props.polyline.getPath().getArray() : '';
-    const commentsArr = this.props.polyline.comments? this.props.polyline.comments.reverse() : [];
-
     return  (
       <Well className={this.props.classname}>
         <h3>Parking Info <button type="button" className="btn btn-outline-info" onClick={this.onClick}>Edit</button></h3>
         <p>Nearby Address:</p>
         <p>{this.props.polyline.address}</p><br/>
         <p>Hours: </p>
-        { this.props.polyline.hours.length !== 0 ? this.props.polyline.hours.map(hour=>(
-            <p> {hour.date} {hour.from} to {hour.to} </p>
+        { this.props.polyline.hours ? this.props.polyline.hours.map(hour=>(
+            <p> {hour.date} {hour.startT} to {hour.endT} </p>
           )) : ''
         }
         <p>Rate: ${this.props.polyline.rate}/hr </p>
@@ -56,7 +56,7 @@ class ParkingInfo  extends Component {
         />
       <br/><br/>
       <p>Comments:</p>
-         {this.props.polyline.comments? commentsArr.map(comment => <p key={uuid()}>{comment}</p>):''}
+         {this.props.polyline.comments? this.props.polyline.comments.map(comment => <p key={uuid()}>{comment}</p>):''}
          <br/>
          <Button bsStyle="primary" onClick={this.onCommentClick}>Add a Comment</Button>
          <FormControl
