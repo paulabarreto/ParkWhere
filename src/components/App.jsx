@@ -5,7 +5,7 @@ import axios from 'axios';
 import NewParkingInfo from './NewParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
 import HomePage from './HomePage';
-
+import moment from 'moment';
 
 
 class App extends Component {
@@ -138,7 +138,7 @@ class App extends Component {
   }
 
   handleSearch = (address,dateOjbect) =>{
-
+    this.handleDateSearch(dateOjbect);
   }
   handlePlaceSearch = (address) => {
     this.state.geocoder.geocode({ 'address': address }, (results, status) => {
@@ -167,8 +167,44 @@ class App extends Component {
   }
 
   handleDateSearch = (dateOjbect) => {
-
+    let searchTime = dateOjbect ? dateOjbect.format('HH:mm') : '';
+    let searchTimeNum = Number(searchTime.split(':')[0]) + Number(searchTime.split(':')[1])/60;
+    let searchDate = dateOjbect ? dateOjbect.format('dddd') : '';
+    console.log(searchTimeNum)
+    // console.log(moment(this.state.polyline.hours[0].endT,'h:mm a').format('HH:mm'))
+    this.state.lines.forEach(line=>{
+      if (line.hours) {
+        line.hours.forEach(hour=>{
+          let parkingStartTime = Number(moment(hour.startT,'h:mm a').format('HH:mm').split(':')[0])+Number(moment(hour.startT,'h:mm a').format('HH:mm').split(':')[1])/60;
+          let parkingEndTime = Number(moment(hour.endT,'h:mm a').format('HH:mm').split(':')[0])+Number(moment(hour.endT,'h:mm a').format('HH:mm').split(':')[1])/60;
+          if (hour.date === searchDate){
+            if (parkingStartTime > parkingEndTime){
+              if(parkingStartTime < searchTimeNum || searchTimeNum < parkingEndTime ){
+                line.setVisible('false');
+              }
+            }else if (parkingStartTime < parkingEndTime){
+              if(parkingStartTime < searchTimeNum && searchTimeNum < parkingEndTime ){
+                line.setVisible('false');
+              }
+            }
+          }else if (hour.date === 'Mon-Fri' && searchDate !== 'Saturday' && searchDate !== 'Sunday'){
+          if (hour.date === searchDate){
+            if (parkingStartTime > parkingEndTime){
+              if(parkingStartTime < searchTimeNum || searchTimeNum < parkingEndTime ){
+                line.setVisible('false');
+              }
+            }else if (parkingStartTime < parkingEndTime){
+              if(parkingStartTime < searchTimeNum && searchTimeNum < parkingEndTime ){
+                line.setVisible('false');
+              }
+            }
+            }
+          }
+        }) 
+      }
+    })
   }
+
   render() {
 
     return (
