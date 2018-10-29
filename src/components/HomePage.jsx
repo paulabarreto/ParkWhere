@@ -44,11 +44,12 @@ class HomePage extends Component {
         <div className="container">
           <img src={parkwhere_description} alt="" className="description-img"/>
           <div className="description-text">
-            Before parking, get information on street parking spots near your destination.
+            Before parking your car, check out some information on street parking 
+            spots near your destination.
             <br/>
             <div className="description-text-second">
               <br/>
-              And add yourself some useful information for other drivers!
+              And you can add yourself some useful information for other drivers!
             </div>
 
           </div>
