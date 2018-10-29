@@ -26,85 +26,59 @@ class NavBar extends Component {
     }
   }
 
-  handleLogin = username => {
-    this.setState({username: username})
+  handleLogin = name => {
+    this.setState({name: name})
+    const { cookies } = this.props;
+    cookies.set('name', name, { path: '/' });
   }
 
-  onChange = (field, value) => {
-    this.setState({
-      [field]: value,
-    });
+  handleLogout = () => {
+    this.props.cookies.remove("name");
+    this.setState({name: ""});
+
   }
 
-  onDateChange = (date) => {
-    this.onChange('dateObject',date)
+  handleNameChange(name) {
+
   }
 
-  onInputChange = (input) => {
-    this.onChange('searchValue', input.target.value);
-  }
-
-  onSearchClick = () => {
-    this.props.handleSearch(this.state.searchValue,this.state.dateObject)
-  }
-
-  emitEmpty = () => {
-    this.searchInput.focus();
-    this.setState({ searchValue: '' });
-  }
 
   render() {
-    const { name } = this.state;
+    const { name } = this.state.name;
 
     let login = "";
     let register = "";
 
-    if({name}){
+    if(this.state.name !== ""){
       login = (
-        <NavItem>
-        </NavItem>
+        <div className="Login">
+          <div>
+            {this.state.name}
+          </div>
+          <div onClick={this.handleLogout}>
+            Logout
+          </div>
+        </div>
       );
     }else {
       login = (
-        <NavItem>
+        <div className="Login">
           <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
-            {this.state.name && <h1>Hello {this.state.name}!</h1>}
-
-      </NavItem>
+        </div>
       );
       register = (
-        <NavItem>
+        <div className="Login">
           <Register login={this.handleLogin}/>
-        </NavItem>
+        </div>
       );
     }
-
-    const suffix = this.state.searchValue ? <Icon type="close" onClick={this.emitEmpty} /> : null;
     return (
       <Navbar>
           <Navbar.Brand>
             ParkWhere
           </Navbar.Brand>
-          <Icon type="search" theme="outlined" />
-          <div className='search' >
-            <Input
-              placeholder="address"
-              style={{ width: 200 }}
-              suffix={suffix}
-              value={this.state.searchValue}
-              onChange={this.onInputChange}
-              ref={node => this.searchInput = node}
-            />
-            <DatePicker
-              showTime
-              format="YYYY-MM-DD h:mm:ss a"
-              placeholder="Select date and time"
-              onChange={this.onDateChange}
-            />
-            <Button onClick={this.onSearchClick}>Search</Button>
-          </div>
           <Nav>
-            {login}  {register}
+            {login} <br/> {register}
           </Nav>
       </Navbar>
     );

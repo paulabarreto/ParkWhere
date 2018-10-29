@@ -5,8 +5,8 @@ import axios from 'axios';
 import NewParkingInfo from './NewParkingInfo.jsx'
 import ParkingInfo from './ParkingInfo.jsx'
 import HomePage from './HomePage';
-import moment from 'moment';
-
+import Search from './Search.jsx';
+import moment from 'moment'
 
 class App extends Component {
   state = {
@@ -212,7 +212,7 @@ class App extends Component {
         <Nav
           handleSearch={this.handleSearch}
         />
-      
+
         <HomePage handleSearchPlace={this.handleSearchPlace}/>
 
         {this.state.isSubmitInfoOpen ? (
@@ -239,17 +239,23 @@ class App extends Component {
           />
           ) : ''}
 
-        <div className='map-container'>
-          < Map
-            coords={this.state.infofromserver}
-            setCond={this.setCond}
-            setPoly={this.setPoly}
-            clearPoly={this.clearPoly}
-            addLine={this.addLine}
-            setApiOjb ={this.setApiOjb }
-            onHourRateClick={this._handleParkingFilter}
-            showPolyline={this.showLines}
-          />
+        <div className="map-search-container">
+          <div className="search">
+            <Search />
+          </div>
+
+          <div className='map-container'>
+            < Map
+              coords={this.state.infofromserver}
+              setCond={this.setCond}
+              setPoly={this.setPoly}
+              clearPoly={this.clearPoly}
+              addLine={this.addLine}
+              setApiOjb ={this.setApiOjb }
+              onHourRateClick={this._handleParkingFilter}
+              showPolyline={this.showLines}
+            />
+          </div>
         </div>
       </div>
     );
