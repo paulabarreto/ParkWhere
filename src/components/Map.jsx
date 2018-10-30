@@ -41,6 +41,12 @@ class Map extends Component {
     map.addListener('click',()=>{
       this.props.setCond('isInfoOpen',false);
     });
+    map.addListener('zoom_changed',()=>{
+      this.state.curloc.setMap(null);
+    })
+    map.addListener('rightclick', ()=>{
+      map.setZoom(15);
+    })
     this.setState(prevState => ({...prevState, map: map}));
     this.props.setApiObj(map,geocoder);
     this.handleCurrentLocation(map);

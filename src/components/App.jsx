@@ -8,7 +8,6 @@ import HomePage from './HomePage';
 import moment from 'moment';
 import Search from './Search.jsx';
 import Footer from './Footer.jsx';
-import { Button } from 'antd';
 
 class App extends Component {
   state = {
@@ -235,14 +234,6 @@ class App extends Component {
         }) 
       }
     })
-  }
-
-  setModal1Visible(modal1Visible) {
-    this.setState({ modal1Visible });
-  }
-
-  setModal2Visible(modal2Visible) {
-    this.setState({ modal2Visible });
   }
 
   render() {
