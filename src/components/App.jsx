@@ -254,13 +254,14 @@ class App extends Component {
           setCond={this.setCond}
           handleSearch={this.handleSearch}
           mapVisible={this.state.mapVisible}
+          map={this.state.map}
         />
       {!mapVisible ?
         <HomePage handleSearchPlace={this.handleSearchPlace}/> : '' }
 
         {this.state.isSubmitInfoOpen ? (
           <NewParkingInfo
-            cclassname={!mapVisible?'parking-info':'parking-info-map'}
+            classname={!mapVisible?'parking-info':'parking-info-map'}
             onCondChange={this.setCond}
             dynline={this.state.dynline}
             polyline={this.state.polyline}

@@ -5,7 +5,10 @@ import Register from "./Register.jsx";
 import 'antd/dist/antd.css';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
-import { Input, Icon, DatePicker, Switch} from 'antd';
+import { Input, Icon, DatePicker, Switch, Radio} from 'antd';
+import mapstyle from './mapcontrols/mapstyle';
+import mapstyle_silver from '././mapcontrols/mapstyle_silver';
+
 class NavBar extends Component {
 
   static propTypes = {
@@ -58,10 +61,19 @@ class NavBar extends Component {
   onSearchClick = () => {
     this.props.handleSearch(this.state.searchValue,this.state.dateObject);
   }
-
+  
   emitEmpty = () => {
     this.searchInput.focus();
     this.setState({ searchValue: '' });
+  }
+
+  handleMapStyleChange = (e) => {
+    if (e.target.value === 'standard'){
+      this.props.map.setOptions({styles:mapstyle})
+    } 
+    if (e.target.value === 'silver'){
+      this.props.map.setOptions({styles:mapstyle_silver})
+    }
   }
 
   render() {
@@ -93,6 +105,10 @@ class NavBar extends Component {
         </Button>
       );
     }
+
+    const navBarSearchStyle = !this.props.mapVisible ? {'display':'none'} : {'display':'block'};
+    const RadioButton = Radio.Button;
+    const RadioGroup = Radio.Group;
     return (
       <Navbar>
           <Navbar.Brand>
@@ -104,7 +120,7 @@ class NavBar extends Component {
             onChange={(checked)=>{checked?this.props.setCond('mapVisible',true) : this.props.setCond('mapVisible',false)}}
             />
             {
-              <div className='nar-bar-search'>
+              <div className='nar-bar-search' style={navBarSearchStyle}>
                 <Input
                 placeholder="Search address"
                 style={{ width: 200 }}
@@ -120,6 +136,11 @@ class NavBar extends Component {
                   onChange={this.onDateChange}
                 />
                 <Button onClick={this.onSearchClick}>Search</Button>
+                { }
+                <RadioGroup defaultValue="a"  onChange={this.handleMapStyleChange}>
+                  <RadioButton value="standard">Standard</RadioButton>
+                  <RadioButton value="silver">Silver</RadioButton>
+                </RadioGroup>
               </div>
           }
           <div className="login">
