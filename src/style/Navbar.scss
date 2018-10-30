@@ -2,7 +2,7 @@
   margin-bottom: 0;
   z-index: 999;
   width: 100%;
-  position: relative;
+  position: fixed;
   .navbar-default {
     background-color: black;
   }
@@ -23,9 +23,21 @@
   .Login {
     padding: 4px 0;
   }
+
+  .mapswitch {
+    position: relative;
+    left: 20vw;
+    top: 2vh;
+  }
+  .nar-bar-search {
+    position: absolute;
+    left: 25vw;
+    top: 1vh;
+  }
 }
 .login {
   position: absolute;
   right: 2vh;
   top: 2vh;
 }
+

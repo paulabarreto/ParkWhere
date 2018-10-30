@@ -8,6 +8,7 @@ import HomePage from './HomePage';
 import moment from 'moment';
 import Search from './Search.jsx';
 import Footer from './Footer.jsx';
+import { Button } from 'antd';
 
 class App extends Component {
   state = {
@@ -19,7 +20,8 @@ class App extends Component {
     isInfoOpen: false,
     isSubmitInfoOpen: false,
     isClearPoly:false,
-    isShowInputBox:false
+    isShowInputBox:false,
+    mapVisible:false
   }
 
   componentDidMount() {
@@ -28,7 +30,6 @@ class App extends Component {
       withCredentials: true
     })
     .then(res => {
-      console.log(res.data)
       this.setState(prevState => ({...prevState, infofromserver:res.data}))
     })
   }
@@ -67,12 +68,6 @@ class App extends Component {
             rating:''},
       withCredentials: true
     })
-    .then(res => {
-      // this.setPolyWithKey('id',res.data.id)
-      // this.setPolyWithKey('comments',res.data.comments)
-      // this.setPolyWithKey('rating',res.data.rating)
-      console.log('data from new info submit',res.data)
-    })
   }
 
   _handleCommentSubmit = () => {
@@ -84,8 +79,6 @@ class App extends Component {
       data:{comment:this.state.dynline.comment,
             parking_id:this.state.polyline.id},
       withCredentials: true
-    })
-    .then(res => {console.log('data from comment submit',res.data)
     })
   }
 
@@ -100,8 +93,6 @@ class App extends Component {
       data:{rating:this.state.polyline.rating,
             parking_id:this.state.polyline.id},
       withCredentials: true
-    })
-    .then(res => {console.log('data from rating submit',res.data)
     })
   }
 
@@ -246,19 +237,30 @@ class App extends Component {
     })
   }
 
-  render() {
+  setModal1Visible(modal1Visible) {
+    this.setState({ modal1Visible });
+  }
 
+  setModal2Visible(modal2Visible) {
+    this.setState({ modal2Visible });
+  }
+
+  render() {
+    let {mapVisible} = this.state;
     return (
       <div>
         <Nav
           handleSearch={this.handleSearch}
+          setCond={this.setCond}
+          handleSearch={this.handleSearch}
+          mapVisible={this.state.mapVisible}
         />
-      
-        <HomePage handleSearchPlace={this.handleSearchPlace}/>
+      {!mapVisible ?
+        <HomePage handleSearchPlace={this.handleSearchPlace}/> : '' }
 
         {this.state.isSubmitInfoOpen ? (
           <NewParkingInfo
-            classname={'parking-info'}
+            cclassname={!mapVisible?'parking-info':'parking-info-map'}
             onCondChange={this.setCond}
             dynline={this.state.dynline}
             polyline={this.state.polyline}
@@ -269,7 +271,7 @@ class App extends Component {
 
         {this.state.isInfoOpen ?(
           <ParkingInfo
-            classname={'parking-info'}
+            classname={!mapVisible?'parking-info':'parking-info-map'}
             onClick={this.setCond}
             polyline={this.state.polyline}
             dynline={this.state.dynline}
@@ -279,16 +281,16 @@ class App extends Component {
             onCommentSubmit={this._handleCommentSubmit}
           />
           ) : ''}
-
+         
         <div className="map-search-container">
+        {!mapVisible?
           <div className="search">
             <Search 
               handleSearch={this.handleSearch}
-              mapDidMount={this.state.mapDidMount}
-            />
-          </div>
-
-          <div className='map-container'>
+            />          
+          </div> : ''
+          }
+         <div className= {!mapVisible ? 'map-container' : 'map-only'}>
             < Map
               coords={this.state.infofromserver}
               setCond={this.setCond}
@@ -300,9 +302,9 @@ class App extends Component {
               showPolyline={this.showLines}
               selectedLine={this.state.polyline}
             />
-          </div>
+          </div> 
         </div>
-        <Footer />
+        {!mapVisible?<Footer />: ''}
       </div>
     );
   }

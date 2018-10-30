@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import mapstyle from './mapcontrols/mapstyle';
+import mapstyle_silver from '././mapcontrols/mapstyle_silver';
 import CurrentLocationControl from './mapcontrols/CurrentLocationControl';
 import DrawPolyControl from './mapcontrols/DrawPolyControl';
 import NotificationControl from  './mapcontrols/NotificationControl';
@@ -40,7 +41,6 @@ class Map extends Component {
     map.addListener('click',()=>{
       this.props.setCond('isInfoOpen',false);
     });
-    map.addListener('click',()=>(map.setZoom(15)));
     this.setState(prevState => ({...prevState, map: map}));
     this.props.setApiObj(map,geocoder);
     this.handleCurrentLocation(map);
@@ -123,19 +123,19 @@ class Map extends Component {
       let newPoly = this.placePoly(startCoord, endCoord, data,this.state.map);
         switch(true){
           case (coord.rate === 5):
-            newPoly.setOptions({strokeColor:'red'})
+            newPoly.setOptions({strokeColor:'#FD795B'})
             break;
           case (coord.rate === 4):
-            newPoly.setOptions({strokeColor:'purple'})
+            newPoly.setOptions({strokeColor:'#814374'})
             break;
          case (coord.rate === 3):
-            newPoly.setOptions({strokeColor:'blue'})
+            newPoly.setOptions({strokeColor:'#336699'})
             break;
           case (coord.rate === 2):
-          newPoly.setOptions({strokeColor:'green'})
+          newPoly.setOptions({strokeColor:'#8EDC9D'})
             break;
           default:
-            newPoly.setOptions({strokeColor:'black'})
+            newPoly.setOptions({strokeColor:'#3A3A3C'})
             break;
         }
       newPoly.setMap(this.state.map);
@@ -366,9 +366,9 @@ class Map extends Component {
     let poly = new window.google.maps.Polyline({
       path:[startCoord,endCoord],
       //editable: true,
-      strokeColor: '#336699',
-      strokeOpacity: 0.7,
-      strokeWeight: 4
+      strokeColor: '#3A3A3C',
+      strokeOpacity: 0.8,
+      strokeWeight: 5
     });
     for(let key in data){
       poly[key] = data[key]
@@ -385,7 +385,7 @@ class Map extends Component {
       poly.setOptions({strokeWeight:7,strokeOpacity: 1});
     })
     poly.addListener('mouseout', ()=>{
-      poly.setOptions({strokeWeight:3,strokeOpacity: 0.7});
+      poly.setOptions({strokeWeight:3,strokeOpacity: 0.8});
     })
     return poly
   }
@@ -450,7 +450,7 @@ class Map extends Component {
 
   render() {
     return (
-      <div style={{ width: '100%', height: '84vh' }} id={'map'} />
+      <div style={{ width: '100%', height: '80vh' }} id={'map'} />
     );
   }
 }

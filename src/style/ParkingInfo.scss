@@ -10,7 +10,19 @@
   z-index: 10;
   overflow: auto;
 }
-
+.parking-info-map{
+  display: block;
+  position: absolute;
+  width: 30%;
+  top: 15vh;
+  height: 84vh;
+  margin-bottom: 0;
+  border: 0;
+  border-radius: 0;
+  font-size: 1em;
+  z-index: 10;
+  overflow: auto; 
+}
 // .parking-info-hide{
 //   display: none;
 // }

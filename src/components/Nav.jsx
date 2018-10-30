@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Button} from 'react-bootstrap';
+import { Navbar, Button } from 'react-bootstrap';
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import 'antd/dist/antd.css';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
-
+import { Input, Icon, DatePicker, Switch} from 'antd';
 class NavBar extends Component {
 
   static propTypes = {
@@ -19,10 +19,12 @@ class NavBar extends Component {
 
     this.state = {
       username: "",
-      name: cookies.get('name') || ''
+      name: cookies.get('name') || '',
+      dateObject:'',
+      searchValue:'',
     }
   }
-
+  
   handleLogin = name => {
     this.setState({name: name})
     const { cookies } = this.props;
@@ -35,6 +37,32 @@ class NavBar extends Component {
 
   }
 
+  onChange = (field, value) => {
+    this.setState({
+      [field]: value,
+    });
+  }
+
+  onDateChange = (date) => {
+    this.onChange('dateObject',date)
+  }
+
+  onInputChange = (input) => {
+    this.onChange('searchValue', input.target.value);
+  }
+
+  handleChange = address => {
+    this.setState({ searchValue:address });
+  };
+
+  onSearchClick = () => {
+    this.props.handleSearch(this.state.searchValue,this.state.dateObject);
+  }
+
+  emitEmpty = () => {
+    this.searchInput.focus();
+    this.setState({ searchValue: '' });
+  }
 
   render() {
     const { name } = this.state.name;
@@ -70,6 +98,30 @@ class NavBar extends Component {
           <Navbar.Brand>
             ParkWhere
           </Navbar.Brand>
+            <Switch 
+            defaultChecked={false} 
+            className='mapswitch'
+            onChange={(checked)=>{checked?this.props.setCond('mapVisible',true) : this.props.setCond('mapVisible',false)}}
+            />
+            {
+              <div className='nar-bar-search'>
+                <Input
+                placeholder="Search address"
+                style={{ width: 200 }}
+                prefix={<Icon type="search" theme="outlined" className="glass"/>}
+                value={this.state.searchValue}
+                onChange={this.onInputChange}
+                ref={node => this.searchInput = node}
+                />
+                <DatePicker
+                  showTime
+                  format="YYYY-MM-DD h:mm:ss a"
+                  placeholder="Select date and time"
+                  onChange={this.onDateChange}
+                />
+                <Button onClick={this.onSearchClick}>Search</Button>
+              </div>
+          }
           <div className="login">
             {login} {register}
           </div>

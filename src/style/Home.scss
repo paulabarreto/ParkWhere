@@ -82,6 +82,12 @@
     width: 70%;
     display: inline-block;
   }
+  .map-only{
+    position: absolute;
+    right: 0;
+    top: 15vh;
+    width: 100%;
+  }
 }
 
 .search-container {
