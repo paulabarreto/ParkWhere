@@ -223,7 +223,7 @@ class App extends Component {
               }
             }
           }
-        }) 
+        })
       }
     })
   }
@@ -235,7 +235,7 @@ class App extends Component {
         <Nav
           handleSearch={this.handleSearch}
         />
-      
+
         <HomePage handleSearchPlace={this.handleSearchPlace}/>
 
         {this.state.isSubmitInfoOpen ? (

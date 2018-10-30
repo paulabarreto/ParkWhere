@@ -41,10 +41,10 @@ class HomePage extends Component {
             />
           <Button className="btn-search" bsStyle="info">Search</Button>
         </Jumbotron>
-        <div className="container">
+        <div className="container-description">
           <img src={parkwhere_description} alt="" className="description-img"/>
           <div className="description-text">
-            Before parking your car, check out some information on street parking 
+            Before parking your car, check out some information on street parking
             spots near your destination.
             <br/>
             <div className="description-text-second">

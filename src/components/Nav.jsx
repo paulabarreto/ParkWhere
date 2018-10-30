@@ -1,5 +1,6 @@
+
 import React, { Component } from 'react';
-import { Navbar, Nav} from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import 'antd/dist/antd.css';
@@ -48,35 +49,44 @@ class NavBar extends Component {
 
     if(this.state.name !== ""){
       login = (
-        <div>
-          <div>
+        <Nav>
+          <NavItem pullRight eventKey={1}>
             {this.state.name}
-          </div>
-          <Button onClick={this.handleLogout}>
-            Logout
-          </Button>
-        </div>
+          </NavItem>
+          <NavItem>
+            <Navbar.Link pullRight onClick={this.handleLogout}>
+              Logout
+            </Navbar.Link>
+          </NavItem>
+        </Nav>
       );
     }else {
       login = (
-        <Button>
-          <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
-        </Button>
-      );
-      register = (
-        <Button>
-          <Register login={this.handleLogin}/>
-        </Button>
+        <Nav>
+          <NavItem>
+            <Navbar.Link pullRight>
+              <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
+            </Navbar.Link>
+          </NavItem>
+          <NavItem>
+            <Navbar.Link pullRight>
+              <Register login={this.handleLogin}/>
+            </Navbar.Link>
+          </NavItem>
+        </Nav>
       );
     }
     return (
       <Navbar>
+        <Navbar.Header>
           <Navbar.Brand>
-            ParkWhere
+             <a href="http://localhost:3000">ParkWhere</a>
           </Navbar.Brand>
-          <div className="login">
-            {login} {register}
-          </div>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          {login}
+        </Navbar.Collapse>
       </Navbar>
     );
   }
