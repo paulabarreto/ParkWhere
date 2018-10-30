@@ -19,7 +19,8 @@ class App extends Component {
     isInfoOpen: false,
     isSubmitInfoOpen: false,
     isClearPoly:false,
-    isShowInputBox:false
+    isShowInputBox:false,
+    mapDidMount:false
   }
 
   componentDidMount() {
@@ -119,7 +120,7 @@ class App extends Component {
     }
   }
 
-  setApiOjb = (map,geocoder) => {
+  setApiObj = (map,geocoder) => {
     this.setState(prevState => ({...prevState, map:map, geocoder:geocoder}));
   }
 
@@ -139,8 +140,8 @@ class App extends Component {
     })
   }
 
-  handleSearch = (address,dateOjbect) =>{
-    this.handleDateSearch(dateOjbect);
+  handleSearch = (address,dateObject) =>{
+    this.handleDateSearch(dateObject);
     this.handlePlaceSearch(address);
   }
 
@@ -172,10 +173,10 @@ class App extends Component {
     }
   }
 
-  handleDateSearch = (dateOjbect) => {
-    let searchTime = dateOjbect ? dateOjbect.format('HH:mm') : '';
+  handleDateSearch = (dateObject) => {
+    let searchTime = dateObject ? dateObject.format('HH:mm') : '';
     let searchTimeNum = Number(searchTime.split(':')[0]) + Number(searchTime.split(':')[1])/60;
-    let searchDate = dateOjbect ? dateOjbect.format('dddd') : '';
+    let searchDate = dateObject ? dateObject.format('dddd') : '';
     // console.log(moment(this.state.polyline.hours[0].endT,'h:mm a').format('HH:mm'))
     this.state.lines.forEach(line=>{
       if (line.hours) {
@@ -265,7 +266,10 @@ class App extends Component {
 
         <div className="map-search-container">
           <div className="search">
-            <Search handleSearch={this.handleSearch}/>
+            <Search 
+              handleSearch={this.handleSearch}
+              mapDidMount={this.state.mapDidMount}
+            />
           </div>
 
           <div className='map-container'>
@@ -275,7 +279,7 @@ class App extends Component {
               setPoly={this.setPoly}
               clearPoly={this.clearPoly}
               addLine={this.addLine}
-              setApiOjb ={this.setApiOjb }
+              setApiObj ={this.setApiObj }
               onHourRateClick={this._handleParkingFilter}
               showPolyline={this.showLines}
               selectedLine={this.state.polyline}

@@ -39,10 +39,10 @@ class Map extends Component {
     const geocoder = new window.google.maps.Geocoder();
     map.addListener('click',()=>{
       this.props.setCond('isInfoOpen',false);
-      map.setZoom(15);
-    })
+    });
+    //map.addListener('click',this.mapZoomOut);
     this.setState(prevState => ({...prevState, map: map}));
-    this.props.setApiOjb(map,geocoder);
+    this.props.setApiObj(map,geocoder);
     this.handleCurrentLocation(map);
     this.handleDrawPoly(map,geocoder);
     this.LegendDiv(map);
@@ -51,11 +51,13 @@ class Map extends Component {
     let RefreshControlDiv = this.newControl(RefreshControl);
     map.controls[window.google.maps.ControlPosition.LEFT_BOTTOM].push(RefreshControlDiv);
     RefreshControlDiv.addEventListener('click', ()=>{
-      map.setZoom(15);
       this.props.showPolyline();
     }) 
   }
 
+  mapZoomOut = () => {
+    this.state.map.setZoom(15)
+  }
   // loadData = (geocoder) => {
     
   //   let coords = this.props.coords;
@@ -203,7 +205,7 @@ class Map extends Component {
 
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
-
+      map.setZoom(16);
       if (checkDrawPolyClick){
         //disable the click state once it has been click
         checkDrawPolyClick = false;
@@ -278,7 +280,6 @@ class Map extends Component {
                 lat:(startCoord.lat() + endCoord.lat())/2,
                 lng:(startCoord.lng() + endCoord.lng())/2
               }
-              map.setZoom(16);
               map.setCenter(midCoord);
               geocoder.geocode({ 'location': midCoord }, (results, status) => {
                 if (status === window.google.maps.GeocoderStatus.OK) {
@@ -445,9 +446,11 @@ class Map extends Component {
       x.parentNode.insertBefore(s, x);
       s.addEventListener('load', () => {
         this.loadMap();
+        this.props.setCond('mapDidMount',true);
       })
     } else {
-      this.loadMap()
+      this.loadMap();
+      this.props.setCond('mapDidMount',true);
     }
   }
 
