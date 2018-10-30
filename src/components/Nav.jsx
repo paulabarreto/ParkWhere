@@ -35,10 +35,6 @@ class NavBar extends Component {
 
   }
 
-  handleNameChange(name) {
-
-  }
-
 
   render() {
     const { name } = this.state.name;
@@ -60,7 +56,7 @@ class NavBar extends Component {
     }else {
       login = (
         <div className="Login">
-          <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
+          <Login name={name} login={this.handleLogin}/>
         </div>
       );
       register = (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, Select, DatePicker} from 'antd';
+import { Input, Button, Icon, DatePicker} from 'antd';
 import { Image } from 'react-bootstrap';
 import greenP from '../greenP_logo.png';
 import rover from '../rover_logo.jpg';
@@ -39,7 +39,7 @@ class Search extends Component {
     this.searchInput.focus();
     this.setState({ searchValue: '' });
   }
-  
+
   render() {
     const suffix = this.state.searchValue ? <Icon type="close" onClick={this.emitEmpty} /> : null;
     return (
