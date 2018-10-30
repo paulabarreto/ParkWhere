@@ -42,7 +42,7 @@ class ParkingInfo  extends Component {
         <p>{this.props.polyline.address}</p><br/>
         <p>Hours: </p>
         { this.props.polyline.hours ? this.props.polyline.hours.map(hour=>(
-            <p> {hour.date} {hour.startT} to {hour.endT} </p>
+            <p key={uuid()}> {hour.date} {hour.startT} to {hour.endT} </p>
           )) : ''
         }
         <p>Rate: ${this.props.polyline.rate}/hr </p>

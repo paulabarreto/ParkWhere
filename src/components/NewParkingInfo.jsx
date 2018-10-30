@@ -3,7 +3,7 @@ import { Well }from 'react-bootstrap';
 import { Select, TimePicker, Slider, Icon, Button} from 'antd';
 import moment from 'moment';
 import 'antd/dist/antd.css';
-
+import uuid from 'uuid/v4';
 const Option = Select.Option;
 
 class NewParkingInfo  extends Component {
@@ -19,7 +19,7 @@ class NewParkingInfo  extends Component {
 
     if (arrLen !== 0){
       let {forms} = this.state;
-      for(let i = 0; i <  arrLen; i++){
+      for(let i = 0; i < arrLen; i++){
           forms['info'+ (i + 1)] = {...this.props.dynline.hours[i]};
       }
       this.setState(prevstate=>({...prevstate, forms:forms}));
@@ -143,11 +143,11 @@ class NewParkingInfo  extends Component {
         <p>{this.props.polyline.address}</p><br/>
           Enter Parking Info
             {formSelectArr.map(form=>(form))}
-            <Button icon="plus" onClick={this.addFormNum}/>
+            <Button key={uuid()} icon="plus" onClick={this.addFormNum}/>
             {this.state.formNum>1? <Button icon="minus" onClick={this.removeFormNum}/> : ''}
             <br/><br/>
             <div className="slider-wrapper">
-            {rate === 0 ? <Icon type="dollar" style={{color:'rgba(0, 0, 0, .45)', fontSize:30}}/> : dolllarDiv.map(element =>(<span>{element}</span>))}
+            {rate === 0 ? <Icon type="dollar" style={{color:'rgba(0, 0, 0, .45)', fontSize:40}}/> : dolllarDiv.map(element =>(<span key={uuid()}>{element}</span>))}
               <Slider
                 marks={marks}
                 max={5}

@@ -28,7 +28,7 @@ class App extends Component {
       withCredentials: true
     })
     .then(res => {
-      //data.hours = data.hours.length !== 0 ? data.hours = JSON.parse(res.data.hours) : [];
+      console.log(res.data)
       this.setState(prevState => ({...prevState, infofromserver:res.data}))
     })
   }
@@ -78,6 +78,7 @@ class App extends Component {
     rating = Math.round((rating + value)/2);
     this.setPolyWithKey(key,rating);
     this.setState(prevState => ({...prevState, polyline:dynline}));
+    console.log(this.state.polyline.id)
     axios.post("http://localhost:8080/add_rating",{
       data:{rating:this.state.polyline.rating,
             parking_id:this.state.polyline.id},
@@ -277,6 +278,7 @@ class App extends Component {
               setApiOjb ={this.setApiOjb }
               onHourRateClick={this._handleParkingFilter}
               showPolyline={this.showLines}
+              selectedLine={this.state.polyline}
             />
           </div>
         </div>

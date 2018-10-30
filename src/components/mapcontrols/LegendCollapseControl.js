@@ -10,8 +10,8 @@ const LegendCollapseControl = (controlDiv) => {
   controlDiv.style.marginRight = '30px';
   controlDiv.style.marginTop = '10px';
   controlDiv.style.textAlign = 'center';
-  controlDiv.style.height = '40px';
-  controlDiv.style.width = '40px';
+  controlDiv.style.height = '35px';
+  controlDiv.style.width = '35px';
 }
 
 export default LegendCollapseControl;

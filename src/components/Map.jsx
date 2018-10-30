@@ -11,6 +11,7 @@ import Rate5Control from './mapcontrols/Rate5Control';
 import Rate4Control from './mapcontrols/Rate4Control';
 import Rate3Control from './mapcontrols/Rate3Control';
 import Rate2Control from './mapcontrols/Rate2Control';
+import RefreshControl from './mapcontrols/RefreshControl';
 import StreetParkingRate from './mapcontrols/StreetParkingRate';
 
 class Map extends Component {
@@ -37,7 +38,8 @@ class Map extends Component {
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
     const geocoder = new window.google.maps.Geocoder();
     map.addListener('click',()=>{
-      this.props.setCond('isInfoOpen',false)
+      this.props.setCond('isInfoOpen',false);
+      map.setZoom(15);
     })
     this.setState(prevState => ({...prevState, map: map}));
     this.props.setApiOjb(map,geocoder);
@@ -45,6 +47,13 @@ class Map extends Component {
     this.handleDrawPoly(map,geocoder);
     this.LegendDiv(map);
     this.loadData(geocoder);
+
+    let RefreshControlDiv = this.newControl(RefreshControl);
+    map.controls[window.google.maps.ControlPosition.LEFT_BOTTOM].push(RefreshControlDiv);
+    RefreshControlDiv.addEventListener('click', ()=>{
+      map.setZoom(15);
+      this.props.showPolyline();
+    }) 
   }
 
   // loadData = (geocoder) => {
@@ -107,12 +116,12 @@ class Map extends Component {
         hours:coord.hours,
         rate:coord.rate,
         rating:coord.rating,
-        id: coord.parking_id,
+        id: coord.id,
         comments: coord.comments,
         address: ''
       }
      
-      let newPoly = this.placePoly(startCoord, endCoord, data);
+      let newPoly = this.placePoly(startCoord, endCoord, data,this.state.map);
         switch(true){
           case (coord.rate === 5):
             newPoly.setOptions({strokeColor:'red'})
@@ -229,10 +238,13 @@ class Map extends Component {
           map.controls[window.google.maps.ControlPosition.LEFT_TOP].clear();
           map.controls[window.google.maps.ControlPosition.TOP_CENTER].clear();
           newMarkers.forEach(marker=>(marker.setMap(null)));
-          this.props.clearPoly();
+          if (!this.props.selectedLine.id){
+            this.props.clearPoly();
+          }
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
+          map.setZoom(15);
         })
 
         if(checkMapClick){
@@ -250,7 +262,7 @@ class Map extends Component {
               endCoord = e.latLng;
               
               let data = {hours:[], rate:'', id:'', rating:0,comment:'',address:''};
-              let newPoly = this.placePoly(startCoord,endCoord,data);
+              let newPoly = this.placePoly(startCoord,endCoord,data,map);
               this.props.setPoly(newPoly);
               newPoly.setMap(map);
               mapClickCount++;
@@ -266,6 +278,8 @@ class Map extends Component {
                 lat:(startCoord.lat() + endCoord.lat())/2,
                 lng:(startCoord.lng() + endCoord.lng())/2
               }
+              map.setZoom(16);
+              map.setCenter(midCoord);
               geocoder.geocode({ 'location': midCoord }, (results, status) => {
                 if (status === window.google.maps.GeocoderStatus.OK) {
                   let address = results[0].formatted_address;
@@ -351,7 +365,7 @@ class Map extends Component {
     return marker
   }
 
-  placePoly = (startCoord,endCoord,data) => {
+  placePoly = (startCoord,endCoord,data,map) => {
     let poly = new window.google.maps.Polyline({
       path:[startCoord,endCoord],
       //editable: true,
@@ -366,6 +380,8 @@ class Map extends Component {
       this.props.setCond('isInfoOpen',true);
       this.props.setPoly(poly);
       this.props.setCond('isClearPoly',false);
+      map.setZoom(16);
+      map.setCenter(startCoord);
     })
 
     poly.addListener('mouseover', ()=>{
