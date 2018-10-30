@@ -77,16 +77,14 @@ class NavBar extends Component {
       );
     }
     return (
-      <Navbar>
+      <Navbar className="nav-bar">
         <Navbar.Header>
           <Navbar.Brand>
              <a href="http://localhost:3000">ParkWhere</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
-        <Navbar.Collapse>
           {login}
-        </Navbar.Collapse>
       </Navbar>
     );
   }

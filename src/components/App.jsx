@@ -232,9 +232,7 @@ class App extends Component {
 
     return (
       <div>
-        <Nav
-          handleSearch={this.handleSearch}
-        />
+        <Nav/>
 
         <HomePage handleSearchPlace={this.handleSearchPlace}/>
 
