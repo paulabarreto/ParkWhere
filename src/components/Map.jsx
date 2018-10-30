@@ -40,7 +40,7 @@ class Map extends Component {
     map.addListener('click',()=>{
       this.props.setCond('isInfoOpen',false);
     });
-    //map.addListener('click',this.mapZoomOut);
+    map.addListener('click',()=>(map.setZoom(15)));
     this.setState(prevState => ({...prevState, map: map}));
     this.props.setApiObj(map,geocoder);
     this.handleCurrentLocation(map);
@@ -55,9 +55,6 @@ class Map extends Component {
     }) 
   }
 
-  mapZoomOut = () => {
-    this.state.map.setZoom(15)
-  }
   // loadData = (geocoder) => {
     
   //   let coords = this.props.coords;
@@ -280,7 +277,6 @@ class Map extends Component {
                 lat:(startCoord.lat() + endCoord.lat())/2,
                 lng:(startCoord.lng() + endCoord.lng())/2
               }
-              map.setCenter(midCoord);
               geocoder.geocode({ 'location': midCoord }, (results, status) => {
                 if (status === window.google.maps.GeocoderStatus.OK) {
                   let address = results[0].formatted_address;
@@ -372,7 +368,7 @@ class Map extends Component {
       //editable: true,
       strokeColor: '#336699',
       strokeOpacity: 0.7,
-      strokeWeight: 3
+      strokeWeight: 4
     });
     for(let key in data){
       poly[key] = data[key]
@@ -446,11 +442,9 @@ class Map extends Component {
       x.parentNode.insertBefore(s, x);
       s.addEventListener('load', () => {
         this.loadMap();
-        this.props.setCond('mapDidMount',true);
       })
     } else {
       this.loadMap();
-      this.props.setCond('mapDidMount',true);
     }
   }
 

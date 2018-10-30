@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Well, Button, FormControl } from 'react-bootstrap';
 import uuid from 'uuid/v4';
 import Rating from 'react-rating';
+import { Icon } from 'antd';
 
 class ParkingInfo  extends Component {
 
@@ -35,6 +36,12 @@ class ParkingInfo  extends Component {
 
   render(){
     // const coordsArr = this.props.polyline? this.props.polyline.getPath().getArray() : '';
+    const dolllarDiv = [];
+    const rate = this.props.polyline.rate ? this.props.polyline.rate : 0
+    for(let i = 0; i < rate;i++){
+      dolllarDiv.push(<Icon type="dollar" style={{color:'#EEBA4C', fontSize:40}}/>)
+    }
+
     return  (
       <Well className={this.props.classname}>
         <h3>Parking Info <button type="button" className="btn btn-outline-info" onClick={this.onClick}>Edit</button></h3>
@@ -46,6 +53,8 @@ class ParkingInfo  extends Component {
           )) : ''
         }
         <p>Rate: ${this.props.polyline.rate}/hr </p>
+        {rate === 0 ? <Icon type="dollar" style={{color:'rgba(0, 0, 0, .45)', fontSize:40}}/> : dolllarDiv.map(element =>(<span key={uuid()}>{element}</span>))}
+        <br/><br/>
         Rating:
         <Rating
           emptySymbol={<img src="star-empty.png" className="icon" alt="empty star"/>}

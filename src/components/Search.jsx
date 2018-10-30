@@ -5,7 +5,6 @@ import greenP from '../greenP_logo.png';
 import rover from '../rover_logo.jpg';
 import indigo from '../indigo_logo.png';
 import 'antd/dist/antd.css';
-import PlacesAutocomplete,{geocodeByAddress,getLatLng} from 'react-places-autocomplete';
 
 class Search extends Component {
 
@@ -38,10 +37,6 @@ class Search extends Component {
 
   onSearchClick = () => {
     this.props.handleSearch(this.state.searchValue,this.state.dateObject);
-    geocodeByAddress(this.state.searchValue)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => console.log('Success', latLng))
-      .catch(error => console.error('Error', error));
   }
 
   emitEmpty = () => {
@@ -50,45 +45,6 @@ class Search extends Component {
   }
   
   render() {
-    const autoCompleteDiv = (      
-    <PlacesAutocomplete
-      value={this.state.searchValue}
-      onChange={this.handleChange}
-      onSelect={this.onSearchClick}
-    >
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div>
-          <input
-            {...getInputProps({
-              placeholder: 'Search Places ...',
-              className: 'location-search-input',
-            })}
-          />
-          <div className="autocomplete-dropdown-container">
-            {loading && <div>Loading...</div>}
-            {suggestions.map(suggestion => {
-              const className = suggestion.active
-                ? 'suggestion-item--active'
-                : 'suggestion-item';
-              // inline style for demonstration purpose
-              const style = suggestion.active
-                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                : { backgroundColor: '#ffffff', cursor: 'pointer' };
-              return (
-                <div
-                  {...getSuggestionItemProps(suggestion, {
-                    className,
-                    style,
-                  })}
-                >
-                  <span>{suggestion.description}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-    </PlacesAutocomplete>)
     return (
       <div className="search-container">
         <div className='search' >
@@ -101,7 +57,6 @@ class Search extends Component {
             onChange={this.onInputChange}
             ref={node => this.searchInput = node}
           />
-          {this.props.mapDidMount ? autoCompleteDiv: ''}
           <br/><br/>
           <DatePicker
             showTime

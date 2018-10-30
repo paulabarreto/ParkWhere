@@ -9,7 +9,7 @@ const knex = require("knex")(knexConfig[ENV]);
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
+const uuid = require('uuid/v4');
 app.use(bodyParser.json());
 
 app.use(cookieParser());
@@ -115,6 +115,12 @@ app.post('/add_comment', (req,res)=>{
 
 app.post('/add_parking_info_data', (req,res)=>{
   const newData = req.body.data;
+  if(!newData.rating ){
+    newData.rating = 0;
+  }
+  if(!newData.rate){
+    newData.rate = 0;
+  }
   const newParking = {
     lat_start: newData.coords[0].lat,
     lng_start: newData.coords[0].lng,
@@ -128,7 +134,6 @@ app.post('/add_parking_info_data', (req,res)=>{
   if(!req.body.data.id) {
     knex.raw('SELECT setval(\'street_parking_id_seq\', (SELECT MAX(id) from "street_parking"));')
     knex.insert(newParking, "id")
-
         .into("street_parking")
         .catch(function(error){
           console.error(error)

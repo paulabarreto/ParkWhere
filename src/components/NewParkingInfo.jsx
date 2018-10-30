@@ -74,8 +74,8 @@ class NewParkingInfo  extends Component {
       for(let key in this.state.forms){
         infoArr.push(this.state.forms[key])
       }
-
-      this.props.onSubmit(infoArr);
+      this.props.onChange('hours',infoArr);
+      this.props.onSubmit();
       this.props.polyline.setEditable(false);
       this.props.polyline.setDraggable(false);
       this.props.onCondChange('isSubmitInfoOpen',false);
@@ -87,7 +87,7 @@ class NewParkingInfo  extends Component {
     const dolllarDiv = [];
     const rate = this.props.dynline.rate ? this.props.dynline.rate : 0
     for(let i = 0; i < rate;i++){
-      dolllarDiv.push(<Icon type="dollar" style={{color:'#EEBA4C', fontSize:30}}/>)
+      dolllarDiv.push(<Icon type="dollar" style={{color:'#EEBA4C', fontSize:40}}/>)
     }
 
     const formSelectDiv = (idx) => {
@@ -147,13 +147,13 @@ class NewParkingInfo  extends Component {
             {this.state.formNum>1? <Button icon="minus" onClick={this.removeFormNum}/> : ''}
             <br/><br/>
             <div className="slider-wrapper">
-            {rate === 0 ? <Icon type="dollar" style={{color:'rgba(0, 0, 0, .45)', fontSize:40}}/> : dolllarDiv.map(element =>(<span key={uuid()}>{element}</span>))}
               <Slider
                 marks={marks}
                 max={5}
                 onChange={this.onRateChange('rate')}
                 value={inputValue('rate')}
               />
+            {rate === 0 ? <Icon type="dollar" style={{color:'rgba(0, 0, 0, .45)', fontSize:40}}/> : dolllarDiv.map(element =>(<span key={uuid()}>{element}</span>))}
             </div>
             <br/><br/>
           <Button onClick={onCancel}>Cancel</Button>

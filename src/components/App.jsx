@@ -19,8 +19,7 @@ class App extends Component {
     isInfoOpen: false,
     isSubmitInfoOpen: false,
     isClearPoly:false,
-    isShowInputBox:false,
-    mapDidMount:false
+    isShowInputBox:false
   }
 
   componentDidMount() {
@@ -39,10 +38,27 @@ class App extends Component {
 
     let poly = this.state.polyline;
     poly.rating = this.state.dynline.rating;
+    poly.rate = this.state.dynline.rate;
     poly.hours = this.state.dynline.hours;
     poly.setPath(this.state.dynline.coords);
     this.setState(prevState => ({...prevState, polyline:poly}));
-
+    switch(true){
+      case (this.state.polyline.rate === 5):
+        this.state.polyline.setOptions({strokeColor:'red'})
+        break;
+      case (this.state.polyline.rate === 4):
+        this.state.polyline.setOptions({strokeColor:'purple'})
+        break;
+     case (this.state.polyline.rate === 3):
+        this.state.polyline.setOptions({strokeColor:'blue'})
+        break;
+      case (this.state.polyline.rate === 2):
+      this.state.polyline.setOptions({strokeColor:'green'})
+        break;
+      default:
+        this.state.polyline.setOptions({strokeColor:'#336699'})
+        break;
+    }
     axios.post("http://localhost:8080/add_parking_info_data",{
       data:{coords:this.state.polyline.getPath().getArray(),
             id: this.state.polyline.id,
