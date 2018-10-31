@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Well, Button, FormControl } from 'react-bootstrap';
+import { Well, FormControl } from 'react-bootstrap';
+import{ Button } from 'antd';
 import uuid from 'uuid/v4';
 import Rating from 'react-rating';
 import { Icon } from 'antd';
@@ -43,19 +44,22 @@ class ParkingInfo  extends Component {
     }
 
     return  (
-      <Well className={this.props.classname}>
-        <h3>Parking Info <button type="button" className="btn btn-outline-info" onClick={this.onClick}>Edit</button></h3>
-        <p>Nearby Address:</p>
+      <div className={this.props.classname}>
+        <div className={'info-title'}>
+          <h3>Parking Info</h3>
+          <Button className={'edit-info'} type="default" icon="edit" onClick={this.onClick} />
+        </div>
+        <strong>Nearby Address:</strong>
         <p>{this.props.polyline.address}</p><br/>
-        <p>Hours: </p>
+        <strong>Hours: </strong>
         { this.props.polyline.hours ? this.props.polyline.hours.map(hour=>(
             <p key={uuid()}> {hour.date} {hour.startT} to {hour.endT} </p>
           )) : ''
         }
-        <p>Rate: ${this.props.polyline.rate}/hr </p>
+        <p><strong>Rate</strong>: ${this.props.polyline.rate}/hr </p>
         {rate === 0 ? <Icon type="dollar" style={{color:'rgba(0, 0, 0, .45)', fontSize:40}}/> : dolllarDiv.map(element =>(<span key={uuid()}>{element}</span>))}
         <br/><br/>
-        Rating:
+        <strong>Rating:</strong>
         <Rating
           emptySymbol={<img src="star-empty.png" className="icon" alt="empty star"/>}
           fullSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
@@ -64,7 +68,7 @@ class ParkingInfo  extends Component {
           placeholderSymbol={<img src="star-full.png" className="icon" alt="full star"/>}
         />
       <br/><br/>
-      <p>Comments:</p>
+      <strong>Comments:</strong>
          {this.props.polyline.comments? this.props.polyline.comments.map(comment => <p key={uuid()}>{comment}</p>):''}
          <br/>
          <Button bsStyle="primary" onClick={this.onCommentClick}>Add a Comment</Button>
@@ -76,7 +80,7 @@ class ParkingInfo  extends Component {
           value={this.inputValue('comment')}
           onKeyPress={this.KeyPress}
           />
-      </Well>
+      </div>
     )
   }
 }

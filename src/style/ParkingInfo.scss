@@ -13,15 +13,19 @@
 .parking-info-map {
   display: block;
   position: absolute;
+  background-color:white; 
+  color:black;
   width: 30%;
   top: 15vh;
   height: 84vh;
   margin-bottom: 0;
   border: 0;
   border-radius: 0;
-  font-size: 1em;
+  font-size: 1.5rem;
   z-index: 10;
-  overflow: auto; 
+  overflow: auto;
+  opacity: 0.7;
+  padding-left: 1rem;
 }
 // .parking-info-hide{
 //   display: none;
@@ -33,4 +37,12 @@
 
 .add-comment{
   display: block;
+}
+
+.info-title h3{
+  display: inline-block;
+}
+.edit-info{
+  display: flex;
+  float: right;
 }

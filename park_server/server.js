@@ -128,7 +128,8 @@ app.post('/add_parking_info_data', (req,res)=>{
     lng_end: newData.coords[1].lng,
     hours: newData.hours,
     rate: newData.rate,
-    rating: newData.rating
+    rating: newData.rating,
+    address: newData.address
   };
   console.log(newParking)
   if(!req.body.data.id) {

@@ -252,7 +252,7 @@ class App extends Component {
 
         {this.state.isSubmitInfoOpen ? (
           <NewParkingInfo
-            classname={!mapVisible?'parking-info':'parking-info-map'}
+            classname={!mapVisible?'parking-info ':'parking-info-map '}
             onCondChange={this.setCond}
             dynline={this.state.dynline}
             polyline={this.state.polyline}

@@ -62,9 +62,15 @@ class Search extends Component {
             showTime
             format="YYYY-MM-DD h:mm:ss a"
             placeholder="Select date and time"
+            style={{ width: 200 }}
             onChange={this.onDateChange}
           />
-          <Button onClick={this.onSearchClick}>Search</Button>
+          <br/><br/>
+          <Button 
+            onClick={this.onSearchClick} 
+            style={{ width: 200 }}
+            type="primary" ghost
+            >Search</Button>
         </div>
         <br/><br/><br/><br/>
         <div>
