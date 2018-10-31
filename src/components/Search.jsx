@@ -79,22 +79,22 @@ class Search extends Component {
         <div className="carousel-logos">
           <Carousel>
             <Carousel.Item>
-              <a href="http://parking.greenp.com">
+              <a href="http://parking.greenp.com" target="_blank">
               <Image src={greenP} className="logos" href="https://parking.greenp.com/"/>
               </a>
             </Carousel.Item>
             <Carousel.Item>
-              <a href="http://roverparking.com/">
+              <a href="http://roverparking.com/" target="_blank">
               <Image src={rover} className="logos"/>
               </a>
             </Carousel.Item>
             <Carousel.Item>
-              <a href="https://ca.parkindigo.com/en">
+              <a href="https://ca.parkindigo.com/en" target="_blank">
               <Image src={indigo} className="logos" />
               </a>
             </Carousel.Item>
             <Carousel.Item>
-              <a href="https://www.impark.com/toronto-parking/">
+              <a href="https://www.impark.com/toronto-parking/" target="_blank">
               <Image src={impark} className="logos" />
               </a>
             </Carousel.Item>

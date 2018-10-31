@@ -3,7 +3,7 @@ $background-color:#F6F7F8;
 .parking-info{
   display: block;
   position: absolute;
-  background-color:$background-color; 
+  background-color:$background-color;
   color:$font-color;
   width: 30%;
   height: 84vh;
@@ -19,11 +19,11 @@ $background-color:#F6F7F8;
 .parking-info-map {
   display: block;
   position: absolute;
-  top: 15vh;
-  background-color:$background-color; 
+  top: 4rem;
+  background-color:$background-color;
   color:$font-color;
   width: 30%;
-  height: 84vh;
+  height: 86vh;
   margin-bottom: 0;
   border: 0;
   border-radius: 0;
