@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import 'antd/dist/antd.css';
@@ -101,7 +101,7 @@ class NavBar extends Component {
         <Nav>
           <NavItem>
             <Navbar.Link pullRight>
-              <Login name={name} onChange={this.handleNameChange.bind(this)} login={this.handleLogin}/>
+              <Login name={name} login={this.handleLogin}/>
             </Navbar.Link>
           </NavItem>
           <NavItem>
@@ -122,6 +122,7 @@ class NavBar extends Component {
           <Navbar.Brand>
              <a href="http://localhost:3000">ParkWhere</a>
           </Navbar.Brand>
+        </Navbar.Header>
             <Switch
             defaultChecked={false}
             className='mapswitch'
@@ -152,7 +153,7 @@ class NavBar extends Component {
               </div>
           }
           <div className="login">
-            {login} {register}
+            {login}
           </div>
       </Navbar>
     );

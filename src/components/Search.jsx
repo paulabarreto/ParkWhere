@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Input, Button, Icon, DatePicker} from 'antd';
-import { Image } from 'react-bootstrap';
+import { Image, Carousel } from 'react-bootstrap';
 import greenP from '../greenP_logo.png';
 import rover from '../rover_logo.jpg';
 import indigo from '../indigo_logo.png';
+import impark from '../impark_logo.png';
+
 import 'antd/dist/antd.css';
 
 class Search extends Component {
@@ -47,11 +49,11 @@ class Search extends Component {
   render() {
     return (
       <div className="search-container">
+        <h3 className="search-text">Find or add street parking info</h3>
         <div className='search' >
-          <h3 className="search-text">Find or add street parking info</h3>
           <Input
             placeholder="Search address"
-            style={{ width: 200 }}
+            style={{ width: 250 }}
             prefix={<Icon type="search" theme="outlined" className="glass"/>}
             value={this.state.searchValue}
             onChange={this.onInputChange}
@@ -62,28 +64,41 @@ class Search extends Component {
             showTime
             format="YYYY-MM-DD h:mm:ss a"
             placeholder="Select date and time"
-            style={{ width: 200 }}
+            style={{ width: 250 }}
             onChange={this.onDateChange}
           />
           <br/><br/>
-          <Button 
-            onClick={this.onSearchClick} 
-            style={{ width: 200 }}
+          <Button
+            onClick={this.onSearchClick}
+            style={{ width: 250 }}
             type="primary" ghost
             >Search</Button>
         </div>
-        <br/><br/><br/><br/>
-        <div>
-          <p className="search-text">Or explore off-street parking</p>
-            <a href="http://parking.greenp.com">
-            <Image circle src={greenP} className="logos" href="https://parking.greenp.com/"/>
-            </a>
-            <a href="http://roverparking.com/">
-            <Image circle src={rover} className="logos"/>
-            </a>
-            <a href="https://ca.parkindigo.com/en">
-            <Image circle src={indigo} className="logos" />
-            </a>
+        <br/>
+        <p className="search-text">Or explore off-street parking</p>
+        <div className="carousel-logos">
+          <Carousel>
+            <Carousel.Item>
+              <a href="http://parking.greenp.com">
+              <Image src={greenP} className="logos" href="https://parking.greenp.com/"/>
+              </a>
+            </Carousel.Item>
+            <Carousel.Item>
+              <a href="http://roverparking.com/">
+              <Image src={rover} className="logos"/>
+              </a>
+            </Carousel.Item>
+            <Carousel.Item>
+              <a href="https://ca.parkindigo.com/en">
+              <Image src={indigo} className="logos" />
+              </a>
+            </Carousel.Item>
+            <Carousel.Item>
+              <a href="https://www.impark.com/toronto-parking/">
+              <Image src={impark} className="logos" />
+              </a>
+            </Carousel.Item>
+          </Carousel>
         </div>
       </div>
     );

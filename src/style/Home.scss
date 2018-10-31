@@ -113,23 +113,29 @@
 }
 
 .search-container {
+  padding-top: 0px;
   padding: 20px;
 
-  .logos {
-    height: 70px;
-    width: 70px;
-    padding: 5px;
+  .carousel-logos {
+    padding: 0;
+    margin-left: 4em;
+    width: 13%;
+    height: 50%;
   }
+
+
   .search-text {
     font-size: 1.25em;
     padding: 0;
-    width: auto;
+    width: 100%;
     font-family: 'Bitter', serif;
   }
-  h4 {
+  h3 {
     color: grey;
   }
 }
+
+
 
 .footer {
   border-top: 1px solid #F5F5F5;
