@@ -46,8 +46,13 @@ exports.seed = function(knex, Promise) {
         {comments: "I'll never park here again", parking_id: 13},
         {comments: "School zone - don't park during the day", parking_id: 14},
         {comments: "Good for parking on weekends", parking_id: 14},
-        {comments: "I parked here overnight and it was fine", parking_id: 14}
-
+        {comments: "I parked here overnight and it was fine", parking_id: 14},
+        {comments: "Construction site - your car will get dirty!", parking_id: 15},
+        {comments: "Don't recommend parking here!", parking_id: 15},
+        {comments: "I'll never park here again", parking_id: 15},
+        {comments: "School zone - don't park during the day", parking_id: 16},
+        {comments: "Good for parking on weekends", parking_id: 16},
+        {comments: "I parked here overnight and it was fine", parking_id: 16}
       ]);
     });
 };
