@@ -1,4 +1,3 @@
-
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return knex('street_parking').del()
@@ -19,7 +18,9 @@ exports.seed = function(knex, Promise) {
         {address: "50 Portland Street, Toronto, ON M5V 2M7, Canada", lat_start: "43.643649550384566", lng_start: "-79.39978035906677", lat_end: "43.64324679764023", lng_end: "-79.39961808542137 ", hours: '[{"date":"Mon-Fri","startT":"9:00 pm","endT":"7:00 am"},{"date":"Saturday","startT":"9:00 pm","endT":"7:00 am"},{"date":"Sunday","startT":"9:00 pm","endT":"7:00 am"}]', rate:5, rating:3},
         {address: "49 Bathurst St, Toronto, ON M5V 2P2, Canada", lat_start: "43.642717718539124", lng_start: "-79.40198924574497", lat_end: "43.64289046735138", lng_end: "-79.40114434990528", hours: '[{"date":"Mon-Fri","startT":"8:00 am","endT":"9:00 pm"},{"date":"Saturday","startT":"10:00 am","endT":"11:00 pm"},{"date":"Sunday","startT":"8:00 am","endT":"9:00 pm"}]', rate:5, rating:3},
         {address: "524 Wellington St W, Toronto, ON M5V 2V4, Canada", lat_start: "43.642959959307966", lng_start: "-79.40080370936039", lat_end: "43.643161822225714", lng_end: "-79.39980324539783", hours: '[{"date":"Mon-Fri","startT":"8:00 am","endT":"9:00 pm"},{"date":"Saturday","startT":"8:00 am","endT":"9:00 pm"},{"date":"Sunday","startT":"1:00 pm","endT":"9:00 pm"}]', rate:5, rating:3},
-        {address: "2 Stewart St, Toronto, ON M5V 1H6, Canada", lat_start: "43.64376107355607", lng_start: "-79.39983581557681", lat_end: "43.644296778051654", lng_end: "-79.40004502787997", hours: '[{"date":"Mon-Fri","startT":"9:00 pm","endT":"7:00 am"},{"date":"Saturday","startT":"8:00 am","endT":"9:00 pm"},{"date":"Sunday","startT":"1:00 pm","endT":"9:00 pm"}]', rate:5, rating:3}
+        {address: "2 Stewart St, Toronto, ON M5V 1H6, Canada", lat_start: "43.64376107355607", lng_start: "-79.39983581557681", lat_end: "43.644296778051654", lng_end: "-79.40004502787997", hours: '[{"date":"Mon-Fri","startT":"9:00 pm","endT":"7:00 am"},{"date":"Saturday","startT":"8:00 am","endT":"9:00 pm"},{"date":"Sunday","startT":"1:00 pm","endT":"9:00 pm"}]', rate:5, rating:3},
+        {address: "66 Browns Ln, Toronto, ON M5V 2P9, Canada", lat_start: "43.645176791820454", lng_start: "-79.40320262564705", lat_end: "43.64457510322585", lng_end: "-79.4029397691636", hours: '[{"date":"Mon-Fri","startT":"9:00 pm","endT":"7:00 am"},{"date":"Saturday","startT":"8:00 am","endT":"9:00 pm"},{"date":"Sunday","startT":"1:00 pm","endT":"9:00 pm"}]', rate:4, rating:4},
+        {address: "66 Browns Ln, Toronto, ON M5V 2P9, Canada", lat_start: "43.64450744196998", lng_start: "-79.40291294707345", lat_end: "43.64397950319313", lng_end: "-79.40269300593422", hours: '[{"date":"Saturday","startT":"8:00 am","endT":"9:00 pm"},{"date":"Sunday","startT":"1:00 pm","endT":"9:00 pm"}]', rate:4, rating:4}
       ]);
     });
 };
