@@ -39,13 +39,13 @@ class Search extends Component {
     this.searchInput.focus();
     this.setState({ searchValue: '' });
   }
-  
+
   render() {
     const suffix = this.state.searchValue ? <Icon type="close" onClick={this.emitEmpty} /> : null;
     return (
       <div className="search-container">
         <div className='search' >
-          <h3 className="description-text">Find or add street parking info</h3>
+          <h3 className="search-text">Find or add street parking info</h3>
           <Input
             placeholder="Search address"
             style={{ width: 200 }}
@@ -66,7 +66,7 @@ class Search extends Component {
         </div>
         <br/><br/><br/><br/>
         <div>
-          <h4 className="description-text">Or explore off-street parking info</h4>
+          <p className="search-text">Or explore off-street parking</p>
             <a href="http://parking.greenp.com">
             <Image circle src={greenP} className="logos" href="https://parking.greenp.com/"/>
             </a>

@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Bitter:700');
 
 .nav-bar {
-  padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
@@ -9,6 +8,11 @@
   background-color: white;
   height: 30%;
   position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 50px;
 }
 
 
@@ -18,9 +22,8 @@
   width: 100%;
   height: 40%;
   position: relative;
-  .navbar-default {
-    background-color: blue;
-  }
+  position: sticky;
+
   .navbar-header {
     width: 100%;
     padding: 0;
