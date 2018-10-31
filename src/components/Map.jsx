@@ -47,9 +47,9 @@ class Map extends Component {
       })
     }
 
-    map.addListener('rightclick', ()=>{
-      map.setZoom(15);
-    })
+    // map.addListener('rightclick', ()=>{
+    //   map.setZoom(15);
+    // })
     this.setState(prevState => ({...prevState, map: map}));
     this.props.setApiObj(map,geocoder);
     this.handleCurrentLocation(map);
@@ -211,7 +211,7 @@ class Map extends Component {
 
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
-      map.setZoom(16);
+      // map.setZoom(16);
       if (checkDrawPolyClick){
         //disable the click state once it has been click
         checkDrawPolyClick = false;
@@ -252,7 +252,7 @@ class Map extends Component {
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
-          map.setZoom(15);
+          // map.setZoom(15);
         })
 
         if(checkMapClick){
@@ -386,7 +386,7 @@ class Map extends Component {
       this.props.setCond('isInfoOpen',true);
       this.props.setPoly(poly);
       this.props.setCond('isClearPoly',false);
-      map.setZoom(16);
+      // map.setZoom(16);
       map.setCenter(startCoord);
     })
 
