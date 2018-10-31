@@ -13,7 +13,6 @@ import Rate4Control from './mapcontrols/Rate4Control';
 import Rate3Control from './mapcontrols/Rate3Control';
 import Rate2Control from './mapcontrols/Rate2Control';
 import RefreshControl from './mapcontrols/RefreshControl';
-import StreetParkingRate from './mapcontrols/StreetParkingRate';
 
 class Map extends Component {
   constructor(props){
@@ -47,9 +46,9 @@ class Map extends Component {
       })
     }
 
-    map.addListener('rightclick', ()=>{
-      map.setZoom(15);
-    })
+    // map.addListener('rightclick', ()=>{
+    //   map.setZoom(15);
+    // })
     this.setState(prevState => ({...prevState, map: map}));
     this.props.setApiObj(map,geocoder);
     this.handleCurrentLocation(map);
@@ -141,7 +140,7 @@ class Map extends Component {
             newPoly.setOptions({strokeColor:'#336699'})
             break;
           case (coord.rate === 2):
-          newPoly.setOptions({strokeColor:'#8EDC9D'})
+          newPoly.setOptions({strokeColor:'green'}) //#8EDC9D
             break;
           default:
             newPoly.setOptions({strokeColor:'#3A3A3C'})
@@ -211,7 +210,7 @@ class Map extends Component {
 
     // add click event to the draw_poly_button
     drawPolyDiv.addEventListener('click',() =>{
-      map.setZoom(16);
+      // map.setZoom(16);
       if (checkDrawPolyClick){
         //disable the click state once it has been click
         checkDrawPolyClick = false;
@@ -252,7 +251,7 @@ class Map extends Component {
           checkMapClick = false;
           mapClickCount = 3;
           checkDrawPolyClick = true;
-          map.setZoom(15);
+          // map.setZoom(15);
         })
 
         if(checkMapClick){
@@ -301,7 +300,6 @@ class Map extends Component {
   LegendDiv = (map) => {
     let LegendExpendControlDiv = this.newControl(LegendExpendControl);
     let LegendCollapseControlDiv = this.newControl( LegendCollapseControl);
-    let StreetParkingRateDiv = this.newControl(StreetParkingRate);
     let Rate5ControlDiv = this.newControl(Rate5Control);
 
     let Rate4ControlDiv = this.newControl(Rate4Control);
@@ -376,7 +374,7 @@ class Map extends Component {
       path:[startCoord,endCoord],
       //editable: true,
       strokeColor: '#3A3A3C',
-      strokeOpacity: 0.8,
+      strokeOpacity: 1,
       strokeWeight: 5
     });
     for(let key in data){
@@ -386,15 +384,15 @@ class Map extends Component {
       this.props.setCond('isInfoOpen',true);
       this.props.setPoly(poly);
       this.props.setCond('isClearPoly',false);
-      map.setZoom(16);
+      // map.setZoom(16);
       map.setCenter(startCoord);
     })
 
     poly.addListener('mouseover', ()=>{
-      poly.setOptions({strokeWeight:7,strokeOpacity: 1});
+      poly.setOptions({strokeWeight:7});
     })
     poly.addListener('mouseout', ()=>{
-      poly.setOptions({strokeWeight:3,strokeOpacity: 0.8});
+      poly.setOptions({strokeWeight:5});
     })
     return poly
   }
