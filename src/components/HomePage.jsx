@@ -28,8 +28,8 @@ class HomePage extends Component {
       <div>
 
         <Jumbotron className="jumboImg">
-              <h3>Can we help you find street parking?</h3>
-              <h4>Introducing ParkWhere</h4>
+              <h3>Introducing ParkWhere</h3>
+              <h4>Street Parking's Best Friend</h4>
               <p>A community based resource to make street parking more efficient</p>
         </Jumbotron>
         <div className="container-description">

@@ -93,7 +93,7 @@ class NewParkingInfo  extends Component {
       let date = this.state.forms['info'+idx].date;
       let startTime = this.state.forms['info'+idx].startT;
       let endTime = this.state.forms['info'+idx].endT;
-    
+
       return(
         <div>
           <Select
@@ -158,14 +158,6 @@ class NewParkingInfo  extends Component {
           <Button onClick={onCancel}>Cancel</Button>
           <Button type='submit' onClick={onSubmit}>Submit</Button>
         <br/>
-          { this.props.polyline?
-            <div>
-              {this.props.polyline.getPath().getArray()[0].lat()} <br/>
-              {this.props.polyline.getPath().getArray()[0].lng()} <br/>
-              {this.props.polyline.getPath().getArray()[1].lat()} <br/>
-              {this.props.polyline.getPath().getArray()[1].lng()} <br/>
-            </div> : ''
-          }
       </div>
     )
   }
