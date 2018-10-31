@@ -126,7 +126,7 @@ class Map extends Component {
         rating:coord.rating,
         id: coord.id,
         comments: coord.comments,
-        address: ''
+        address: coord.address
       }
      
       let newPoly = this.placePoly(startCoord, endCoord, data,this.state.map);

@@ -7,7 +7,7 @@ const LegendCollapseControl = (controlDiv) => {
   controlDiv.style.backgroundImage = "url('close.png')";
   controlDiv.style.backgroundSize = 'cover';
   controlDiv.style.backgroundRepeat = 'no-repeat';
-  controlDiv.style.marginRight = '30px';
+  controlDiv.style.marginRight = '33px';
   controlDiv.style.marginTop = '10px';
   controlDiv.style.textAlign = 'center';
   controlDiv.style.height = '35px';

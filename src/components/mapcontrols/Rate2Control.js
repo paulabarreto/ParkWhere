@@ -1,11 +1,11 @@
 const Rate2Control = (controlDiv) => {
 
-  controlDiv.style.borderRadius = '3px';
+  controlDiv.style.borderRadius = '10px';
   controlDiv.style.cursor = 'pointer';
-  controlDiv.style.backgroundColor = '#8EDC9D';
+  controlDiv.style.backgroundColor = 'green';
   controlDiv.style.backgroundSize = 'cover';
   controlDiv.style.backgroundRepeat = 'no-repeat';
-  controlDiv.style.marginRight = '20px';
+  controlDiv.style.marginRight = '25px';
   controlDiv.style.marginTop = '5px';
   controlDiv.style.textAlign = 'center';
   controlDiv.style.height = '40px';

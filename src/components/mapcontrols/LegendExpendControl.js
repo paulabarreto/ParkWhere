@@ -7,7 +7,7 @@ const LegendExpendControl = (controlDiv) => {
   controlDiv.style.backgroundImage = "url('menu.png')";
   controlDiv.style.backgroundSize = 'cover';
   controlDiv.style.backgroundRepeat = 'no-repeat';
-  controlDiv.style.marginRight = '30px';
+  controlDiv.style.marginRight = '33px';
   controlDiv.style.marginTop = '10px';
   controlDiv.style.height = '40px';
   controlDiv.style.width = '40px';

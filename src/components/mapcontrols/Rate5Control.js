@@ -1,13 +1,13 @@
 const Rate5Control = (controlDiv) => {
-
-  controlDiv.style.borderRadius = '3px';
+  
+  controlDiv.style.borderRadius = '10px';
   controlDiv.style.cursor = 'pointer';
   controlDiv.style.boarder = 'thick solid #FD795B';
   controlDiv.style.backgroundColor = '#FD795B';
   controlDiv.style.backgroundSize = 'cover';
   controlDiv.style.backgroundRepeat = 'no-repeat';
-  controlDiv.style.marginRight = '20px';
-  controlDiv.style.marginTop = '5px';
+  controlDiv.style.marginRight = '25px';
+  controlDiv.style.marginTop = '20px';
   controlDiv.style.height = '40px';
   controlDiv.style.width = '50px';
   

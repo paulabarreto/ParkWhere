@@ -59,10 +59,6 @@ class App extends Component {
         this.state.polyline.setOptions({strokeColor:'#3A3A3C'})
         break;
     }
-    console.log(this.state.polyline.getPath().getArray()[0].lat())
-    console.log(this.state.polyline.getPath().getArray()[0].lng())
-    console.log(this.state.polyline.getPath().getArray()[1].lat())
-    console.log(this.state.polyline.getPath().getArray()[1].lng())
 
     this.addLine(this.state.polyline);
     axios.post("http://localhost:8080/add_parking_info_data",{
