@@ -5,8 +5,8 @@ import CurrentLocationControl from './mapcontrols/CurrentLocationControl';
 import DrawPolyControl from './mapcontrols/DrawPolyControl';
 import NotificationControl from  './mapcontrols/NotificationControl';
 import CheckedControl from './mapcontrols/CheckedControl';
-import UncheckedControl from  './mapcontrols/UncheckedControl'; 
-import LegendCollapseControl from  './mapcontrols/LegendCollapseControl'; 
+import UncheckedControl from  './mapcontrols/UncheckedControl';
+import LegendCollapseControl from  './mapcontrols/LegendCollapseControl';
 import LegendExpendControl from './mapcontrols/LegendExpendControl';
 import Rate5Control from './mapcontrols/Rate5Control';
 import Rate4Control from './mapcontrols/Rate4Control';
@@ -61,11 +61,11 @@ class Map extends Component {
     map.controls[window.google.maps.ControlPosition.LEFT_BOTTOM].push(RefreshControlDiv);
     RefreshControlDiv.addEventListener('click', ()=>{
       this.props.showPolyline();
-    }) 
+    })
   }
 
   // loadData = (geocoder) => {
-    
+
   //   let coords = this.props.coords;
   //   let runFetch = ()=>{
   //     if (coords.length ===0){
@@ -117,7 +117,7 @@ class Map extends Component {
   //   runFetch();
   // }
   loadData = () => {
-    this.props.coords.forEach(coord=>{    
+    this.props.coords.forEach(coord=>{
       let startCoord = {lat: coord.lat_start, lng: coord.lng_start};
       let endCoord = {lat: coord.lat_end, lng: coord.lng_end};
       let data = {
@@ -128,7 +128,7 @@ class Map extends Component {
         comments: coord.comments,
         address: coord.address
       }
-     
+
       let newPoly = this.placePoly(startCoord, endCoord, data,this.state.map);
         switch(true){
           case (coord.rate === 5):
@@ -226,7 +226,7 @@ class Map extends Component {
         map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(NotificationControlDiv);
 
         map.controls[window.google.maps.ControlPosition.LEFT_TOP].push(CheckedControlDiv);
-        
+
         CheckedControlDiv.addEventListener('click', ()=>{
           if (startCoord && endCoord){
             this.props.setCond('isSubmitInfoOpen',true);
@@ -268,7 +268,7 @@ class Map extends Component {
               //add new marker on click
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
-              
+
               let data = {hours:[], rate:'', id:'', rating:0,comment:'',address:''};
               let newPoly = this.placePoly(startCoord,endCoord,data,map);
               this.props.setPoly(newPoly);
@@ -319,10 +319,10 @@ class Map extends Component {
        // window.setTimeout(()=>{},400)
         map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear();
         map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push( LegendCollapseControlDiv);
-        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate5ControlDiv);},100) 
-        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate4ControlDiv);},150) 
-        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate3ControlDiv);},200) 
-        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate2ControlDiv);},250) 
+        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate5ControlDiv);},100)
+        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate4ControlDiv);},150)
+        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate3ControlDiv);},200)
+        window.setTimeout(()=>{map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate2ControlDiv);},250)
 
         // map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate4ControlDiv);
         // map.controls[window.google.maps.ControlPosition.RIGHT_TOP].push(Rate3ControlDiv);
@@ -338,9 +338,9 @@ class Map extends Component {
     });
 
     LegendCollapseControlDiv.addEventListener('click',()=>{
-      
-      map.controls[window.google.maps.ControlPosition.RIGHT_TOP].clear(); 
-      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear(); 
+
+      map.controls[window.google.maps.ControlPosition.RIGHT_TOP].clear();
+      map.controls[window.google.maps.ControlPosition.TOP_RIGHT].clear();
       map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(LegendExpendControlDiv);
       // map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(StreetParkingRateDiv);
       this.setState(prevState => ({...prevState, legendExpendClick: true}));
