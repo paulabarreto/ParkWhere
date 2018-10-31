@@ -68,9 +68,10 @@ class App extends Component {
     axios.post("http://localhost:8080/add_parking_info_data",{
       data:{coords:this.state.polyline.getPath().getArray(),
             id: this.state.polyline.id,
+            address: this.state.polyline.address,
             hours:JSON.stringify(this.state.polyline.hours),
             rate:this.state.polyline.rate,
-            rating:''},
+            rating:0},
       withCredentials: true
     })
   }

@@ -13,6 +13,7 @@ import Rate4Control from './mapcontrols/Rate4Control';
 import Rate3Control from './mapcontrols/Rate3Control';
 import Rate2Control from './mapcontrols/Rate2Control';
 import RefreshControl from './mapcontrols/RefreshControl';
+import mapstyle_silver from './mapcontrols/mapstyle_silver';
 
 class Map extends Component {
   constructor(props){
@@ -33,7 +34,7 @@ class Map extends Component {
       mapTypeControl: false,
       draggableCursor: 'default',
       disableDefaultUI: true,
-      styles: mapstyle
+      styles: mapstyle_silver
     }
     const map = new window.google.maps.Map(document.getElementById('map'),mapOption);
     const geocoder = new window.google.maps.Geocoder();
