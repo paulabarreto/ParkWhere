@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Well, FormControl } from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
 import{ Button } from 'antd';
 import uuid from 'uuid/v4';
 import Rating from 'react-rating';

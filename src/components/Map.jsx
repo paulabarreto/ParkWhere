@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import mapstyle from './mapcontrols/mapstyle';
-import mapstyle_silver from '././mapcontrols/mapstyle_silver';
+//import mapstyle_silver from '././mapcontrols/mapstyle_silver';
 import CurrentLocationControl from './mapcontrols/CurrentLocationControl';
 import DrawPolyControl from './mapcontrols/DrawPolyControl';
 import NotificationControl from  './mapcontrols/NotificationControl';

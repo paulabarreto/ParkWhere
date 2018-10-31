@@ -1,5 +1,6 @@
+
 import React, { Component } from 'react';
-import { Navbar, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import 'antd/dist/antd.css';
@@ -27,7 +28,7 @@ class NavBar extends Component {
       searchValue:'',
     }
   }
-  
+
   handleLogin = name => {
     this.setState({name: name})
     const { cookies } = this.props;
@@ -61,7 +62,7 @@ class NavBar extends Component {
   onSearchClick = () => {
     this.props.handleSearch(this.state.searchValue,this.state.dateObject);
   }
-  
+
   emitEmpty = () => {
     this.searchInput.focus();
     this.setState({ searchValue: '' });
@@ -70,7 +71,7 @@ class NavBar extends Component {
   handleMapStyleChange = (e) => {
     if (e.target.value === 'standard'){
       this.props.map.setOptions({styles:mapstyle})
-    } 
+    }
     if (e.target.value === 'silver'){
       this.props.map.setOptions({styles:mapstyle_silver})
     }
@@ -84,25 +85,31 @@ class NavBar extends Component {
 
     if(this.state.name !== ""){
       login = (
-        <div>
-          <div>
+        <Nav>
+          <NavItem pullRight eventKey={1}>
             {this.state.name}
-          </div>
-          <Button onClick={this.handleLogout}>
-            Logout
-          </Button>
-        </div>
+          </NavItem>
+          <NavItem>
+            <Navbar.Link pullRight onClick={this.handleLogout}>
+              Logout
+            </Navbar.Link>
+          </NavItem>
+        </Nav>
       );
     }else {
       login = (
-        <div className="Login">
-          <Login name={name} login={this.handleLogin}/>
-        </div>
-      );
-      register = (
-        <Button>
-          <Register login={this.handleLogin}/>
-        </Button>
+        <Nav>
+          <NavItem>
+            <Navbar.Link pullRight>
+              <Login name={name} login={this.handleLogin}/>
+            </Navbar.Link>
+          </NavItem>
+          <NavItem>
+            <Navbar.Link pullRight>
+              <Register login={this.handleLogin}/>
+            </Navbar.Link>
+          </NavItem>
+        </Nav>
       );
     }
 
@@ -110,9 +117,9 @@ class NavBar extends Component {
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
     return (
-      <Navbar>
+      <Navbar className="nav-bar">
           <Navbar.Brand>
-            ParkWhere
+             <a href="http://localhost:3000">ParkWhere</a>
           </Navbar.Brand>
             <div className='nar-bar-search' style={navBarSearchStyle}>
               <Input
@@ -142,7 +149,7 @@ class NavBar extends Component {
             onChange={(checked)=>{checked?this.props.setCond('mapVisible',true) : this.props.setCond('mapVisible',false)}}
             />          
           <div className="login">
-            {login} {register}
+            {login}
           </div>
       </Navbar>
     );

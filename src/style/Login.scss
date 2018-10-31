@@ -1,4 +1,13 @@
-  .Login form {
-    margin: 0 auto;
-    max-width: 320px;
-  }
+.Login {
+  padding: 0.1rem 0;
+}
+
+.Login form {
+  margin: 0 auto;
+  max-width: 320px;
+}
+.login {
+  position: absolute;
+  right: 1rem;
+  font-size: 1.2rem;
+}

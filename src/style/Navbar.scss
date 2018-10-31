@@ -1,12 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Bitter:700');
+
+.nav-bar {
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  font-family: "Bitter";
+  background-color: white;
+  height: 10rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+}
+
+
 .navbar {
+  position: fixed;
+  font-family: "Bitter";
+  height: 4rem;
+  background-color: white;
   margin-bottom: 0;
   z-index: 999;
   width: 100%;
-  position: fixed;
-  height: 5rem;
-  .navbar-default {
-    background-color: black;
-  }
+  padding-left: 15px;
+
   .navbar-header {
     width: 100%;
     padding: 0;
@@ -18,31 +36,22 @@
   .navbar-brand{
     position: absolute;
     font-size: 2em;
-    left: 1rem;
-    top: 0.8rem;
-  }
-
-  .Login {
-    padding: 4px 0;
+    left: 1vw;
+    font-family: 'Bitter', serif;
   }
 
   .mapswitch {
     position: absolute;
-    right: 15rem;
-    top: 1.3rem;
+    right: 12rem;
+    transform: translate(0,80%);
   }
   .nar-bar-search {
     position: absolute;
-    left: 13rem;
-    top: 1.4rem;
+    left: 50%;
+    transform: translate(-50%,40%);
   }
   .ant-radio-group{
     margin-left: 2em;
   }
-}
-.login {
-  position: absolute;
-  right: 2vh;
-  top: 2vh;
 }
 
