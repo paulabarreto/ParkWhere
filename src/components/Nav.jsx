@@ -81,7 +81,7 @@ class NavBar extends Component {
     const { name } = this.state.name;
 
     let login = "";
-    let register = "";
+    // let register = "";
 
     if(this.state.name !== ""){
       login = (

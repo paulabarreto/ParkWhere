@@ -53,12 +53,17 @@ class App extends Component {
         this.state.polyline.setOptions({strokeColor:'#336699'})
         break;
       case (this.state.polyline.rate === 2):
-      this.state.polyline.setOptions({strokeColor:'#8EDC9D'})
+      this.state.polyline.setOptions({strokeColor:'green'})
         break;
       default:
         this.state.polyline.setOptions({strokeColor:'#3A3A3C'})
         break;
     }
+    console.log(this.state.polyline.getPath().getArray()[0].lat())
+    console.log(this.state.polyline.getPath().getArray()[0].lng())
+    console.log(this.state.polyline.getPath().getArray()[1].lat())
+    console.log(this.state.polyline.getPath().getArray()[1].lng())
+
     this.addLine(this.state.polyline);
     axios.post("http://localhost:8080/add_parking_info_data",{
       data:{coords:this.state.polyline.getPath().getArray(),
@@ -244,7 +249,6 @@ class App extends Component {
         <Nav
           handleSearch={this.handleSearch}
           setCond={this.setCond}
-          handleSearch={this.handleSearch}
           mapVisible={this.state.mapVisible}
           map={this.state.map}
         />

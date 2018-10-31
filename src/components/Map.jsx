@@ -13,7 +13,6 @@ import Rate4Control from './mapcontrols/Rate4Control';
 import Rate3Control from './mapcontrols/Rate3Control';
 import Rate2Control from './mapcontrols/Rate2Control';
 import RefreshControl from './mapcontrols/RefreshControl';
-import StreetParkingRate from './mapcontrols/StreetParkingRate';
 
 class Map extends Component {
   constructor(props){
@@ -141,7 +140,7 @@ class Map extends Component {
             newPoly.setOptions({strokeColor:'#336699'})
             break;
           case (coord.rate === 2):
-          newPoly.setOptions({strokeColor:'#8EDC9D'})
+          newPoly.setOptions({strokeColor:'green'}) //#8EDC9D
             break;
           default:
             newPoly.setOptions({strokeColor:'#3A3A3C'})
@@ -301,7 +300,6 @@ class Map extends Component {
   LegendDiv = (map) => {
     let LegendExpendControlDiv = this.newControl(LegendExpendControl);
     let LegendCollapseControlDiv = this.newControl( LegendCollapseControl);
-    let StreetParkingRateDiv = this.newControl(StreetParkingRate);
     let Rate5ControlDiv = this.newControl(Rate5Control);
 
     let Rate4ControlDiv = this.newControl(Rate4Control);
@@ -376,7 +374,7 @@ class Map extends Component {
       path:[startCoord,endCoord],
       //editable: true,
       strokeColor: '#3A3A3C',
-      strokeOpacity: 0.8,
+      strokeOpacity: 1,
       strokeWeight: 5
     });
     for(let key in data){
@@ -391,10 +389,10 @@ class Map extends Component {
     })
 
     poly.addListener('mouseover', ()=>{
-      poly.setOptions({strokeWeight:7,strokeOpacity: 1});
+      poly.setOptions({strokeWeight:7});
     })
     poly.addListener('mouseout', ()=>{
-      poly.setOptions({strokeWeight:3,strokeOpacity: 0.8});
+      poly.setOptions({strokeWeight:5});
     })
     return poly
   }

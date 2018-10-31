@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Well }from 'react-bootstrap';
 import { Select, TimePicker, Slider, Icon, Button} from 'antd';
 import moment from 'moment';
 import 'antd/dist/antd.css';
@@ -138,7 +137,7 @@ class NewParkingInfo  extends Component {
       formSelectArr.push(formSelectDiv(i+1));
     }
     return  (
-      <Well className={this.props.classname}>
+      <div className={this.props.classname}>
         <strong>Nearby Address:</strong>
         <p>{this.props.polyline.address}</p><br/>
         <strong>Hours: </strong>
@@ -159,7 +158,15 @@ class NewParkingInfo  extends Component {
           <Button onClick={onCancel}>Cancel</Button>
           <Button type='submit' onClick={onSubmit}>Submit</Button>
         <br/>
-      </Well>
+          { this.props.polyline?
+            <div>
+              {this.props.polyline.getPath().getArray()[0].lat()} <br/>
+              {this.props.polyline.getPath().getArray()[0].lng()} <br/>
+              {this.props.polyline.getPath().getArray()[1].lat()} <br/>
+              {this.props.polyline.getPath().getArray()[1].lng()} <br/>
+            </div> : ''
+          }
+      </div>
     )
   }
 }
