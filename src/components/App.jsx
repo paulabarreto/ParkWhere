@@ -231,7 +231,7 @@ class App extends Component {
               }
             }
           }
-        }) 
+        })
       }
     })
   }
@@ -273,13 +273,13 @@ class App extends Component {
             onCommentSubmit={this._handleCommentSubmit}
           />
           ) : ''}
-         
+
         <div className="map-search-container">
         {!mapVisible?
           <div className="search">
-            <Search 
+            <Search
               handleSearch={this.handleSearch}
-            />          
+            />
           </div> : ''
           }
          <div className= {!mapVisible ? 'map-container' : 'map-only'}>
@@ -294,7 +294,7 @@ class App extends Component {
               showPolyline={this.showLines}
               selectedLine={this.state.polyline}
             />
-          </div> 
+          </div>
         </div>
         {!mapVisible?<Footer />: ''}
       </div>

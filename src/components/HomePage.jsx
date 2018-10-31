@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Jumbotron, Button, InputGroup } from "react-bootstrap";
 import { Input } from "mdbreact";
 import parkwhere_description from '../parkwhere_explained.jpg';
-import parkwhere from '../parkwhere_edited.jpg';
+import parkwhere from '../street-parking.jpg';
 
 class HomePage extends Component {
 
@@ -28,23 +28,16 @@ class HomePage extends Component {
   render() {
     return (
       <div>
+
         <Jumbotron className="jumboImg">
-          <img src={parkwhere} alt="" className="img"/>
-            <Input
-            placeholder="Search addres"
-            type="text"
-            containerClass="active-cyan active-cyan-2 mt-0 mb-3"
-            className="searchBar"
-            value={this.state.search}
-            onChange={this.onSearchChange}
-            onKeyPress={this.onKeyPress}
-            />
-          <Button className="btn-search" bsStyle="info">Search</Button>
+              <h3>Can we help you find street parking?</h3>
+              <h4>Introducing ParkWhere</h4>
+              <p>A community based resource to make street parking more efficient</p>
         </Jumbotron>
-        <div className="container">
+        <div className="container-description">
           <img src={parkwhere_description} alt="" className="description-img"/>
           <div className="description-text">
-            Before parking your car, check out some information on street parking 
+            Before parking your car, check out some information on street parking
             spots near your destination.
             <br/>
             <div className="description-text-second">
