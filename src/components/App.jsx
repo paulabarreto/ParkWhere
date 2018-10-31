@@ -44,21 +44,22 @@ class App extends Component {
     this.setState(prevState => ({...prevState, polyline:poly}));
     switch(true){
       case (this.state.polyline.rate === 5):
-        this.state.polyline.setOptions({strokeColor:'red'})
+        this.state.polyline.setOptions({strokeColor:'#FD795B'})
         break;
       case (this.state.polyline.rate === 4):
-        this.state.polyline.setOptions({strokeColor:'purple'})
+        this.state.polyline.setOptions({strokeColor:'#814374'})
         break;
      case (this.state.polyline.rate === 3):
-        this.state.polyline.setOptions({strokeColor:'blue'})
-        break;
-      case (this.state.polyline.rate === 2):
-      this.state.polyline.setOptions({strokeColor:'green'})
-        break;
-      default:
         this.state.polyline.setOptions({strokeColor:'#336699'})
         break;
+      case (this.state.polyline.rate === 2):
+      this.state.polyline.setOptions({strokeColor:'#8EDC9D'})
+        break;
+      default:
+        this.state.polyline.setOptions({strokeColor:'#3A3A3C'})
+        break;
     }
+    this.addLine(this.state.polyline);
     axios.post("http://localhost:8080/add_parking_info_data",{
       data:{coords:this.state.polyline.getPath().getArray(),
             id: this.state.polyline.id,

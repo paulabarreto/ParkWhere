@@ -19,8 +19,10 @@ class ParkingInfo  extends Component {
     this.props.onClick('isInfoOpen',false);
     this.props.onClick('isSubmitInfoOpen',true);
     this.props.onClick('isEditClick',true);
-    this.props.polyline.setEditable(true);
-    this.props.polyline.setDraggable(true);
+    if(this.props.polyline){
+      this.props.polyline.setEditable(true);
+      this.props.polyline.setDraggable(true);
+    }
   }
 
   onCommentClick = () => {
