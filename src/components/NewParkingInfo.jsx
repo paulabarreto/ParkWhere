@@ -139,9 +139,9 @@ class NewParkingInfo  extends Component {
     }
     return  (
       <Well className={this.props.classname}>
-        <p>Nearby Address:</p>
+        <strong>Nearby Address:</strong>
         <p>{this.props.polyline.address}</p><br/>
-          Enter Parking Info
+        <strong>Hours: </strong>
             {formSelectArr.map(form=>(form))}
             <Button key={uuid()} icon="plus" onClick={this.addFormNum}/>
             {this.state.formNum>1? <Button icon="minus" onClick={this.removeFormNum}/> : ''}

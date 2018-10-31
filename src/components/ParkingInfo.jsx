@@ -46,7 +46,7 @@ class ParkingInfo  extends Component {
     return  (
       <div className={this.props.classname}>
         <div className={'info-title'}>
-          <h3>Parking Info</h3>
+          <h3><strong>Parking Info</strong></h3>
           <Button className={'edit-info'} type="default" icon="edit" onClick={this.onClick} />
         </div>
         <strong>Nearby Address:</strong>

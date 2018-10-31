@@ -1,22 +1,11 @@
+$font-color: #3A3A3C;
+$background-color:#F6F7F8;
 .parking-info{
   display: block;
   position: absolute;
+  background-color:$background-color; 
+  color:$font-color;
   width: 30%;
-  height: 84vh;
-  margin-bottom: 0;
-  border: 0;
-  border-radius: 0;
-  font-size: 1em;
-  z-index: 10;
-  overflow: auto;
-}
-.parking-info-map {
-  display: block;
-  position: absolute;
-  background-color:white; 
-  color:black;
-  width: 30%;
-  top: 15vh;
   height: 84vh;
   margin-bottom: 0;
   border: 0;
@@ -24,8 +13,25 @@
   font-size: 1.5rem;
   z-index: 10;
   overflow: auto;
-  opacity: 0.7;
-  padding-left: 1rem;
+  opacity: 1;
+  padding: 1rem 0 0 1rem;
+}
+.parking-info-map {
+  display: block;
+  position: absolute;
+  top: 15vh;
+  background-color:$background-color; 
+  color:$font-color;
+  width: 30%;
+  height: 84vh;
+  margin-bottom: 0;
+  border: 0;
+  border-radius: 0;
+  font-size: 1.5rem;
+  z-index: 10;
+  overflow: auto;
+  opacity: 1;
+  padding: 1rem 0 0 1rem;
 }
 // .parking-info-hide{
 //   display: none;
@@ -41,8 +47,17 @@
 
 .info-title h3{
   display: inline-block;
+  left: 50%;
+  position: relative;
+  transform: translate(-50%);
+  margin-bottom: 2rem;
 }
 .edit-info{
   display: flex;
   float: right;
+  margin: 0rem 1rem 0 0;
+}
+
+.slider-wrapper{
+  width: 80%
 }

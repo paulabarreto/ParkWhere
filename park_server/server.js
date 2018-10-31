@@ -9,7 +9,6 @@ const knex = require("knex")(knexConfig[ENV]);
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const uuid = require('uuid/v4');
 app.use(bodyParser.json());
 
 app.use(cookieParser());

@@ -3,6 +3,7 @@
   z-index: 999;
   width: 100%;
   position: fixed;
+  height: 5rem;
   .navbar-default {
     background-color: black;
   }
@@ -18,6 +19,7 @@
     position: absolute;
     font-size: 2em;
     left: 1rem;
+    top: 0.8rem;
   }
 
   .Login {
@@ -25,14 +27,17 @@
   }
 
   .mapswitch {
-    position: relative;
-    left: 18rem;
-    top: 1.4rem;
+    position: absolute;
+    right: 15rem;
+    top: 1.3rem;
   }
   .nar-bar-search {
     position: absolute;
-    left: 24rem;
-    top: 1.1rem;
+    left: 13rem;
+    top: 1.4rem;
+  }
+  .ant-radio-group{
+    margin-left: 2em;
   }
 }
 .login {

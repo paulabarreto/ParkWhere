@@ -114,35 +114,33 @@ class NavBar extends Component {
           <Navbar.Brand>
             ParkWhere
           </Navbar.Brand>
+            <div className='nar-bar-search' style={navBarSearchStyle}>
+              <Input
+              placeholder="Search address"
+              style={{ width: 200 }}
+              prefix={<Icon type="search" theme="outlined" className="glass"/>}
+              value={this.state.searchValue}
+              onChange={this.onInputChange}
+              ref={node => this.searchInput = node}
+              />
+              <DatePicker
+                showTime
+                format="YYYY-MM-DD h:mm:ss a"
+                placeholder="Select date and time"
+                onChange={this.onDateChange}
+              />
+              <Button onClick={this.onSearchClick}>Search</Button>
+              { }
+              <RadioGroup defaultValue="a"  onChange={this.handleMapStyleChange}>
+                <RadioButton value="standard">Standard</RadioButton>
+                <RadioButton value="silver">Silver</RadioButton>
+              </RadioGroup>
+            </div>
             <Switch 
             defaultChecked={false} 
             className='mapswitch'
             onChange={(checked)=>{checked?this.props.setCond('mapVisible',true) : this.props.setCond('mapVisible',false)}}
-            />
-            {
-              <div className='nar-bar-search' style={navBarSearchStyle}>
-                <Input
-                placeholder="Search address"
-                style={{ width: 200 }}
-                prefix={<Icon type="search" theme="outlined" className="glass"/>}
-                value={this.state.searchValue}
-                onChange={this.onInputChange}
-                ref={node => this.searchInput = node}
-                />
-                <DatePicker
-                  showTime
-                  format="YYYY-MM-DD h:mm:ss a"
-                  placeholder="Select date and time"
-                  onChange={this.onDateChange}
-                />
-                <Button onClick={this.onSearchClick}>Search</Button>
-                { }
-                <RadioGroup defaultValue="a"  onChange={this.handleMapStyleChange}>
-                  <RadioButton value="standard">Standard</RadioButton>
-                  <RadioButton value="silver">Silver</RadioButton>
-                </RadioGroup>
-              </div>
-          }
+            />          
           <div className="login">
             {login} {register}
           </div>
