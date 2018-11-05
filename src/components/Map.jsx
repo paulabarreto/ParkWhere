@@ -269,7 +269,7 @@ class Map extends Component {
               newMarkers.push(this.placeMarker(map,e.latLng));
               endCoord = e.latLng;
 
-              let data = {hours:[], rate:'', id:'', rating:0,comment:'',address:''};
+              let data = {hours:[], rate:'', id:'', rating:'',comment:'',address:''};
               let newPoly = this.placePoly(startCoord,endCoord,data,map);
               this.props.setPoly(newPoly);
               newPoly.setMap(map);
@@ -458,7 +458,7 @@ class Map extends Component {
 
   render() {
     return (
-      <div style={{ width: '100%', height: '86vh' }} id={'map'} />
+      <div style={{ width: '100%', height: '89vh' }} id={'map'} />
     );
   }
 }

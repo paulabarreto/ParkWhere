@@ -157,15 +157,7 @@ class NewParkingInfo  extends Component {
             <br/><br/>
           <Button onClick={onCancel}>Cancel</Button>
           <Button type='submit' onClick={onSubmit}>Submit</Button>
-        <br/>
-        { this.props.polyline?
-            <div>
-              {this.props.polyline.getPath().getArray()[0].lat()} <br/>
-              {this.props.polyline.getPath().getArray()[0].lng()} <br/>
-              {this.props.polyline.getPath().getArray()[1].lat()} <br/>
-              {this.props.polyline.getPath().getArray()[1].lng()} <br/>
-            </div> : ''
-          }
+          <br/>
       </div>
     )
   }

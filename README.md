@@ -1,5 +1,34 @@
-# Migrations
+# Parkwhere Project
 
-cd park_server
+ParkWhere is a community based app for street parking info.
 
-knex: migrate:latest
+Users can view, edit and add street parking hours, price, rating and comments.
+
+## Getting Started
+
+1. Fork this repository, then clone your fork of this repository.
+2. Install dependencies using the `npm install` command.
+3. Start the web server using the `npm run local` command. The app will be served at <http://localhost:3000/>.
+4. Go to park_where/park_server and run `npm install` and `npm start`.
+5. Go to <http://localhost:3000/> in your browser.
+
+## Dependencies
+
+- Axios
+- Babel
+- Bootstrap
+- Cors
+- Express
+- Knex
+- PostgreSQL
+- React
+- UUID
+
+## Screenshots
+
+![Filter by price](/docs/Filter_by_price.png)
+![Filter by price - Example](/docs/Filter_by_price_example.png)
+![Filter by hours](/docs/Filter_by_hours.png)
+![Parking Info](/docs/Parking_info.png)
+![Parking Info - Comments](/docs/Parking_info_comments.png)
+![Parking Info - Edit](/docs/Parking_info_edit.png)

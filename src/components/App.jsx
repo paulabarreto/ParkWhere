@@ -86,11 +86,9 @@ class App extends Component {
 
   _handleRatingSubmit = (key,value) => {
     let {dynline} = this.state;
-    let {rating} = dynline;
-    rating = Math.round((rating + value)/2);
-    this.setPolyWithKey(key,rating);
+    this.setPolyWithKey(key,value);
     this.setState(prevState => ({...prevState, polyline:dynline}));
-    console.log(this.state.polyline.id)
+    console.log(this.state.polyline.rating)
     axios.post("http://localhost:8080/add_rating",{
       data:{rating:this.state.polyline.rating,
             parking_id:this.state.polyline.id},
